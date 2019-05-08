@@ -59,7 +59,12 @@
             background-size: cover;
         }
     </style>
+    <!-- 引入jquery的jar-->
+    <script src="${pageContext.request.contextPath}/js/jquery-3.4.1.min.js"/>
 
+    <script type="text/javascript">
+
+    </script>
     
 </head>
 <body>
