@@ -26,7 +26,7 @@ public class User {
 
     private String lastLoginTime;
 
-    private Integer login_num;
+    private Integer loginNum;
 
     private boolean isLock;//是否锁定 0-未锁定，1-锁定
 
