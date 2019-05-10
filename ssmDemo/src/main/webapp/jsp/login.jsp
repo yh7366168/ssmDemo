@@ -10,6 +10,32 @@
 <head>
     <title>登录页面</title>
 
+    <!-- 引入jquery的jar-->
+    <script src="http://libs.baidu.com/jquery/1.9.1/jquery.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#username").bind("blur",function () {
+                var name = $("#username").val();
+                if(name == ""){
+                    alert("用户名不能为空！");
+                }
+               $.ajax({
+                   type:"GET",
+                   url:"user/checkUsernameIsExist",
+                   data:{"username" : username },
+                   dataType:"json",
+                   success:function (result) {
+                       if(result == "success"){
+                           alert("用户存在！");
+                       }else{
+                           alert("用户不存在！");
+                       }
+                   }
+               });
+            });
+        })
+    </script>
+
     <!-- CSS样式 -->
     <style type="text/css">
 
@@ -59,19 +85,12 @@
             background-size: cover;
         }
     </style>
-    <!-- 引入jquery的jar-->
-    <script src="${pageContext.request.contextPath}/js/jquery-3.4.1.min.js"/>
-
-    <script type="text/javascript">
-
-    </script>
-    
 </head>
 <body>
     <form id="formClz">
         <div class="login_frild form_div">
-            <span>用户名</span>&nbsp;&nbsp;
-            <input type="text" name="username" style="height: 29px;">
+            <span>用户名</span>&nbsp;&nbsp;<!-- 输入完用户名时，异步校验用户名是否存在 -->
+            <input type="text" id="username" name="username" style="height: 29px;">
         </div>
         <div class="login_frild form_div">
             <span>密&nbsp;&nbsp;&nbsp;码</span>&nbsp;&nbsp;
@@ -85,5 +104,6 @@
             <a href="" style="margin-left: 120px">用户注册</a>
         </div>
     </form>
+
 </body>
 </html>

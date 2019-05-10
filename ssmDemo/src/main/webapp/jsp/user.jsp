@@ -9,6 +9,7 @@
 <html>
 <head>
     <title>用户页面</title>
+    <link rel="shortcut icon" href="#"/>
 </head>
 <body>
     ${name}

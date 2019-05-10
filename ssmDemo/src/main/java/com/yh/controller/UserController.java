@@ -1,12 +1,18 @@
 package com.yh.controller;
 
+import com.alibaba.fastjson.JSON;
+import com.yh.pojo.User;
 import com.yh.service.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+@Slf4j
 @Controller
 @RequestMapping("/user")
 public class UserController {
@@ -16,9 +22,27 @@ public class UserController {
 
     @RequestMapping("/queryById")
     public ModelAndView queryById(ModelAndView model, @RequestParam Integer id){
-        String name = userService.queryById(id);
+        log.info("queryById--入参id:{}", JSON.toJSONString(id));
+        String name = userService.queryById(String.valueOf(id));
+        log.info("queryById--查询结果name:{}", JSON.toJSONString(name));
         model.addObject("name", name);
         model.setViewName("user");
         return model;
     }
+
+    @RequestMapping(value = "/checkUsernameIsExist", method = RequestMethod.GET)
+    @ResponseBody
+    public String checkUserExist(@RequestParam String username){
+        log.info("checkUserExist--入参username:{}", username);
+        User user = userService.queryByName(username);
+        log.info("checkUserExist--返回结果{}", JSON.toJSONString(user));
+        if(user == null){
+            //用户不存在
+            return "error";
+        }else{
+            //用户存在
+            return "success";
+        }
+    }
+
 }
