@@ -13,6 +13,7 @@ public class UserServiceImpl implements UserService {
     UserDao userDao;
 
     public String queryById(String userId){
+        //log.info("UserServiceImpl--queryById--入参{}", userId);
         return userDao.queryById(userId);
     }
 

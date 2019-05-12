@@ -1,6 +1,6 @@
 <html>
 <body>
 <h2>Hello World!</h2>
-<a href="jsp/login.jsp">login</a>
+<a href="jsp/login/login.jsp">login</a>
 </body>
 </html>
