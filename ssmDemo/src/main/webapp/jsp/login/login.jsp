@@ -26,8 +26,8 @@
 
             border: 2px solid #8BC34A;
             /*border: 0px;*/
-            margin-left: 900px;/*左外边距1200*/
-            margin-top: 240px;/*上外边距300*/
+            margin-left: 60%;/*左外边距1200*/
+            margin-top: 15%;/*上外边距300*/
 
             background:transparent;
         }
@@ -37,8 +37,8 @@
         #login_button{
             width:260px;
             height: 30px;
-            background: #ff9800;
-            color: white;
+            background: #dcc9ba;
+            color: #468620;
             font-size: 20px;
         }
 
