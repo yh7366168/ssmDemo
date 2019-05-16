@@ -33,6 +33,9 @@ public class UserController {
         return model;
     }
 
+    /**
+     * 用户注册，校验用户是否存在
+     * */
     @RequestMapping(value = "/checkUsernameIsExist", method = RequestMethod.GET)
     @ResponseBody
     public String checkUserExist(@RequestParam String username){
