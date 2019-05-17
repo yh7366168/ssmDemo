@@ -18,7 +18,6 @@
             /*透明*/
             background-size: cover;
         }
-
         /*表单设置*/
         form{
             width: 270px;
@@ -34,13 +33,11 @@
             margin-left: 37%;/*左外边距1200*/
             margin-top: 8%;/*上外边距300*/
         }
-
         /*form表单里面所有div元素*/
         form div{
             height: 30px;
             margin-bottom: 18px;
         }
-
         .labelClz{
             width: 80px;
             display: inline-block;
@@ -81,11 +78,11 @@
         <input type="text" id="address" name="address">
     </div>
     <div>
-        <input type="checkbox" name="isRead">
+        <input type="checkbox" name="isRead" value="1">
         <label style="font-size: 13px;margin-left: 7px">我已阅读并确认遵守用户协议！</label>
     </div>
     <div>
-        <input type="submit" value="注册" style="height: 28px;width: 257px;background-color: #607d8b;color: white">
+        <input type="submit" onclick="formSubmit()" value="注册" style="height: 28px;width: 257px;background-color: #607d8b;color: white">
     </div>
 </form>
 </body>
@@ -98,35 +95,81 @@
         $("#username").blur(function () {
             $("#userImg").hide();
             var username = $("#username").val();
-            isNull(username,"请输入用户名！")
-            $.ajax({
-                type:"GET",
-                url:"${pageContext.request.contextPath}/user/checkUsernameIsExist",
-                async:false,
-                data:{"username":username},
-                dataType:"text",
-                success:function (message) {
-                    if(message != "success"){
-                        alert(message);
-                    }else{
-                        $("#userImg").show();
-                    }s
-                }
-            });
+            if(!isNull(username)){
+                $.ajax({
+                    type:"GET",
+                    url:"${pageContext.request.contextPath}/user/checkUsernameIsExist",
+                    async:false,
+                    data:{"username":username},
+                    dataType:"text",
+                    success:function (message) {
+                        if(message != "success"){
+                            alert(message);
+                        }else{
+                            $("#userImg").show();
+                        }
+                    }
+                });
+            }
         });
-        //校验非空
+        //校验密码，规则：输入之后校验，密码最少6位最多16位的数字或者字母
         $("#password").blur(function () {
-            isNull($("#password").val(),"请输入密码！");
+            var password = $("#password").val();
+            if(!isNull(password)){
+                var regx = /^[a-zA-Z0-9]{6,12}&/;//最少6位最多16位
+                if(!regx.test(password)){
+                    alert("密码格式不对！请输入6到12位有效密码！");
+                }
+            }
         });
 
-        function isNull(field,message) {
-            if(field==null || field=="" || field==undefined){
-                alert(message);
-                return false
+        /**/
+        function formSubmit() {
+            isNullAndMsg( $("#username").val(), "请输入用户名！");
+            isNullAndMsg( $("#password").val(), "请输入密码！");
+            isNullAndMsg( $("#sex").val(), "请输入年龄！");
+            isNullAndMsg( $("#phone").val(), "请输入手机号！");
+            isNullAndMsg( $("#email").val(), "请输入邮箱！");
+            isNullAndMsg( $("#address").val(), "请输入地址！");
+            var isread = $("input[name=isRead]:checked").val();
+            isNullAndMsg(isread ,"请同意用户协议！");
+
+            var UserDTO = {
+                username:$("#username").val();
+                password:$("#password").val();
+                sex:$("#sex").val();
+                age:$("#age").val();
+                phone:$("#phone").val();
+                email:$("#email").val();
+                address:$("#address").val();
             }
-            return true;
+            $.ajax({
+                type:"post",
+                url:"${pageContext.request.contextPath}/user/?",
+                async:false,
+                data:{ },
+                dataType:"text",
+                success:function (data) {
+                    
+                }
+            });
+        }
+
+        /*非空校验*/
+        function isNull(field) {
+            if(field==null || field=="" || field==undefined){
+                return true
+            }else{
+                return false;
+            }
         }
         //校验
+        function isNullAndMsg(field, msg) {
+            if(field==null || field=="" || field==undefined){
+                alert(mes);
+                return false;
+            }
+        }
     });
 
 </script>

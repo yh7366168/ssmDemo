@@ -1,8 +1,7 @@
 package com.yh.controller;
 
 import com.alibaba.fastjson.JSON;
-import com.sun.deploy.net.HttpResponse;
-import com.yh.pojo.User;
+import com.yh.pojo.UserDTO;
 import com.yh.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,8 +11,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-
-import java.net.URLEncoder;
 
 @Slf4j
 @Controller
@@ -40,7 +37,7 @@ public class UserController {
     @ResponseBody
     public String checkUserExist(@RequestParam String username){
         //log.info("checkUserExist--入参username:{}", username);
-        User user = userService.queryByName(username);
+        UserDTO user = userService.queryByName(username);
         //log.info("checkUserExist--返回结果{}", JSON.toJSONString(user));
         if(user == null){
             //用户不存在
@@ -59,7 +56,7 @@ public class UserController {
     public String loginCheckUser(@RequestParam String username, @RequestParam String password){
         String result = "";
         log.info("loginCheckUser--入参,username:{}, password:{}", username, password);
-        User user = userService.queryByName(username);
+        UserDTO user = userService.queryByName(username);
         log.info("loginCheckUser--返回结果{}", JSON.toJSONString(user));
         if(user==null){
             result = "用户名不存在！";
