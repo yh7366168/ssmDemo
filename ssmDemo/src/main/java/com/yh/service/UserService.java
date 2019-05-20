@@ -1,6 +1,6 @@
 package com.yh.service;
 
-import com.yh.pojo.UserDTO;
+import com.yh.pojo.User;
 
 public interface UserService {
 
@@ -13,5 +13,10 @@ public interface UserService {
      * 通过用户名字查询用户信息
      * @param name, name唯一
      * */
-    UserDTO queryByName(String name);
+    User queryByName(String name);
+
+    /**
+     * 新增用户
+     * */
+    void InsertUser(User user);
 }

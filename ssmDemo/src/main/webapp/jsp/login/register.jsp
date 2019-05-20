@@ -20,7 +20,7 @@
         }
         /*表单设置*/
         form{
-            width: 270px;
+            width: 290px;
             height: 440px;
             /*内边距*/
             padding-left:50px;
@@ -50,51 +50,53 @@
     <div>
         <label class="labelClz">用户名</label>
         <input type="text" id="username" name="username" required="required">
-        <img id="userImg" src="${pageContext.request.contextPath}/img/isChecked.png"  style="width: 15px;height: 15px" hidden="hidden">
+        <img id="userImg" src="${pageContext.request.contextPath}/img/isChecked.png"  style="width: 15px;height: 15px;vertical-align: middle;" hidden="hidden">
     </div>
     <div>
         <label class="labelClz">密码</label>
-        <input type="text" id="password" name="password">
+        <input type="text" id="password" name="password" required="required">
     </div>
     <div>
         <label class="labelClz">性别</label>
-        <span>男</span><input type="radio" name="sex" checked="checked">
-        <span style="margin-left: 40px;">女</span><input type="radio" name="sex">
+        <span>男</span>
+        <input type="radio" name="sex" value="0" checked="checked">
+        <span style="margin-left: 40px;">女</span>
+        <input type="radio" name="sex" value="1">
     </div>
     <div>
         <label class="labelClz">年龄</label>
-        <input type="text" id="age" name="age">
+        <input type="text" id="age" name="age" required="required">
     </div>
     <div>
         <label class="labelClz">手机号</label>
-        <input type="text" id="phone" name="phone">
+        <input type="text" id="phone" name="phone" required="required">
     </div>
     <div>
         <label class="labelClz">邮箱</label>
-        <input type="text" id="email" name="email">
+        <input type="text" id="email" name="email" required="required">
     </div>
     <div>
         <label class="labelClz">地址</label>
-        <input type="text" id="address" name="address">
+        <input type="text" id="address" name="address" required="required">
     </div>
     <div>
-        <input type="checkbox" name="isRead" value="1">
+        <input type="checkbox" name="isRead" value="1" required="required">
         <label style="font-size: 13px;margin-left: 7px">我已阅读并确认遵守用户协议！</label>
     </div>
     <div>
-        <input type="submit" onclick="formSubmit()" value="注册" style="height: 28px;width: 257px;background-color: #607d8b;color: white">
+        <input type="submit" value="注册" style="height: 28px;width: 257px;background-color: #607d8b;color: white">
     </div>
 </form>
 </body>
 </html>
 
-<script src="http://libs.baidu.com/jquery/1.9.1/jquery.js"></script>
+<script src="${pageContext.request.contextPath}/lib/jquery-3.4.1.min.js"></script>
+<script src="${pageContext.request.contextPath}/js/yh_common.js"></script>
 <script type="text/javascript">
     $(function () {
         //校验用户名：失去焦点时触发
         $("#username").blur(function () {
-            $("#userImg").hide();
-            var username = $("#username").val();
+            var username = $.trim($("#username").val());
             if(!isNull(username)){
                 $.ajax({
                     type:"GET",
@@ -103,8 +105,8 @@
                     data:{"username":username},
                     dataType:"text",
                     success:function (message) {
-                        if(message != "success"){
-                            alert(message);
+                        if(message == "exist"){
+                            alert("该用户名已经存在，请选择其他用户名！");
                         }else{
                             $("#userImg").show();
                         }
@@ -116,60 +118,35 @@
         $("#password").blur(function () {
             var password = $("#password").val();
             if(!isNull(password)){
-                var regx = /^[a-zA-Z0-9]{6,12}&/;//最少6位最多16位
+                var regx = /^[a-zA-Z0-9]{6,12}$/;//最少6位最多16位
                 if(!regx.test(password)){
                     alert("密码格式不对！请输入6到12位有效密码！");
                 }
             }
         });
 
-        /**/
-        function formSubmit() {
-            isNullAndMsg( $("#username").val(), "请输入用户名！");
-            isNullAndMsg( $("#password").val(), "请输入密码！");
-            isNullAndMsg( $("#sex").val(), "请输入年龄！");
-            isNullAndMsg( $("#phone").val(), "请输入手机号！");
-            isNullAndMsg( $("#email").val(), "请输入邮箱！");
-            isNullAndMsg( $("#address").val(), "请输入地址！");
-            var isread = $("input[name=isRead]:checked").val();
-            isNullAndMsg(isread ,"请同意用户协议！");
-
-            var UserDTO = {
-                username:$("#username").val();
-                password:$("#password").val();
-                sex:$("#sex").val();
-                age:$("#age").val();
-                phone:$("#phone").val();
-                email:$("#email").val();
-                address:$("#address").val();
-            }
+        $("form").submit(function () {
+            var data = JSON.stringify({
+                "username":$.trim( $("#username").val() ),
+                "password":$.trim( $("#password").val() ),
+                "sex": $("input[name='sex']:checked").val(),
+                "age": $.trim($("#age").val()),
+                "phone": $.trim($("#phone").val()),
+                "email": $.trim($("#email").val()),
+                "address": $.trim($("#address").val())
+            });
             $.ajax({
+                url:"${pageContext.request.contextPath}/user/registerUser",
                 type:"post",
-                url:"${pageContext.request.contextPath}/user/?",
                 async:false,
-                data:{ },
-                dataType:"text",
-                success:function (data) {
+                contentType: 'application/json;charset=UTF-8',
+                dataType:'json',
+                data:data,
+                success:function (result) {
                     
                 }
             });
-        }
-
-        /*非空校验*/
-        function isNull(field) {
-            if(field==null || field=="" || field==undefined){
-                return true
-            }else{
-                return false;
-            }
-        }
-        //校验
-        function isNullAndMsg(field, msg) {
-            if(field==null || field=="" || field==undefined){
-                alert(mes);
-                return false;
-            }
-        }
+        });
     });
 
 </script>

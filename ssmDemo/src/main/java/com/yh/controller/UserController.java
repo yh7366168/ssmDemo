@@ -1,15 +1,12 @@
 package com.yh.controller;
 
 import com.alibaba.fastjson.JSON;
-import com.yh.pojo.UserDTO;
+import com.yh.pojo.User;
 import com.yh.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 @Slf4j
@@ -36,15 +33,16 @@ public class UserController {
     @RequestMapping(value = "/checkUsernameIsExist", method = RequestMethod.GET)
     @ResponseBody
     public String checkUserExist(@RequestParam String username){
-        //log.info("checkUserExist--入参username:{}", username);
-        UserDTO user = userService.queryByName(username);
-        //log.info("checkUserExist--返回结果{}", JSON.toJSONString(user));
-        if(user == null){
-            //用户不存在
-            return "error";
+        if(username!=null){
+            username = username.trim();
+        }
+        log.info("checkUserExist--入参username:{}", username);
+        User user = userService.queryByName(username);
+        log.info("checkUserExist--返回结果{}", JSON.toJSONString(user));
+        if(user!=null){
+            return "exist";
         }else{
-            //用户存在
-            return "success";
+            return "not exist";
         }
     }
 
@@ -56,7 +54,7 @@ public class UserController {
     public String loginCheckUser(@RequestParam String username, @RequestParam String password){
         String result = "";
         log.info("loginCheckUser--入参,username:{}, password:{}", username, password);
-        UserDTO user = userService.queryByName(username);
+        User user = userService.queryByName(username);
         log.info("loginCheckUser--返回结果{}", JSON.toJSONString(user));
         if(user==null){
             result = "用户名不存在！";
@@ -66,6 +64,16 @@ public class UserController {
             result = "success";
         }
         return result;
+    }
+
+    /**
+     * 用户注册
+     * */
+    @RequestMapping(value = "/registerUser", method = RequestMethod.POST, consumes = "application/json")
+    @ResponseBody
+    public String registerUser(@RequestBody User user){
+        log.info("registerUser--入参{}", JSON.toJSONString(user));
+        return "success";
     }
 
 }

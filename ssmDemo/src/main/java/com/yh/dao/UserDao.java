@@ -1,6 +1,6 @@
 package com.yh.dao;
 
-import com.yh.pojo.UserDTO;
+import com.yh.pojo.User;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -8,5 +8,5 @@ public interface UserDao {
 
     String queryById(String userId);
 
-    UserDTO queryByName(String name);
+    User queryByName(String name);
 }
