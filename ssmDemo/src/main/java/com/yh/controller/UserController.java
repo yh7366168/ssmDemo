@@ -73,7 +73,13 @@ public class UserController {
     @ResponseBody
     public String registerUser(@RequestBody User user){
         log.info("registerUser--入参{}", JSON.toJSONString(user));
-        return "success";
+        int insertResult = userService.insertUser(user);
+        log.info("registerUser--insert结果{}条", JSON.toJSONString(insertResult));
+        if(insertResult == 1){
+            return "success";
+        }else{
+            return "";
+        }
     }
 
 }

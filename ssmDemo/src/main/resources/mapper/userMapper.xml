@@ -36,9 +36,14 @@
         FROM user WHERE username = #{username}
     </select>
 
-    <insert id="">
-
-
+    <insert id="insertUser" parameterType="com.yh.pojo.User">
+        <selectKey resultType="String" keyProperty="userId" order="BEFORE">
+          SELECT REPLACE(UUID(),'-','')
+        </selectKey>
+        INSERT INTO USER
+        (user_id, username, password, sex, age, phone, email, address, create_time, update_time, last_login_time)
+        values
+        (#{userId},#{username}, #{password}, #{sex}, #{age}, #{phone}, #{email}, #{address}, NOW(), NOW(), NOW())
     </insert>
 
 </mapper>

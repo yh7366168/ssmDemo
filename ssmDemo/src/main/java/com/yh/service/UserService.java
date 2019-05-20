@@ -18,5 +18,5 @@ public interface UserService {
     /**
      * 新增用户
      * */
-    void InsertUser(User user);
+    int insertUser(User user);
 }

@@ -9,4 +9,6 @@ public interface UserDao {
     String queryById(String userId);
 
     User queryByName(String name);
+
+    int insertUser(User user);
 }
