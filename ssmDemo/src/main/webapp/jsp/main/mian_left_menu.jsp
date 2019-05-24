@@ -8,10 +8,13 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>测试JQuery实现菜单效果</title>
+    <title>main-left</title>
+    <link rel="shortcut icon" href="#"/>
     <style type="text/css">
         .menu_tree{
             background-color: rgba(45, 39, 61, 0.2);
+            width: 100%;
+            height: 100%;
         }
 
         ul li{

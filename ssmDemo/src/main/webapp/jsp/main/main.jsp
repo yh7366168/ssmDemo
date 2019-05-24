@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>系统主页面</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="#"/>
     <style>
         /* css样式不建议使用id选择器，此处为方便暂时使用, 请见谅 */
         * {
@@ -66,15 +67,19 @@
 </div>
 <div id="left">
     <div id="menu">
-        <span>菜单</span>
+        <%--<iframe width="100%" height="100%" frameborder="0" src="${pageContext.request.contextPath}/jsp/main/mian_left_menu.jsp"></iframe>
+        --%>
+        <a href="#" onclick="reloadJsp('a')">页面1</a><br/>
+        <a href="#" onclick="reloadJsp('b')">页面2</a>
     </div>
     <!-- 菜单左边界 -->
     <div id="drap-line"></div>
 </div>
 <div id="right">
-    <a href="${pageContext.request.contextPath}/jsp/test/left_menu_test_01.jsp">测试页面</a>
+    <iframe id="main_iframe" width="100%" height="100%" src="${pageContext.request.contextPath}/jsp/main/c.jsp"></iframe>
 </div>
 
+<script src="${pageContext.request.contextPath}/lib/jquery-3.4.1.min.js"></script>
 <script>
     //获取dom函数
     function $(id) {
@@ -127,6 +132,22 @@
             document.onmouseup = mouseUp;
         }
     }
+
+    $(function () {
+
+        function reloadJsp(url) {
+            var newUrl;
+            if(url == "a"){
+                $("#main_iframe").attr("src","${pageContext.request.contextPath}/jsp/main/a.jsp");
+            }else if(url == "b"){
+                $("#main_iframe").attr("src","${pageContext.request.contextPath}/jsp/main/b.jsp");
+            }else{
+                alert("error!" + url );
+            }
+
+        }
+    });
+
 </script>
 </body>
 
