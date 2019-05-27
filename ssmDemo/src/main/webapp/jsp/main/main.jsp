@@ -103,7 +103,7 @@
      * 3、鼠标移动改变菜单窗口大小
      * 4、鼠标松开触发事件
      * */
-    var max_width = 400;
+    var max_width = 500;
     var min_width = 200;
     var move_x = 0;
     var left = document.getElementById("left");
@@ -145,6 +145,7 @@
 
         /*鼠标松开时*/
         document.onmouseup = function () {
+
             isDown = false;
         }
 
