@@ -1,12 +1,14 @@
+
+<%--
+    开发发现，使用鼠标事件出现卡顿，onmousedown、onmousemove、onmouseup
+--%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <%--<meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">--%>
     <title>系统主页面</title>
     <link rel="shortcut icon" href="#"/>
     <style>
+        /* css样式不建议使用id选择器，此处为方便暂时使用, 请见谅 */
         * {
             margin: 0;
             padding: 0;
@@ -38,7 +40,7 @@
             right: 0;
             bottom: 0;
             left: 0;
-            width: 240px;
+            width: 220px;
         }
 
         #menu {
@@ -52,9 +54,7 @@
             right: 0;
             width: 4px;
             height: 100%;
-            background-color: #e8e2a9;
-            margin-left: 2px;
-            margin-right: 2px;
+            background-color: #999;
             cursor: e-resize;
         }
 
@@ -63,7 +63,7 @@
             top: 88px;
             right: 0;
             bottom: 0;
-            left: 240px;
+            left: 220px;
         }
     </style>
 </head>
@@ -89,45 +89,67 @@
 </html>
 <script src="${pageContext.request.contextPath}/lib/jquery-3.4.1.min.js"></script>
 <script>
+
+
     $(function () {
         $("#div1").click(function () {
             $("#main_iframe").attr("src","${pageContext.request.contextPath}/jsp/main/a.jsp");
         });
-
     });
 
+    /*
+     * 菜单拉伸效果：
+     * 1、鼠标在上面改变鼠标形状
+     * 2、按下鼠标触发事件
+     * 3、鼠标移动改变菜单窗口大小
+     * 4、鼠标松开触发事件
+     * */
+    var max_width = 500;
+    var min_width = 200;
+    var move_x = 0;
+    var left = document.getElementById("left");
+    var right = document.getElementById("right");
+    var drapLine = document.getElementById("drap-line");
+
     window.onload = function () {
-        var startPageX = 0;
-        var left = document.getElementById("left");
-        var right = document.getElementById("right");
-        var drapLine = document.getElementById("drap-line");
-        /*
-        * 鼠标开始拖动时触发
-        * */
-        drapLine.ondragstart = function (ev) {
-            startPageX = ev.pageX;
-        }
-        /*
-        * 鼠标拖动触发
-        * */
-        drapLine.ondrag = function (e) {
+        var isDown = false;
+        /*鼠标按下时*/
+        drapLine.onmousedown = function (e) {
+            var e = e || window.event;
+            isDown = true;
+            //e.preventDefault();
             if(e.stopPropagation()){
                 e.stopPropagation();
             }else{
                 e.cancelable = true;
             }
-            var width = e.pageX<0?-e.pageX:e.pageX;
-            console.log("当前坐标x：" + width + " 原坐标x1：" + startPageX)
-            if(width != startPageX){
-                if(width < 200){
-                    width = 200;
-                }else if(width > 310){
-                    width = 310;
-                }
-                left.style.width = width + 'px';
-                right.style.left = width + 'px';
+            move_x = e.clientX - left.offsetWidth;
+        }
+
+        /*鼠标移动的时候*/
+        document.onmousemove = function (e) {
+            //阻止冒泡事件
+            if(e.stopPropagation()){
+                e.stopPropagation();
+            }else{
+                e.cancelable = true;
+            }
+            if(isDown){
+                var e = e || window.event;
+                var left_width = e.clientX - move_x;
+                left_width = left_width < min_width ? min_width : left_width;
+                left_width = left_width > max_width ? max_width : left_width;
+                left.style.width = left_width + 'px';
+                right.style.left = left_width + 'px';
             }
         }
+
+        /*鼠标松开时*/
+        document.onmouseup = function () {
+            isDown = false;
+        }
+
+        return false;
     }
 
 </script>
