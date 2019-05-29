@@ -1,0 +1,35 @@
+table, tr, td{
+    /*合并成单一的边框*/
+    border-collapse: collapse;
+    border:1px solid #a29945;
+}
+
+table{
+    margin-top: 20px;
+    margin-left: 20px;
+}
+
+td{
+    text-align: center;
+    width: 300px;
+    height: 30px;
+}
+
+/*表头眼色*/
+#head_tr{
+    background-color: #b2dd5c;
+}
+
+/*新增、删除、修改按钮边距*/
+.crudDiv{
+    margin-top: 20px;
+    margin-left: 20px;
+}
+
+/*新增、删除、修改按钮样式*/
+.crudDiv button {
+    width: 80px;
+    height: 28px;
+    background-color: #dee3a8;
+    margin-right: 15px;
+}
