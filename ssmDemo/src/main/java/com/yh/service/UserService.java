@@ -2,6 +2,10 @@ package com.yh.service;
 
 import com.yh.pojo.User;
 
+/**
+ * @author yh
+ * @date 2019-5-29 14:29:16
+ */
 public interface UserService {
 
     /**

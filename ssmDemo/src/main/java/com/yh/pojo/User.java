@@ -2,6 +2,10 @@ package com.yh.pojo;
 
 import lombok.Data;
 
+/**
+ * @author yinhan
+ * @date 2019-5-29 11:29:47
+ */
 @Data
 public class User {
     private String userId;
