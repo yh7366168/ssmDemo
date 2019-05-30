@@ -11,6 +11,9 @@ import java.util.Map;
  */
 public interface MenuService {
 
-    List<Menu> queryListByParams(Map<String, String> params);
+    List<Menu> queryListByParams(Map<String, Object> params);
+
+    Menu queryMuneById(Integer id);
+
 }
 

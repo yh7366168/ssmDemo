@@ -12,44 +12,26 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
-/**
- * @author yinhan
- * @date 2019-5-29
- */
 @Slf4j
 @Controller
-@RequestMapping("/menu")
-public class MenuController {
+@RequestMapping("/main")
+public class MainController {
 
     @Autowired
     private MenuService menuService;
 
-    @RequestMapping("/queryMenuList")
-    public ModelAndView queryMenuList( ModelAndView model){
-        Map<String, Object> params = new HashMap<String, Object>();
-        List<Menu> menuList = menuService.queryListByParams(params);
-        log.info("queryMenuList--查询结果：{}", JSON.toJSONString(menuList));
-        model.addObject("menuList", menuList);
-        model.setViewName("system/menuList");
-        return model;
-    }
-
-    /**
-     * 生成菜单树
-     * */
-    @RequestMapping("/generateMenuTree")
-    public ModelAndView generateMenuTree(ModelAndView model){
+    @RequestMapping("/loginMain")
+    public ModelAndView loginMain(ModelAndView model){
+        //----------------------------------------------------左侧菜单树----------------------------------------------------
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("secondMenuLevel","2");
         //查询所有的二级菜单
         List<Menu> menuAllList = menuService.queryListByParams(params);
         //通过parent_id分组
         Map<Integer, List<Menu>> menuMapList = menuAllList.stream().collect(Collectors.groupingBy(Menu::getParentId));
-        log.info("generateMenuTree--一共{}条数据，查询结果{}", JSON.toJSONString(menuAllList.size()), JSON.toJSONString(menuAllList));
+        log.info("loginMain--一共{}条数据，查询结果{}", JSON.toJSONString(menuAllList.size()), JSON.toJSONString(menuAllList));
         Map<String, List<Menu>> resultMapList = new HashMap<String, List<Menu>>();
         //替换key
         for(Integer parentId : menuMapList.keySet()){
@@ -57,8 +39,12 @@ public class MenuController {
             Menu parentMenu = menuService.queryMuneById(parentId);
             resultMapList.put(parentMenu.getMenuName(), list);
         }
+        log.info("loginMain--页面返回结果{}", JSON.toJSONString(resultMapList));
         model.addObject("resultMapList",resultMapList);
-        model.setViewName("main/mian_left_menu");
+
+        //----------------------------------------------------主页面----------------------------------------------------
+        model.setViewName("main/main");
         return model;
     }
+
 }

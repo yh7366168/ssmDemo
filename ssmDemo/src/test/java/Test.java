@@ -40,7 +40,7 @@ public class Test {
     public void testQueryMenuList(){
         User user = userService.queryByName("yh");
         log.info("");
-        Map<String, String> params = new HashMap<String, String>();
+        Map<String, Object> params = new HashMap<String, Object>();
         params.put("menuLevel","1");
         List<Menu> menuList = menuService.queryListByParams(params);
         for(Menu menu : menuList){

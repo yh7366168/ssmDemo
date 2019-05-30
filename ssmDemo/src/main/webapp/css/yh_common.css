@@ -1,22 +1,25 @@
-table, tr, td{
+
+.common_table{
+    margin-top: 20px;
+    margin-left: 20px;
+    border-collapse: collapse;
+    border:1px solid #a29945;
+}
+
+.common_table tr, td{
     /*合并成单一的边框*/
     border-collapse: collapse;
     border:1px solid #a29945;
 }
 
-table{
-    margin-top: 20px;
-    margin-left: 20px;
-}
-
-td{
+.common_table td{
     text-align: center;
-    width: 300px;
+    width: 200px;
     height: 30px;
 }
 
 /*表头眼色*/
-#head_tr{
+.head_tr{
     background-color: #b2dd5c;
 }
 

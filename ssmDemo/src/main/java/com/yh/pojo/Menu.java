@@ -12,9 +12,17 @@ public class Menu {
 
     private String menuName;
 
-    private Integer menuLevel;//菜单级别(1-一级菜单，2-二级菜单)
+    /**
+     * 菜单级别(1-一级菜单，2-二级菜单)
+     * */
+    private Integer menuLevel;
 
     private Integer parentId;
+
+    /**
+     * 菜单状态（0-未生效，1-生效）
+     * */
+    private Integer menuStatus;
 
     private String createTime;
 

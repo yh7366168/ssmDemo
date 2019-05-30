@@ -6,14 +6,13 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
     <title>main-left</title>
     <link rel="shortcut icon" href="#"/>
     <style type="text/css">
         .menu_tree{
-            background-color: white;
+            background-color: rgba(45, 39, 61, 0.2);
             width: 100%;
             height: 100%;
         }
@@ -33,7 +32,7 @@
         .main > a{
             /*消除链接下面的下划线*/
             text-decoration: none;
-            background-color: #c1d8c7;
+            background-color: rgba(61, 36, 58, 0.27);
             font-size: 18px;
             color: black;
             display: block;
@@ -49,33 +48,45 @@
             font-size: 16px;
             display: block;
             padding-top: 3px;
-            width: 180px;
         }
     </style>
 </head>
 <body>
     <ul class="menu_tree">
-        <c:forEach items="${resultMapList}" var="entry" varStatus="vs">
-            <li class="main">
-                <a href="#"><c:out value="${entry.key}"></c:out></a>
-                <ul class="menu">
-                    <c:forEach items="${entry.value}" var="menu" varStatus="vs2">
-                        <li>
-                            <a href="#"><c:out value="${menu.menuName}"></c:out></a>
-                        </li>
-                    </c:forEach>
-                </ul>
-            </li>
-        </c:forEach>
+        <li class="main">
+            <a href="#">菜单1</a>
+            <ul class="menu">
+                <li><a href="#">子菜单1</a></li>
+                <li><a href="#">子菜单2</a></li>
+                <li><a href="#">子菜单3</a></li>
+            </ul>
+        </li>
+        <li class="main">
+            <a href="#">菜单2</a>
+            <ul class="menu" target="_blank">
+                <li><a href="#">子菜单1</a></li>
+                <li><a href="#">子菜单2</a></li>
+                <li><a href="#">子菜单3</a></li>
+            </ul>
+        </li>
+        <li class="main">
+            <a href="#">菜单3</a>
+            <ul class="menu" >
+                <li><a href="#">子菜单1</a></li>
+                <li><a href="#">子菜单2</a></li>
+                <li><a href="#">子菜单3</a></li>
+            </ul>
+        </li>
     </ul>
-
 </body>
 </html>
 
 <script src="${pageContext.request.contextPath}/lib/jquery-3.4.1.min.js"></script>
 <script type="text/javascript">
     $(function () {
+
         $(".main > ul").slideUp(0);
+
         $(".main > a").click(function () {
             var thisNode = $(this).next("ul");
             //先关闭所有的

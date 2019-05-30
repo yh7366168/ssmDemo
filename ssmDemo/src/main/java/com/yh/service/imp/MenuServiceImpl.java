@@ -15,8 +15,13 @@ public class MenuServiceImpl implements MenuService {
     @Autowired
     private MenuDao menuDao;
 
-    public List<Menu> queryListByParams(Map<String, String> params){
+    @Override
+    public List<Menu> queryListByParams(Map<String, Object> params){
         return menuDao.queryListByParams(params);
     }
 
+    @Override
+    public Menu queryMuneById(Integer id){
+        return menuDao.queryMuneById(id);
+    }
 }

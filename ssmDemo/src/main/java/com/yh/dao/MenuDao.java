@@ -15,7 +15,16 @@ import java.util.Map;
 public interface MenuDao {
 
     /**
+     * 查询符合条件菜单列表
      * @param params 查询条件Map
+     * @return list
      */
-    List<Menu> queryListByParams(Map<String, String> params);
+    List<Menu> queryListByParams(Map<String, Object> params);
+
+    /**
+     * 主键查询
+     * @param id 主键
+     * @return list
+     */
+    Menu queryMuneById(Integer id);
 }

@@ -47,12 +47,13 @@
         <button>重置</button>
     </div>
 
-    <table>
+    <table class="common_table">
         <%--第一行 表头--%>
         <tr class="head_tr">
             <td></td>
             <td>菜单名称</td>
             <td>菜单级别</td>
+            <td>菜单状态</td>
         </tr>
         <%--遍历表格--%>
         <c:forEach var="menu" items="${requestScope.menuList}" varStatus="vs">
@@ -62,6 +63,10 @@
                 <td>
                     <c:if test="${menu.menuLevel==1}">一级菜单</c:if>
                     <c:if test="${menu.menuLevel==2}">二级菜单</c:if>
+                </td>
+                <td>
+                    <c:if test="${menu.menuStatus==0}">未生效</c:if>
+                    <c:if test="${menu.menuStatus==1}">生效</c:if>
                 </td>
             </tr>
         </c:forEach>
