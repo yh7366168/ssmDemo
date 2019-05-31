@@ -29,8 +29,6 @@
             /*background-color: #ccc;*/
             background-image: url(${pageContext.request.contextPath}/img/menu_top.png);
             background-size: cover;
-            /*图片透明度
-            filter:alpha(opacity:70);*/
             opacity: 0.7;
         }
 
@@ -50,10 +48,11 @@
 
         #drap-line {
             position: absolute;
-            top: 0;
+            top: 88px;
+            left:220px;
             right: 0;
             width: 4px;
-            height: 100%;
+            bottom: 0;
             background-color: #999;
             cursor: e-resize;
         }
@@ -63,7 +62,7 @@
             top: 88px;
             right: 0;
             bottom: 0;
-            left: 220px;
+            left: 224px;
         }
     </style>
 </head>
@@ -73,14 +72,16 @@
 <div class="top">
 
 </div>
+<!-- 菜单 -->
 <div id="left">
     <div id="menu">
         <div id="div1">页面1</div>
         <div>页面2</div>
     </div>
-    <!-- 菜单左边界 -->
-    <div id="drap-line"></div>
 </div>
+<!-- 菜单左边界 -->
+<div id="drap-line"></div>
+<!-- 主页面 -->
 <div id="right">
     <iframe id="main_iframe" width="100%" height="100%" src="${pageContext.request.contextPath}/jsp/main/c.jsp"></iframe>
 </div>
@@ -89,67 +90,34 @@
 </html>
 <script src="${pageContext.request.contextPath}/lib/jquery-3.4.1.min.js"></script>
 <script>
-
-
-    $(function () {
-        $("#div1").click(function () {
-            $("#main_iframe").attr("src","${pageContext.request.contextPath}/jsp/main/a.jsp");
-        });
-    });
-
-    /*
-     * 菜单拉伸效果：
-     * 1、鼠标在上面改变鼠标形状
-     * 2、按下鼠标触发事件
-     * 3、鼠标移动改变菜单窗口大小
-     * 4、鼠标松开触发事件
-     * */
-    var max_width = 500;
-    var min_width = 200;
-    var move_x = 0;
+    var startPageX = 0;
+    var endPageX = 0;
     var left = document.getElementById("left");
     var right = document.getElementById("right");
     var drapLine = document.getElementById("drap-line");
-
     window.onload = function () {
-        var isDown = false;
-        /*鼠标按下时*/
-        drapLine.onmousedown = function (e) {
-            var e = e || window.event;
-            isDown = true;
-            //e.preventDefault();
-            if(e.stopPropagation()){
-                e.stopPropagation();
-            }else{
-                e.cancelable = true;
-            }
-            move_x = e.clientX - left.offsetWidth;
+        /*
+        * 鼠标开始拖动时触发
+        * */
+        drapLine.ondragstart = function (e) {
+            startPageX = e.pageX;
         }
-
-        /*鼠标移动的时候*/
-        document.onmousemove = function (e) {
-            //阻止冒泡事件
-            if(e.stopPropagation()){
-                e.stopPropagation();
-            }else{
-                e.cancelable = true;
-            }
-            if(isDown){
-                var e = e || window.event;
-                var left_width = e.clientX - move_x;
-                left_width = left_width < min_width ? min_width : left_width;
-                left_width = left_width > max_width ? max_width : left_width;
-                left.style.width = left_width + 'px';
-                right.style.left = left_width + 'px';
+        /*
+        * 鼠标拖动后触发
+        * */
+        drapLine.ondragend = function (e) {
+            endPageX = e.pageX;
+            if (endPageX != startPageX) {
+                if (endPageX < 200) {
+                    endPageX = 200;
+                } else if (endPageX > 310) {
+                    endPageX = 310;
+                }
+                left.style.width = endPageX + 'px';
+                drapLine.style.left = endPageX + 'px';
+                right.style.left = endPageX + drapLine.style.width + 'px';
             }
         }
-
-        /*鼠标松开时*/
-        document.onmouseup = function () {
-            isDown = false;
-        }
-
-        return false;
     }
 
 </script>

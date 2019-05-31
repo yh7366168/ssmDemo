@@ -18,7 +18,7 @@
 
         .top {
             width: 100%;
-            height: 88px;
+            height: 9%;
             background-image: url(${pageContext.request.contextPath}/img/menu_top.png);
             background-size: cover;
             opacity: 0.7;
@@ -26,15 +26,15 @@
 
         .leftDiv {
             position: absolute;
-            top: 88px;
             right: 0;
             bottom: 0;
             left: 0;
             width: 240px;
+            height: 91%;
         }
 
         .menuDiv {
-            width: 97%;
+            width: 98%;
             height: 100%;
         }
 
@@ -42,62 +42,75 @@
             position: absolute;
             top: 0;
             right: 0;
-            width: 4px;
+            width: 2%;
             height: 100%;
-            background-color: #e8e2a9;
+            background-color: #e2e2e2;
             margin-left: 2px;
             margin-right: 2px;
+            border: 1px solid #cdceca;
             cursor: e-resize;
         }
 
         .rightDiv {
             position: absolute;
-            top: 88px;
             right: 0;
             bottom: 0;
             left: 240px;
+            height: 91%;
         }
 
         /*--------菜单树----------*/
         .menuDiv {
-            background-color: white;
-            width: 100%;
+            background-color: #c6c7c5;
+            width: 98%;
             height: 100%;
         }
+
         .menuDiv ul, li {
             /*消除ul和li前面的小圆点*/
             list-style: none;
             padding: 0px;
+            margin: 0px;
         }
+
         /*清楚子菜单的缩进*/
         menuDiv ul {
             margin: 0;
             padding: 0;
         }
+
         /*设置一级菜单的背景颜色*/
         .main > a {
             /*消除链接下面的下划线*/
             text-decoration: none;
-            background-color: #c1d8c7;
+            background-color: #bbb9b9;
             font-size: 18px;
             color: black;
             display: block;
-            width: 200px;
-            padding-top: 3px;
-            margin-left: 20px;
+            width: 100%;
+            /*上下间隔*/
+            padding-top: 7px;
+            padding-bottom: 6px;
+            /*文本靠左*/
             text-align: left;
+            /*文本缩进*/
+            text-indent: 8%;
+            border: 1px solid #c1c1c1;
         }
 
         /*二级菜单*/
         .menu a {
             text-decoration: none;
-            background-color: white;
-            margin-left: 40px;
+            background-color: #c6c7c5;
             font-size: 16px;
             display: block;
             padding-top: 3px;
-            width: 180px;
+            width: 100%;
             text-align: left;
+            text-indent: 16%;
+            padding-top: 6px;
+            padding-bottom: 6px;
+            color:white;
         }
     </style>
 </head>
@@ -113,11 +126,11 @@
         <ul class="menu_tree">
             <c:forEach items="${resultMapList}" var="entry" varStatus="vs">
                 <li class="main">
-                    <a href="#"><c:out value="${entry.key}"></c:out></a>
+                    <a href="#">${entry.key}</a>
                     <ul class="menu">
-                        <c:forEach items="${entry.value}" var="menu" varStatus="vs2">
-                            <li>
-                                <a href="#"><c:out value="${menu.menuName}"></c:out></a>
+                        <c:forEach items="${entry.value}" var="menu" varStatus="status">
+                            <li value="${status.index}">
+                                <a href="#" >${menu.menuName}</a>
                             </li>
                         </c:forEach>
                     </ul>
@@ -128,9 +141,7 @@
     <!-- 菜单左边界 -->
     <div id="drap-line" draggable="true"></div>
 </div>
-<div id="right" class="rightDiv">
-
-</div>
+<div id="right" class="rightDiv"></div>
 
 </body>
 </html>
@@ -145,6 +156,12 @@
             $(".main > ul").slideUp(1);
             //再打开
             thisNode.slideDown();
+            return true;
+        });
+
+        //点击菜单
+        $(".menu li").click(function () {
+            console.log($(this).attr("value"));
         });
     });
 
@@ -175,25 +192,5 @@
                 right.style.left = endPageX + 'px';
             }
         }
-
-
-        // drapLine.ondrag = function (e) {
-        //     if(e.stopPropagation()){
-        //         e.stopPropagation();
-        //     }else{
-        //         e.cancelable = true;
-        //     }
-        //     var width = e.pageX<0?-e.pageX:e.pageX;
-        //     console.log("当前鼠标坐标x：" + e.pageX + " 原鼠标坐标x1：" + startPageX + " width:" + width)
-        //     if(width != startPageX){
-        //         if(width < 200){
-        //             width = 200;
-        //         }else if(width > 310){
-        //             width = 310;
-        //         }
-        //         left.style.width = width + 'px';
-        //         right.style.left = width + 'px';
-        //     }
-        // }
     }
 </script>
