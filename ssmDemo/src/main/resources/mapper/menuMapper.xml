@@ -9,12 +9,13 @@
         <result column="menu_level" property="menuLevel" jdbcType="TINYINT"/>
         <result column="parent_id" property="parentId" jdbcType="INTEGER"/>
         <result column="menu_status" property="menuStatus" jdbcType="TINYINT"/>
+        <result column="menu_url" property="menuUrl" jdbcType="VARCHAR"/>
         <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
         <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
     </resultMap>
 
     <sql id="Base_Common_List">
-        menu_id, menu_name, menu_level, parent_id, menu_status, create_time, update_time
+        menu_id, menu_name, menu_level, parent_id, menu_status, menu_url, create_time, update_time
     </sql>
 
     <select id="queryMuneById" parameterType="java.lang.Integer" resultMap="BaseResultMap">

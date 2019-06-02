@@ -117,9 +117,8 @@
 
 <body>
 <!-- 顶部导航 -->
-<div class="top">
+<div class="top"></div>
 
-</div>
 <!-- 左侧菜单栏 -->
 <div id="left" class="leftDiv">
     <div id="menu" class="menuDiv">
@@ -129,7 +128,7 @@
                     <a href="#">${entry.key}</a>
                     <ul class="menu">
                         <c:forEach items="${entry.value}" var="menu" varStatus="status">
-                            <li value="${status.index}">
+                            <li value="${menu.menuUrl}">
                                 <a href="#" >${menu.menuName}</a>
                             </li>
                         </c:forEach>
@@ -141,14 +140,17 @@
     <!-- 菜单左边界 -->
     <div id="drap-line" draggable="true"></div>
 </div>
-<div id="right" class="rightDiv"></div>
+
+<div id="right" class="rightDiv">
+    <c:import url="a.jsp"></c:import>
+</div>
 
 </body>
 </html>
 <script src="${pageContext.request.contextPath}/lib/jquery-3.4.1.min.js"></script>
 <script>
     $(function () {
-        /*------菜单树----*/
+        /*------菜单树动画效果，点击一级菜单显示对应二级菜单----*/
         $(".main > ul").slideUp(0);
         $(".main > a").click(function () {
             var thisNode = $(this).next("ul");
@@ -159,9 +161,22 @@
             return true;
         });
 
-        //点击菜单
+        //点击菜单跳转对应的页面
         $(".menu li").click(function () {
-            console.log($(this).attr("value"));
+            var menuUrl = $(this).attr("value");
+            console.log(menuUrl)
+            if(menuUrl==null || menuUrl=="" || menuUrl==undefined){
+                alert("error！");
+                return;
+            }
+            $.ajax({
+                type:"GET",
+                url:"${pageContext.request.contextPath}"+ menuUrl,
+                dataType:"text",
+                success:function (data) {
+                    $("#right").html(data);
+                }
+            });
         });
     });
 

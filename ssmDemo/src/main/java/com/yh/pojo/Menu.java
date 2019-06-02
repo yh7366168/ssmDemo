@@ -24,6 +24,11 @@ public class Menu {
      * */
     private Integer menuStatus;
 
+    /**
+     * 菜单路由
+     * */
+    private String menuUrl;
+
     private String createTime;
 
     private String updateTime;
