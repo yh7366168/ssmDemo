@@ -31,18 +31,17 @@ public class PageUtil<T> {
         nameDao = StringUtil.lowerFirstString(nameDao);
         //获取对于的bean
         WebApplicationContext context = ContextLoader.getCurrentWebApplicationContext();
-        Object object = context.getBean(nameDao);
-        Class clzss = object.getClass();
+        Object objectDao = context.getBean(nameDao);
+        Class objectDaoClz = objectDao.getClass();
         //执行方法
         try{
-            Method method = clzss.getMethod(nameDao, Integer.class);
-            List<T> lists =(List<T>) method.invoke(object, curPage);
-            log.info("PageUtil--查询dao结果:{}", JSON.toJSONString(lists));
+            Method method = objectDaoClz.getMethod("queryCount", null);
+            Integer countNum =(Integer) method.invoke(objectDao, null);
+            log.info("PageUtil--查询dao结果:{}", JSON.toJSONString(countNum));
         }catch (Exception e){
             System.out.println("执行queryCount失败！");
             e.printStackTrace();
         }
-
 
         return null;
     }
