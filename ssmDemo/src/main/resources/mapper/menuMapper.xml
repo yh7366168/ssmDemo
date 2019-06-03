@@ -53,6 +53,16 @@
         </where>
     </select>
 
+    <!-- 统计所有的菜单-->
+    <select id="queryCount" resultType="java.lang.Integer">
+        SELECT count(1) FROM yh_menu
+    </select>
 
+    <select id="queryPageList" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Common_List"></include>
+        FROM yh_menu
+        limit #{beginNum}, #{pageSize}
+    </select>
 
 </mapper>

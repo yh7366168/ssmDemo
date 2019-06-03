@@ -172,6 +172,7 @@
             $.ajax({
                 type:"GET",
                 url:"${pageContext.request.contextPath}"+ menuUrl,
+                data:{"curPage":"1"},
                 dataType:"text",
                 success:function (data) {
                     $("#right").html(data);

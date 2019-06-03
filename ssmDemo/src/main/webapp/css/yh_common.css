@@ -1,32 +1,31 @@
 
-.common_table{
-    margin-top: 20px;
-    margin-left: 20px;
+.common_table {
+    margin-top: 30px;
+    margin-left: 30px;
     border-collapse: collapse;
     border:1px solid #a29945;
 }
 
-.common_table tr, td{
+.common_table tr, td {
     /*合并成单一的边框*/
     border-collapse: collapse;
     border:1px solid #a29945;
 }
 
-.common_table td{
+.common_table td {
     text-align: center;
-    width: 200px;
     height: 30px;
 }
 
 /*表头眼色*/
-.head_tr{
+.head_tr {
     background-color: #b2dd5c;
 }
 
 /*新增、删除、修改按钮边距*/
-.crudDiv{
-    margin-top: 20px;
-    margin-left: 20px;
+.crudDiv {
+    margin-top: 30px;
+    margin-left: 30px;
 }
 
 /*新增、删除、修改按钮样式*/

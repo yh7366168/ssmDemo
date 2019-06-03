@@ -1,6 +1,7 @@
 package com.yh.service;
 
 import com.yh.pojo.Menu;
+import com.yh.pojo.PageBean;
 
 import java.util.List;
 import java.util.Map;
@@ -15,5 +16,6 @@ public interface MenuService {
 
     Menu queryMuneById(Integer id);
 
+    PageBean<Menu> queryPageList(Integer curPage);
 }
 

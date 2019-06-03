@@ -2,6 +2,7 @@ package com.yh.dao;
 
 import com.yh.pojo.Menu;
 import com.yh.pojo.User;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -27,4 +28,18 @@ public interface MenuDao {
      * @return list
      */
     Menu queryMuneById(Integer id);
+
+    /**
+     * 统计所有的菜单
+     * @return Integer
+     */
+    Integer queryCount();
+
+    /**
+     * 分页查询
+     * @param beginNum 起始位置
+     * @param pageSize 每页大小
+     * @return list
+     */
+    List<Menu> queryPageList(@Param("beginNum") Integer beginNum, @Param("pageSize") Integer pageSize);
 }

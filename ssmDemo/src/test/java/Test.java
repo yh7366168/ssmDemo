@@ -3,6 +3,7 @@ import com.yh.pojo.Menu;
 import com.yh.pojo.User;
 import com.yh.service.MenuService;
 import com.yh.service.UserService;
+import com.yh.util.PageUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,6 +50,12 @@ public class Test {
         log.info("menuList:{}", JSON.toJSONString(menuList));
     }
 
+//    @org.junit.Test
+//    public void testPageUtil(){
+//        PageUtil<Menu> pageUtil = new PageUtil<>();
+//        Menu menu = new Menu();
+//        pageUtil.queryPageList(menu, 1);
+//    }
 
     public static void main(String[] args) {
 

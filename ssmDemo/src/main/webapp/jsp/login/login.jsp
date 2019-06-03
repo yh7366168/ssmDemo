@@ -77,47 +77,48 @@
             <input id="login_button" type="submit" value="登录">
         </div>
         <div class="form_div">
-            <a href="${pageContext.request.contextPath}/main/loginMain">忘记密码?</a>
+            <%--<a href="${pageContext.request.contextPath}/main/loginMain">忘记密码?</a>--%>
+            <a href="${pageContext.request.contextPath}/pageUtil/queryPageList">忘记密码?</a>
             <a href="${pageContext.request.contextPath}/jsp/login/register.jsp" style="margin-left: 120px">用户注册</a>
         </div>
     </form>
-
-    <!-- 引入jquery的jar-->
-    <script src="http://libs.baidu.com/jquery/1.9.1/jquery.js"></script>
-    <script type="text/javascript">
-        $("form").submit(function () {
-            var name = $("#username").val();
-            var password = $("#password").val();
-
-            if(name=="" || name==null || name ==undefined){
-                alert("用户名不能为空！请输入用户名！");
-                return false;
-            } else if(password=="" || password==null || password==undefined){
-                alert("用户密码不能为空！请输入密码！");
-                return false;
-            }else{
-                $.ajax({
-                    url:"${pageContext.request.contextPath}/user/loginCheckUser",
-                    type:"GET",
-                    async:false,
-                    data:{"username":name, "password":password},
-                    contentType: 'text/json,charset=utf-8',
-                    dataType:"text",
-                    success:function (result) {
-                        result = decodeURI(result)
-                        if(result=="success"){
-                            //登录成功跳转系统主页
-                            window.location.href="../main/main.jsp";
-                        }else{
-                            //后台校验失败，显示结果！
-                            alert(result);
-                        }
-                    }
-                });
-                return false;
-            }
-    });
-
-    </script>
 </body>
 </html>
+
+<!-- 引入jquery的jar-->
+<script src="${pageContext.request.contextPath}/lib/jquery-3.4.1.min.js"></script>
+<script type="text/javascript">
+    $("form").submit(function () {
+        var name = $("#username").val();
+        var password = $("#password").val();
+
+        if(name=="" || name==null || name ==undefined){
+            alert("用户名不能为空！请输入用户名！");
+            return false;
+        } else if(password=="" || password==null || password==undefined){
+            alert("用户密码不能为空！请输入密码！");
+            return false;
+        }else{
+            $.ajax({
+                url:"${pageContext.request.contextPath}/user/loginCheckUser",
+                type:"GET",
+                async:false,
+                data:{"username":name, "password":password},
+                contentType: 'text/json,charset=utf-8',
+                dataType:"text",
+                success:function (result) {
+                    result = decodeURI(result)
+                    if(result=="success"){
+                        //登录成功跳转系统主页
+                        window.location.href="../main/main.jsp";
+                    }else{
+                        //后台校验失败，显示结果！
+                        alert(result);
+                    }
+                }
+            });
+            return false;
+        }
+    });
+
+</script>

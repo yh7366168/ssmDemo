@@ -2,11 +2,15 @@ package com.yh.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.yh.pojo.Menu;
+import com.yh.pojo.PageBean;
 import com.yh.service.MenuService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.HashMap;
@@ -29,11 +33,23 @@ public class MenuController {
     private MenuService menuService;
 
     @RequestMapping("/queryMenuList")
-    public ModelAndView queryMenuList( ModelAndView model){
+    public ModelAndView queryMenuList(ModelAndView model){
         Map<String, Object> params = new HashMap<String, Object>();
         List<Menu> menuList = menuService.queryListByParams(params);
         log.info("queryMenuList--查询结果：{}", JSON.toJSONString(menuList));
         model.addObject("menuList", menuList);
+        model.setViewName("system/menuList");
+        return model;
+    }
+
+    @RequestMapping(value = "/queryPageList", method = RequestMethod.GET)
+    public ModelAndView queryPageList(ModelAndView model, @RequestParam("curPage") String currentPage){
+        Integer curPage = Integer.valueOf(currentPage);
+        log.info("queryPageList--分页查询开始，查询第{}页的信息！", curPage);
+        PageBean<Menu> pageBean = menuService.queryPageList(curPage);
+        log.info("queryPageList--分页查询结束，查询结果{}", JSON.toJSONString(pageBean));
+        model.addObject("menuList",pageBean.getPageList());
+        model.addObject("pageBean",pageBean);
         model.setViewName("system/menuList");
         return model;
     }

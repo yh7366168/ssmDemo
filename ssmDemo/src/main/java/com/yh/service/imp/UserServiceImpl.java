@@ -12,14 +12,17 @@ public class UserServiceImpl implements UserService {
     @Autowired
     UserDao userDao;
 
+    @Override
     public String queryById(String userId){
         return userDao.queryById(userId);
     }
 
+    @Override
     public User queryByName(String name){
         return userDao.queryByName(name);
     }
 
+    @Override
     public int insertUser(User user){
          return userDao.insertUser(user);
     }
