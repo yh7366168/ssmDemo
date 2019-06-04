@@ -44,8 +44,13 @@ public class MenuServiceImpl implements MenuService {
         pageBean.setPageSize(pageSize);
         int totalCount = menuDao.queryCount();
         log.info("queryPageList--总共查询{}条数据",totalCount);
-        pageBean.setTolalCount(totalCount);
-        int totalPage = totalCount/pageBean.getPageSize() + 1;
+        pageBean.setTotalCount(totalCount);
+        int totalPage = 0;
+        if (totalCount % pageSize <= 0) {
+            totalPage = totalCount / pageSize;
+        } else {
+            totalPage = totalCount / pageSize + 1;
+        }
         pageBean.setTotalPage(totalPage);
         int beginNum = pageSize * (curPage - 1);
         List<Menu> pageList = menuDao.queryPageList(beginNum, pageSize);

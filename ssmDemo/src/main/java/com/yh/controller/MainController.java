@@ -31,7 +31,7 @@ public class MainController {
         List<Menu> menuAllList = menuService.queryListByParams(params);
         //通过parent_id分组
         Map<Integer, List<Menu>> menuMapList = menuAllList.stream().collect(Collectors.groupingBy(Menu::getParentId));
-        log.info("loginMain--一共{}条数据，查询结果{}", JSON.toJSONString(menuAllList.size()), JSON.toJSONString(menuAllList));
+        //log.info("loginMain--一共{}条数据，查询结果{}", JSON.toJSONString(menuAllList.size()), JSON.toJSONString(menuAllList));
         Map<String, List<Menu>> resultMapList = new HashMap<String, List<Menu>>();
         //替换key
         for(Integer parentId : menuMapList.keySet()){
@@ -39,7 +39,7 @@ public class MainController {
             Menu parentMenu = menuService.queryMuneById(parentId);
             resultMapList.put(parentMenu.getMenuName(), list);
         }
-        log.info("loginMain--页面返回结果{}", JSON.toJSONString(resultMapList));
+        //log.info("loginMain--页面返回结果{}", JSON.toJSONString(resultMapList));
         model.addObject("resultMapList",resultMapList);
 
         //----------------------------------------------------主页面----------------------------------------------------

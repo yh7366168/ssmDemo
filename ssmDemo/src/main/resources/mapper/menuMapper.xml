@@ -18,16 +18,7 @@
         menu_id, menu_name, menu_level, parent_id, menu_status, menu_url, create_time, update_time
     </sql>
 
-    <select id="queryMuneById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-        SELECT
-        <include refid="Base_Common_List"></include>
-        FROM yh_menu WHERE menu_id = #{menuId}
-    </select>
-
-    <select id="queryListByParams" resultMap="BaseResultMap" parameterType="java.util.Map">
-        SELECT
-        <include refid="Base_Common_List"></include>
-        FROM yh_menu
+    <sql id="where_params">
         <!-- where标签智能，存在一个where条件时才插入where关键字。如果条件以and或者or开始，会自动去除 -->
         <where>
             <if test="menuName != null">
@@ -48,20 +39,35 @@
             </if>
             <!--通过parent_id排序-->
             <if test="orderByParntId != null">
-              AND 1=1 ORDER BY parent_id ASC
+                AND 1=1 ORDER BY parent_id ASC
             </if>
         </where>
+    </sql>
+
+    <select id="queryMuneById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Common_List"></include>
+        FROM yh_menu WHERE menu_id = #{menuId}
+    </select>
+
+    <select id="queryListByParams" resultMap="BaseResultMap" parameterType="java.util.Map">
+        SELECT
+        <include refid="Base_Common_List"></include>
+        FROM yh_menu
+        <include refid="where_params"></include>
     </select>
 
     <!-- 统计所有的菜单-->
     <select id="queryCount" resultType="java.lang.Integer">
         SELECT count(1) FROM yh_menu
+        <include refid="where_params"></include>
     </select>
 
     <select id="queryPageList" resultMap="BaseResultMap">
         SELECT
         <include refid="Base_Common_List"></include>
         FROM yh_menu
+        <include refid="where_params"></include>
         limit #{beginNum}, #{pageSize}
     </select>
 

@@ -181,6 +181,13 @@
             <version>3.0.1</version>
         </dependency>
 
+        <!--引入切面-->
+        <dependency>
+            <groupId>aspectj</groupId>
+            <artifactId>aspectjweaver</artifactId>
+            <version>1.5.4</version>
+        </dependency>
+
     </dependencies>
 
 

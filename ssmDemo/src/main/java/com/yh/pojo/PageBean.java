@@ -25,7 +25,7 @@ public class PageBean<T> {
     /**
      * 总记录数
      * */
-    private Integer tolalCount;
+    private Integer totalCount;
 
     /**
      * 总页数

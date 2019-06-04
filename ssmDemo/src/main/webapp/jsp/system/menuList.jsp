@@ -13,41 +13,19 @@
     <link rel="shortcut icon" href="#"/>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/yh_common.css">
     <style type="text/css">
-        .selectDiv {
-            width: 910px;
-            height: 30px;
-            margin-left: 30px;
-            margin-top: 30px;
-        }
-
-        .selectDiv span {
-            margin-right: 8px;
-        }
-
-        .selectDiv button {
-            margin-left: 20px;
-            background-color: #aae369;
-            width: 80px;
-        }
-
         td {
             width: 200px;
         }
-
         .countIndex {
             width: 122px;
         }
-
-        .page_div {
-            margin-top: 30px;
-            margin-left: 30px;
+        /*表头眼色*/
+        .head_tr {
+            /*background-color: #b2dd5c;*/
+            background-image: url(${pageContext.request.contextPath}/img/tree_01.png);
+            background-size: cover;
         }
 
-        /*翻页内部间距*/
-        .page_div span {
-            margin-right: 10px;
-            font-size: 13px;
-        }
     </style>
 </head>
 <body>
@@ -60,8 +38,8 @@
         <input type="text" value="" id="menu_name">
         <span style="margin-left: 20px">菜单级别</span>
         <input type="text" value="" id="menu_level">
-        <button>查询</button>
-        <button>重置</button>
+        <button id="select_button">查询</button>
+        <button id="reset_button">重置</button>
     </div>
 
     <table class="common_table">
@@ -95,16 +73,35 @@
         <span>
             <a href="#" style="color: blue">上一页</a>
         </span>
-        <span>第&nbsp;<input type="text" value="${pageBean.curPage}" style="width: 30px">&nbsp;页</span>
+        <span class="page_input_div">第&nbsp;<input type="text" value="${pageBean.curPage}" style="width: 30px;text-align: center">&nbsp;页</span>
         <span>
             <a href="#" style="color: blue">下一页</a>
         </span>
-        <span>共100页</span>
+        <span>共${pageBean.totalPage}页</span>
     </div>
 </body>
 </html>
 
 <script src="${pageContext.request.contextPath}/lib/jquery-3.4.1.min.js"></script>
 <script type="text/javascript">
+    /*查询按钮*/
+    $("#select_button").on("click",function () {
+        $.ajax({
+            type:"POST",
+            url:"",
+            data:{
+                "menuName":$.trim( $("#menu_name").val() ),
+                "menuLevel":$.trim( $("#menu_level").val() )
+            },
+            dataType:"text",
+            success:function (data) {
+                
+            },
+            error:function () {
+                alert("error!")
+            }
+        });
+    });
+
 
 </script>
