@@ -9,6 +9,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.util.StringUtils;
 
 import java.util.HashMap;
 import java.util.List;
@@ -16,7 +17,6 @@ import java.util.Map;
 import java.util.UUID;
 
 @Slf4j
-
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath*:spring-*.xml"})
 public class Test {
@@ -58,6 +58,11 @@ public class Test {
 //    }
 
     public static void main(String[] args) {
-
+        String str = "";
+        if(StringUtils.hasText(str)){
+            System.out.println("1");
+        }else{
+            System.out.println("2");
+        }
     }
 }

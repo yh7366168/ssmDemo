@@ -36,4 +36,5 @@ public class PageBean<T> {
      * 每页信息
      * */
     private List<T> pageList;
+
 }

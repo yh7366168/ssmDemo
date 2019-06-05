@@ -34,6 +34,7 @@ public class MenuServiceImpl implements MenuService {
      * */
     @Override
     public PageBean<Menu> queryPageList(Integer curPage){
+        /**
         log.info("queryPageList--分页查询开始");
         PageBean<Menu> pageBean = new PageBean<>();
         if(curPage == null || curPage <= 0){
@@ -55,7 +56,7 @@ public class MenuServiceImpl implements MenuService {
         int beginNum = pageSize * (curPage - 1);
         List<Menu> pageList = menuDao.queryPageList(beginNum, pageSize);
         log.info("queryPageList--分页查询，入参beginNum：{}，查询结果{}", beginNum, JSON.toJSONString(pageList));
-        pageBean.setPageList(pageList);
-        return pageBean;
+        pageBean.setPageList(pageList);*/
+        return null;
     }
 }

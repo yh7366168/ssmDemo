@@ -4,11 +4,13 @@ import com.alibaba.fastjson.JSON;
 import com.yh.pojo.PageBean;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.context.ContextLoader;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.lang.reflect.Method;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -26,8 +28,8 @@ public class PageUtil<T> {
      * 规则：
      * 在X_Dao接口存在queryCount方法和queryPageList方法<br>
      * */
-    public PageBean<T> queryPageList(T t, Integer curPage, Map<String, Object> params) {
-        String className = t.getClass().getSimpleName();
+    public PageBean<T> queryPageList(Class<T> clzss, Integer curPage, Map<String, Object> params) {
+        String className = clzss.getSimpleName();
         String nameDao = className + "Dao";
         nameDao = StringUtil.lowerFirstString(nameDao);
         Integer totalCount = 0;
@@ -39,11 +41,12 @@ public class PageUtil<T> {
         if (curPage == null || curPage <= 0) {
             curPage = 1;
         }
+        if(params == null){
+            params = new HashMap<>();
+        }
         pageBean.setCurPage(curPage);
         pageBean.setPageSize(pageSize);
         beginNum = pageSize * (curPage - 1);
-        params.put("curPage", curPage);
-        params.put("beginNum", beginNum);
 
         //获取context
         WebApplicationContext context = ContextLoader.getCurrentWebApplicationContext();
@@ -52,8 +55,8 @@ public class PageUtil<T> {
 
         //执行XDao.queryCount()
         try {
-            Method methodOne = objectDaoClz.getMethod("queryCount", null);
-            totalCount = (Integer) methodOne.invoke(objectDao, null);
+            Method methodOne = objectDaoClz.getMethod("queryPageCount", Map.class);
+            totalCount = (Integer) methodOne.invoke(objectDao, params);
             pageBean.setTotalCount(totalCount);
             log.info("PageUtil--queryCount查询到{}条结果", JSON.toJSONString(totalCount));
         } catch (Exception e) {
@@ -61,6 +64,8 @@ public class PageUtil<T> {
             e.printStackTrace();
         }
 
+        params.put("beginNum", beginNum);
+        params.put("pageSize", pageSize);
         int totalPage = 0;
         if (totalCount % pageSize <= 0) {
             totalPage = totalCount / pageSize;
@@ -71,8 +76,8 @@ public class PageUtil<T> {
 
         //执行XDao.queryPageList()
         try{
-            Method queryListMethod = objectDaoClz.getMethod("queryPageList", Integer.class, Integer.class);
-            pageList =(List<T>) queryListMethod.invoke(objectDao, beginNum, pageSize);
+            Method queryListMethod = objectDaoClz.getMethod("queryPageList", Map.class);
+            pageList =(List<T>) queryListMethod.invoke(objectDao, params);
             log.info("PageUtil--queryPageList结果：{}",  JSON.toJSONString(pageList));
             pageBean.setPageList(pageList);
         }catch (Exception e){
@@ -84,14 +89,11 @@ public class PageUtil<T> {
 
 
     public static void main(String[] args) {
-        int totalCount = 31;
-        int pageSize = 10;
-        int totalPage = 0;
-        if (totalCount % pageSize <= 0) {
-            totalPage = totalCount / pageSize;
-        } else {
-            totalPage = totalCount / pageSize + 1;
+        String str = " ";
+        if(StringUtils.hasText(str)){
+            System.out.println("1");
+        }else{
+            System.out.println("2");
         }
-        System.out.println(totalPage);
     }
 }

@@ -31,15 +31,17 @@ public interface MenuDao {
 
     /**
      * 统计所有的菜单
+     * @param params
      * @return Integer
      */
-    Integer queryCount();
+    Integer queryPageCount(Map<String, Object> params);
 
     /**
      * 分页查询
-     * @param beginNum 起始位置
-     * @param pageSize 每页大小
+     * @param params
      * @return list
      */
-    List<Menu> queryPageList(@Param("beginNum") Integer beginNum, @Param("pageSize") Integer pageSize);
+    List<Menu> queryPageList(Map<String, Object> params);
+
+
 }

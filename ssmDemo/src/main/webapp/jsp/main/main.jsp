@@ -142,7 +142,9 @@
 </div>
 
 <div id="right" class="rightDiv">
-    <c:import url="a.jsp"></c:import>
+    <%--<%@include file="a.jsp"%>--%>
+    <jsp:include page="a.jsp" flush="true"></jsp:include>
+    <%--<c:import url="a.jsp"></c:import>--%>
 </div>
 
 </body>

@@ -58,12 +58,12 @@
     </select>
 
     <!-- 统计所有的菜单-->
-    <select id="queryCount" resultType="java.lang.Integer">
+    <select id="queryPageCount" resultType="java.lang.Integer" parameterType="java.util.Map">
         SELECT count(1) FROM yh_menu
         <include refid="where_params"></include>
     </select>
 
-    <select id="queryPageList" resultMap="BaseResultMap">
+    <select id="queryPageList" resultMap="BaseResultMap" parameterType="java.util.Map">
         SELECT
         <include refid="Base_Common_List"></include>
         FROM yh_menu

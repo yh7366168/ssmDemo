@@ -8,11 +8,13 @@ import com.yh.util.PageUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.w3c.dom.ls.LSInput;
 
 import java.util.HashMap;
 import java.util.List;
@@ -43,12 +45,12 @@ public class MenuController {
         return model;
     }
 
-    @RequestMapping(value = "/queryPageList", method = RequestMethod.GET)
+    @RequestMapping(value = "/queryPageList")
     public ModelAndView queryPageList(ModelAndView model, @RequestParam("curPage") String currentPage){
         Integer curPage = Integer.valueOf(currentPage);
         log.info("queryPageList--分页查询开始，查询第{}页的信息！", curPage);
         PageUtil<Menu> pageUtil = new PageUtil<>();
-        PageBean<Menu> pageBean = pageUtil.queryPageList(new Menu(), curPage, null);
+        PageBean<Menu> pageBean = pageUtil.queryPageList(Menu.class, curPage, null);
         log.info("queryPageList--分页查询结束，查询结果{}", JSON.toJSONString(pageBean));
         model.addObject("menuList",pageBean.getPageList());
         model.addObject("pageBean",pageBean);
@@ -82,15 +84,35 @@ public class MenuController {
 
     /**
      * 条件查询按钮
+     * required=false 不存在赋值null
      * */
     @RequestMapping("/queryMenuListByParams")
-    public ModelAndView queryMenuListByParams(@RequestParam("menuName")String menuName, @RequestParam("menuLevel")String menuLevel){
+    public ModelAndView queryMenuListByParams(@RequestParam(value = "menuName", required = false)String menuName,
+                                              @RequestParam(value = "menuLevel", required = false)String menuLevel,
+                                              @RequestParam("curPage")String currentPage){
+        Integer curPage = Integer.valueOf(currentPage);
         ModelAndView model = new ModelAndView();
         Map<String, Object> params = new HashMap<>();
-        params.put("menuName", menuName);
-        params.put("menuLevel", Integer.valueOf(menuLevel));
-        List<Menu> menuList = menuService.queryListByParams(params);
-        model.addObject("menuList",menuList);
-        return null;
+        Menu menuDto = new Menu();
+        if(StringUtils.hasText(menuName)){
+            params.put("menuName", menuName);
+            menuDto.setMenuName(menuName);
+        }
+        if(StringUtils.hasText(menuLevel)){
+            params.put("menuLevel", Integer.valueOf(menuLevel));
+            menuDto.setMenuLevel(Integer.valueOf(menuLevel));
+        }
+
+        PageUtil<Menu> pageUtil = new PageUtil();
+        log.info("queryMenuListByParams--查询开始，第{}页，查询条件：{}", curPage ,JSON.toJSONString(params));
+        PageBean<Menu> pageBean = pageUtil.queryPageList(Menu.class, curPage, params);
+        List<Menu> menuList = pageBean.getPageList();
+        model.addObject("pageBean", pageBean);
+        model.addObject("menuList", menuList);
+        model.addObject("menuDto",menuDto);
+        log.info("queryMenuListByParams--查询结束，pageBean：{}，menuList：{}， menuDto：{}",
+                JSON.toJSONString(pageBean), JSON.toJSONString(menuList), JSON.toJSONString(menuDto) );
+        model.setViewName("system/menuList");
+        return model;
     }
 }
