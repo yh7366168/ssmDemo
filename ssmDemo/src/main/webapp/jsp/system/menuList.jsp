@@ -21,7 +21,7 @@
             width: 122px;
         }
 
-        /*表头眼色*/
+        /*表头颜色*/
         .head_tr {
             /*background-color: #b2dd5c;*/
             background-image: url(${pageContext.request.contextPath}/img/tree_01.png);
@@ -80,9 +80,11 @@
         <a href="#" id="previous_page" style="color: blue">上一页</a>
     </span>
     <span class="page_input_div">
-        第&nbsp;<input type="text" id="page_input_value" value="${pageBean.curPage}" style="width: 30px;text-align: center">&nbsp;页</span>
+        第&nbsp;<input type="text" id="page_input_value" value="${pageBean.curPage}" style="width: 30px;text-align: center">&nbsp;页
+    </span>
+    <img id="to_page" src="${pageContext.request.contextPath}/img/next_page.png" style="position: absolute;height: 19px;padding-top: 3px;cursor: pointer">
     <span>
-        <a href="#" style="color: blue">下一页</a>
+        <a href="#" id="next_page" style="color: blue;margin-left: 31px;">下一页</a>
     </span>
     <span>共${pageBean.totalPage}页</span>
     <span>共${pageBean.totalCount}条</span>
@@ -130,10 +132,75 @@
         });
     });
 
-    /*所有资源加载完毕之后执行*/
-    window.onload = function () {
+    $(function () {
+        var curPage = $("#page_input_value").val();
+        //第一页，“上一页”按钮变成灰色
+        if(curPage == 1){
+            $("#previous_page").attr("href","javascript:;")
+                .css("pointer-events","none")
+                .css("color","#2b2b2bf0");
+        }
+        //最后一页，“下一页”按钮变成灰色
+        if(curPage == ${pageBean.totalPage}){
+            $("#next_page").attr("href","javascript:;")
+                .css("pointer-events","none")
+                .css("color","#2b2b2bf0");
+        }
+        //当前页不是最后一页，点击“下一页”
+        if(curPage != ${pageBean.totalPage}){
+            var nextPage = parseInt(curPage)  + 1;
+            $("#next_page").on("click",function () {
+                $.ajax({
+                    type:"GET",
+                    url:"${pageContext.request.contextPath}/menu/queryPageList",
+                    data:{"curPage" : nextPage},
+                    async:false,
+                    dataType:"text",
+                    success:function (result) {
+                        //重新加载页面
+                        $("#right").html(result);
+                    }
+                });
+            });
+        }
+        //当前页不是第一页，点击“上一页”
+        if(curPage != 1){
+            var previousPage = parseInt(curPage) - 1;
+            $("#next_page").on("click",function () {
+                $.ajax({
+                    type:"GET",
+                    url:"${pageContext.request.contextPath}/menu/queryPageList",
+                    data:{"curPage" : nextPage},
+                    async:false,
+                    dataType:"text",
+                    success:function (result) {
+                        //重新加载页面
+                        $("#right").html(result);
+                    }
+                });
+            });
+        }
+        //点击图片，跳转到对应页码
+        $("#to_page").on("click", function () {
+            var toPage = $("#page_input_value").val();
+            console.log("toPage = " + toPage)
+            if(toPage<1 || toPage>${pageBean.totalPage}){
+                alert("请输入正确页码！");
+            }
+            $.ajax({
+                type:"GET",
+                url:"${pageContext.request.contextPath}/menu/queryPageList",
+                data:{"curPage" : toPage},
+                async:false,
+                dataType:"text",
+                success:function (result) {
+                    //重新加载页面
+                    $("#right").html(result);
+                }
+            });
 
-    }
+        });
+    });
 
 
 </script>
