@@ -34,7 +34,7 @@ public class PageUtil<T> {
         nameDao = StringUtil.lowerFirstString(nameDao);
         Integer totalCount = 0;
         Integer beginNum = 0;
-        Integer pageSize = 4;
+        Integer pageSize = 10;
         List<T> pageList = null;
 
         PageBean<T> pageBean = new PageBean<>();
