@@ -1,5 +1,6 @@
 package com.yh.util;
 
+import lombok.extern.slf4j.Slf4j;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
@@ -8,15 +9,18 @@ import redis.clients.jedis.JedisPoolConfig;
  * @author yh create 2019年6月11日20:39:19
  * 使用Redis连接池
  * */
+@Slf4j
 public class JedisPoolUtil {
 
+    private final static String REDIS_HOST = "127.0.0.1";
+    private final static int REDIS_PORT = 6379;
     private static JedisPool pool = null;
-
-    private JedisPoolUtil(){}
 
     static {
         initPool();
     }
+
+    private JedisPoolUtil(){}
 
     private static void initPool(){
         JedisPoolConfig config = new JedisPoolConfig();
@@ -31,18 +35,19 @@ public class JedisPoolUtil {
         //设置JedisPool是否可用
         config.setTestOnReturn(true);
 
-        pool = new JedisPool(config, "127.0.0.1", 6379);
+        pool = new JedisPool(config, REDIS_HOST, REDIS_PORT);
     }
 
     /**
-     * 获取一个Jedis连接
+     * 获取一个连接
      * */
     public static Jedis getOnePoolJedis(){
-        return pool.getResource();
+        Jedis jedis = pool.getResource();
+        return jedis;
     }
 
     /**
-     * 释放这个连接
+     * 释放连接
      * */
     public static void jedisClose(Jedis jedis){
         if(jedis != null){

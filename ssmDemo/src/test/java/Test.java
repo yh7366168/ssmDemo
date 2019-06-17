@@ -50,19 +50,6 @@ public class Test {
         log.info("menuList:{}", JSON.toJSONString(menuList));
     }
 
-//    @org.junit.Test
-//    public void testPageUtil(){
-//        PageUtil<Menu> pageUtil = new PageUtil<>();
-//        Menu menu = new Menu();
-//        pageUtil.queryPageList(menu, 1);
-//    }
-
     public static void main(String[] args) {
-        String str = "";
-        if(StringUtils.hasText(str)){
-            System.out.println("1");
-        }else{
-            System.out.println("2");
-        }
     }
 }
