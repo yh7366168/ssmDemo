@@ -12,7 +12,6 @@
     <link rel="shortcut icon" href="#"/>
     <!-- CSS样式 -->
     <style type="text/css">
-
         /*表单*/
         form{
             width: 270px;

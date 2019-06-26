@@ -26,6 +26,15 @@
       login_num, is_lock, user_status
     </sql>
 
+    <sql id="where_params">
+        <!-- where标签智能，存在一个where条件时才插入where关键字。如果条件以and或者or开始，会自动去除 -->
+        <where>
+            <if test="userName != null">
+                username = #{userName}
+            </if>
+        </where>
+    </sql>
+
     <select id="queryById" resultType="java.lang.String"  parameterType="java.lang.String">
         SELECT username FROM user WHERE user_id = #{userId}
     </select>
@@ -45,5 +54,18 @@
         values
         (#{userId},#{username}, #{password}, #{sex}, #{age}, #{phone}, #{email}, #{address}, NOW(), NOW(), NOW())
     </insert>
+
+    <select id="queryPageCount" resultType="java.lang.Integer" parameterType="java.util.Map">
+        SELECT count(1) FROM user
+        <include refid="where_params"></include>
+    </select>
+
+    <select id="queryPageList" resultMap="BaseResultMap" parameterType="java.util.Map">
+        SELECT
+        <include refid="Base_Common_List"></include>
+        FROM user
+        <include refid="where_params"></include>
+        limit #{beginNum}, #{pageSize}
+    </select>
 
 </mapper>

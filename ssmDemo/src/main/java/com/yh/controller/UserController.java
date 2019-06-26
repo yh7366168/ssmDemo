@@ -1,13 +1,18 @@
 package com.yh.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.yh.pojo.PageBean;
 import com.yh.pojo.User;
 import com.yh.service.UserService;
+import com.yh.util.PageUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.util.List;
 
 @Slf4j
 @Controller
@@ -80,6 +85,23 @@ public class UserController {
         }else{
             return "";
         }
+    }
+
+    /**
+     * 用户分页列表
+     * */
+    @RequestMapping("/queryUserPageList")
+    public ModelAndView queryUserPageList(){
+        ModelAndView model = new ModelAndView();
+        PageUtil<User> pageUtil = new PageUtil<>();
+        Integer curPage = 1;
+        PageBean<User> pageBean = pageUtil.queryPageList(User.class, curPage, null );
+        log.info("queryUserPageList-分页查询结果，pageBean：{}", JSON.toJSONString(pageBean));
+        List<User> userList = pageBean.getPageList();
+        model.addObject("userList", userList);
+        model.addObject("pageBean", pageBean);
+        model.setViewName("system/userList");
+        return model;
     }
 
 }

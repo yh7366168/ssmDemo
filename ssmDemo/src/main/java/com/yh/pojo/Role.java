@@ -3,8 +3,7 @@ package com.yh.pojo;
 import lombok.Data;
 
 /**
- * create in 2019-6-11
- * @author yh
+ * @author yh create in 2019-6-11
  * */
 @Data
 public class Role {

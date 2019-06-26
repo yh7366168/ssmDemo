@@ -27,7 +27,6 @@
             background-image: url(${pageContext.request.contextPath}/img/tree_01.png);
             background-size: cover;
         }
-
     </style>
 </head>
 <body>
