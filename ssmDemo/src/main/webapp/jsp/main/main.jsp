@@ -18,11 +18,17 @@
 
         .top {
             width: 100%;
-            height: 9%;
-            background-image: url(${pageContext.request.contextPath}/img/menu_top.png);
-            background-size: cover;
-            opacity: 0.7;
+            height: 8.6%;
+            background-color: #c6c7c5;
         }
+        .top-line{
+            width: 100%;
+            height: 0.4%;
+            background-color: #e2e2e2;
+            margin: 0;
+            padding: 0;
+        }
+
 
         .leftDiv {
             position: absolute;
@@ -31,6 +37,7 @@
             left: 0;
             width: 240px;
             height: 91%;
+            background-color: #f1f1f5;
         }
 
         .menuDiv {
@@ -110,14 +117,17 @@
             text-indent: 16%;
             padding-top: 6px;
             padding-bottom: 6px;
-            color:white;
+            color:#4d4d4e;
         }
     </style>
 </head>
 
 <body>
 <!-- 顶部导航 -->
-<div class="top"></div>
+<div>
+    <div class="top"></div>
+    <div class="top-line"></div>
+</div>
 
 <!-- 左侧菜单栏 -->
 <div id="left" class="leftDiv">

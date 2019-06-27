@@ -1,6 +1,7 @@
 package com.yh.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.sun.javafx.collections.MappingChange;
 import com.yh.pojo.PageBean;
 import com.yh.pojo.User;
 import com.yh.service.UserService;
@@ -8,11 +9,13 @@ import com.yh.util.PageUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Controller
@@ -88,18 +91,26 @@ public class UserController {
     }
 
     /**
-     * 用户分页列表
+     * 分页查询
      * */
     @RequestMapping("/queryUserPageList")
-    public ModelAndView queryUserPageList(){
-        ModelAndView model = new ModelAndView();
+    public ModelAndView queryUserPageList(@RequestParam(value = "userName", required = false)String username,
+                                          @RequestParam(value = "curPage")String currentPage){
+        Integer curPage = Integer.valueOf(currentPage);
+        Map<String, Object> params = new HashMap<>();
+        User user = new User();
+        if(StringUtils.hasText(username)){
+            params.put("userName", username);
+            user.setUsername(username);
+        }
         PageUtil<User> pageUtil = new PageUtil<>();
-        Integer curPage = 1;
-        PageBean<User> pageBean = pageUtil.queryPageList(User.class, curPage, null );
+        PageBean<User> pageBean = pageUtil.queryPageList(User.class, curPage, params );
         log.info("queryUserPageList-分页查询结果，pageBean：{}", JSON.toJSONString(pageBean));
         List<User> userList = pageBean.getPageList();
+        ModelAndView model = new ModelAndView();
         model.addObject("userList", userList);
         model.addObject("pageBean", pageBean);
+        model.addObject("userDto", user);
         model.setViewName("system/userList");
         return model;
     }

@@ -23,7 +23,6 @@
 .crudDiv button {
     width: 80px;
     height: 28px;
-    background-color: #dee3a8;
     margin-right: 15px;
 }
 
@@ -42,7 +41,6 @@
 
 .selectDiv button {
     margin-left: 20px;
-    background-color: #aae369;
     width: 80px;
 }
 

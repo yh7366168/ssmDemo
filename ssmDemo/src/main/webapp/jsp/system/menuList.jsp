@@ -90,7 +90,6 @@
 </div>
 </body>
 </html>
-
 <script src="${pageContext.request.contextPath}/lib/jquery-3.4.1.min.js"></script>
 <script type="text/javascript">
     /*查询按钮*/
@@ -185,6 +184,7 @@
             console.log("toPage = " + toPage)
             if(toPage<1 || toPage>${pageBean.totalPage}){
                 alert("请输入正确页码！");
+                return;
             }
             $.ajax({
                 type:"GET",
@@ -199,6 +199,4 @@
             });
         });
     });
-
-
 </script>

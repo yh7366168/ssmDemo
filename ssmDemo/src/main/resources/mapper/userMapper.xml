@@ -2,7 +2,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yh.dao.UserDao">
-    <!-- 实例类和DB映射-->
     <resultMap id="BaseResultMap" type="com.yh.pojo.User">
         <id column="user_id" property="userId" jdbcType="CHAR"/>
         <result column="username" property="username" jdbcType="VARCHAR"/>
@@ -27,15 +26,14 @@
     </sql>
 
     <sql id="where_params">
-        <!-- where标签智能，存在一个where条件时才插入where关键字。如果条件以and或者or开始，会自动去除 -->
         <where>
             <if test="userName != null">
-                username = #{userName}
+                username like CONCAT(CONCAT('%',#{userName}),'%')
             </if>
         </where>
     </sql>
 
-    <select id="queryById" resultType="java.lang.String"  parameterType="java.lang.String">
+    <select id="queryById" resultType="java.lang.String" parameterType="java.lang.String">
         SELECT username FROM user WHERE user_id = #{userId}
     </select>
 
@@ -47,7 +45,7 @@
 
     <insert id="insertUser" parameterType="com.yh.pojo.User">
         <selectKey resultType="String" keyProperty="userId" order="BEFORE">
-          SELECT REPLACE(UUID(),'-','')
+            SELECT REPLACE(UUID(),'-','')
         </selectKey>
         INSERT INTO USER
         (user_id, username, password, sex, age, phone, email, address, create_time, update_time, last_login_time)
