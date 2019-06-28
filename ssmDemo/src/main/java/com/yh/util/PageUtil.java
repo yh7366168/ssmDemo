@@ -6,6 +6,7 @@ import com.yh.util.constant.SystemExceptionMessage;
 import com.yh.util.exception.YhSystemException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.context.ContextLoader;
@@ -86,6 +87,11 @@ public class PageUtil<T> {
             pageList = (List<T>) queryListMethod.invoke(objectDao, params);
             log.info("PageUtil--queryPageList查询结果：{}", JSON.toJSONString(pageList));
             pageBean.setPageList(pageList);
+            Integer curPageCount = 0;
+            if(!CollectionUtils.isEmpty(pageList)){
+                curPageCount = pageList.size();
+            }
+            pageBean.setCurPageCount(curPageCount);
         } catch (Exception e) {
             log.info("PageUtil--queryPageList执行失败！异常信息{}", e);
             throw new YhSystemException(SystemExceptionMessage.CommonMessage.SYSTEM_MESSAGE);

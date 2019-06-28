@@ -37,4 +37,8 @@ public class PageBean<T> {
      * */
     private List<T> pageList;
 
+    /**
+     * 当前页数据量
+     * */
+    private Integer curPageCount;
 }

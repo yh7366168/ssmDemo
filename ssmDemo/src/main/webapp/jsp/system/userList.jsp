@@ -25,9 +25,17 @@
             background-image: url(${pageContext.request.contextPath}/img/tree_01.png);
             background-size: cover;
         }
+
+        #user_info_div{
+            position: absolute;
+            width: 500px;
+            left: 28%;
+            top:30%;
+        }
+
     </style>
 </head>
-<body>
+<body id="user_body">
 <!-- 操作框 -->
 <div class="crudDiv">
     <div>
@@ -56,8 +64,8 @@
     </tr>
     <%--遍历表格--%>
     <c:forEach var="user" items="${requestScope.userList}" varStatus="vs">
-        <tr>
-            <td class="countIndex"><input type="checkbox"></td>
+        <tr class="info_tr">
+            <td class="countIndex"><input type="checkbox" class="table_checkbox"></td>
             <td>
                 <a href="#" style="text-decoration: none;color: blue;">${user.username}</a>
             </td>
@@ -92,20 +100,36 @@
 </div>
 </body>
 </html>
+
+<!-- 弹出窗口 -->
+<div id="user_info_div" style="border-style: double">
+    <div>
+        <p>是否删除？</p>
+        <button id="user_info_div_confirm">确认</button>
+        <button id="user_info_div_cancal">取消</button>
+    </div>
+</div>
+
 <script src="${pageContext.request.contextPath}/lib/jquery-3.4.1.min.js"></script>
 <script type="text/javascript">
 
-    /**
-     * 点击表头按钮，全选
-     * */
-    $(".check_box_head").on("click", function () {
-        var isCheck = $(".check_box_head").val();
-        if(isCheck){
-            $(".")
-        }
+    $(function () {
+        $("#user_info_div").hide();
     });
-
-
+    $(".info_tr a").on("click", function () {
+        var username = $(this).html();
+        console.log("username = " + username);
+        $("#user_body div").hide();
+        $("#user_info_div").show();
+    });
+    $("#user_info_div_confirm").on("click", function () {
+        $("#user_info_div").hide();
+        $("#user_body div").show();
+    });
+    $("#user_info_div_cancal").on("click", function () {
+        $("#user_info_div").hide();
+        $("#user_body div").show();
+    });
 
     /*查询按钮*/
     $("#select_button").on("click", function () {
@@ -138,6 +162,37 @@
             }
         });
     });
+    /**
+     * 表头复选框
+     * */
+    $("#check_box_head").on("click", function () {
+        var isCheck = $("#check_box_head").is(":checked");
+        if(isCheck){
+            $("#check_box_head").prop("checked",true);
+            $(".table_checkbox").prop("checked",true);
+        }else{
+            $("#check_box_head").prop("checked",false);
+            $(".table_checkbox").prop("checked",false);
+        }
+    });
+    /**
+     * 列表内复选框
+     * */
+    $(".table_checkbox").on("click", function () {
+        var i = 0;
+        $(".table_checkbox").each(function () {
+            if($(this).is(":checked")){
+                i++;
+            }
+        });
+        if(i>0){
+            $("#check_box_head").prop("checked", false);
+        }
+        if(i==${pageBean.curPageCount}){
+            $("#check_box_head").prop("checked",true);
+        }
+    });
+    /*分页*/
     $(function () {
         var curPage = $("#page_input_value").val();
         //第一页，“上一页”按钮变成灰色
