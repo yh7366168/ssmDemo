@@ -7,6 +7,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@include file="/jsp/common/page_util.jsp"%>
 <html>
 <head>
     <title>用户列表页面</title>
@@ -25,22 +26,14 @@
             background-image: url(${pageContext.request.contextPath}/img/tree_01.png);
             background-size: cover;
         }
-
-        #user_info_div{
-            position: absolute;
-            width: 500px;
-            left: 28%;
-            top:30%;
-        }
-
     </style>
 </head>
 <body id="user_body">
 <!-- 操作框 -->
 <div class="crudDiv">
     <div>
-        <button>用户审核</button>
-        <button>删除</button>
+        <button onclick="confrimUtil('是否确认审核通过？')">用户审核</button>
+        <button onclick="alertUtil('确认删除？')">删除</button>
     </div>
 </div>
 <!-- 查询框 -->
@@ -100,37 +93,8 @@
 </div>
 </body>
 </html>
-
-<!-- 弹出窗口 -->
-<div id="user_info_div" style="border-style: double">
-    <div>
-        <p>是否删除？</p>
-        <button id="user_info_div_confirm">确认</button>
-        <button id="user_info_div_cancal">取消</button>
-    </div>
-</div>
-
 <script src="${pageContext.request.contextPath}/lib/jquery-3.4.1.min.js"></script>
 <script type="text/javascript">
-
-    $(function () {
-        $("#user_info_div").hide();
-    });
-    $(".info_tr a").on("click", function () {
-        var username = $(this).html();
-        console.log("username = " + username);
-        $("#user_body div").hide();
-        $("#user_info_div").show();
-    });
-    $("#user_info_div_confirm").on("click", function () {
-        $("#user_info_div").hide();
-        $("#user_body div").show();
-    });
-    $("#user_info_div_cancal").on("click", function () {
-        $("#user_info_div").hide();
-        $("#user_body div").show();
-    });
-
     /*查询按钮*/
     $("#select_button").on("click", function () {
         $.ajax({

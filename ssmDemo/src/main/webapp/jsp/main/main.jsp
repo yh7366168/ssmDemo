@@ -152,7 +152,7 @@
 </div>
 
 <div id="right" class="rightDiv">
-    <jsp:include page="a.jsp" flush="true"></jsp:include>
+    <jsp:include page="sys_index.jsp" flush="true"></jsp:include>
 </div>
 
 </body>
@@ -171,7 +171,7 @@
             return true;
         });
 
-        //点击菜单跳转对应的页面
+        /*点击菜单跳转对应的页面*/
         $(".menu li").click(function () {
             var menuUrl = $(this).attr("value");
             console.log(menuUrl)
