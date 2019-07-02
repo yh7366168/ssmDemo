@@ -13,7 +13,7 @@
     <link rel="shortcut icon" href="#"/>
     <style type="text/css">
         /*遮幕层*/
-        #confirm_bg{
+        .bg_clz{
             display: none;
             position: absolute;
             top: 0%;
@@ -27,7 +27,7 @@
             filter: alpha(opacity=70);
         }
         /*显示层*/
-        #confirm_info{
+        .window_info_clz{
             display: none;
             position: absolute;
             top: 28%;
@@ -39,14 +39,15 @@
             background-color: white;
             z-index:1002;
             overflow: auto;
+            border-style: double;
         }
-        #confirm_info p{
+        .window_info_clz p{
             margin-top: 30px;
             width: 100%;
             text-align: center;
             font-size: 19px;
         }
-        #confirm_info button{
+        .confirm_info_button_div button{
             width: 60px;
             height: 28px;
         }
@@ -68,39 +69,102 @@
     <script src="${pageContext.request.contextPath}/lib/jquery-3.4.1.min.js"></script>
     <script type="text/javascript">
         var confrim_yes_url;
-        /*重写confrim方法*/
+        /*重写confrim方法，点击确认触发的方法可以在具体页面重写*/
         function confrimUtil(msg) {
-            document.getElementById("confirm_bg").style.display = "block";
+            document.getElementById("bg").style.display = "block";
             document.getElementById("confirm_info").style.display = "block";
             if(msg != null || msg!=undefined){
-                var p_msg = document.getElementById("confirm_info_msg");
+                var p_msg = document.getElementById("confirm_message");
                 p_msg.innerText = msg;
             }
         }
         function confrimYes() {
-            document.getElementById("confirm_bg").style.display = "none";
+            document.getElementById("bg").style.display = "none";
             document.getElementById("confirm_info").style.display = "none";
         }
         function confrimCancal() {
-            document.getElementById("confirm_bg").style.display = "none";
+            document.getElementById("bg").style.display = "none";
             document.getElementById("confirm_info").style.display = "none";
         }
 
+        /*重写alert方法*/
+        function alertUtil(msg) {
+            document.getElementById("bg").style.display = "block";
+            document.getElementById("alert_info").style.display = "block";
+            if(msg!=null || msg!=undefined){
+                var p_alert_message = document.getElementById("alert_message");
+                p_alert_message.innerText = msg;
+            }
+        }
+        function alertYes() {
+            document.getElementById("bg").style.display = "none";
+            document.getElementById("alert_info").style.display = "none";
+        }
+        function alertCancal() {
+            document.getElementById("bg").style.display = "none";
+            document.getElementById("alert_info").style.display = "none";
+        }
+
+        /*重写prompt方法*/
+        function promptUtil(msg) {
+            document.getElementById("bg").style.display = "block";
+            document.getElementById("prompt_info").style.display = "block";
+            if(msg!=null || msg!=undefined){
+                var prompt_div = document.getElementById("prompt_message_div");
+                prompt_div.innerText = msg;
+            }
+        }
+        function promptYes() {
+            document.getElementById("bg").style.display = "none";
+            document.getElementById("prompt_info").style.display = "none";
+        }
+        function promptCancal() {
+            document.getElementById("bg").style.display = "none";
+            document.getElementById("prompt_info").style.display = "none";
+        }
     </script>
 </head>
 <body>
 <!-- 遮幕1 -->
-<div id="confirm_bg"></div>
-<!-- 弹出窗口:confrim -->
-<div id="confirm_info" class="" style="border-style: double">
+<div id="bg" class="bg_clz"></div>
+<!-- 弹出窗口:confrim 确认框-->
+<div id="confirm_info" class="window_info_clz">
     <div style="width: 100%;height: 20px;margin: 0;padding: 0;background-color: #c7c7c7;">
         <span>操作提示：</span>
         <img class="closeImg" src="${pageContext.request.contextPath}/img/unchecked.png" onclick="confrimCancal()">
     </div>
-    <p id="confirm_info_msg">是否确认？</p>
+    <p id="confirm_message">是否确认？</p>
     <div class="confirm_info_button_div">
-        <button onclick="confrimYes('123')">确认</button>
+        <button onclick="confrimYes()">确认</button>
         <button onclick="confrimCancal()" style="margin-left: 35px">取消</button>
+    </div>
+</div>
+
+<!-- 弹出窗口:alert 提示框-->
+<div id="alert_info" class="window_info_clz">
+    <div style="width: 100%;height: 20px;margin: 0;padding: 0;background-color: #c7c7c7;">
+        <span>操作提示：</span>
+        <img class="closeImg" src="${pageContext.request.contextPath}/img/unchecked.png" onclick="alertCancal()">
+    </div>
+    <p id="alert_message">是否确认？</p>
+    <div class="confirm_info_button_div" style="margin-left: 38%">
+       <button onclick="alertYes()" style="margin-left: 0">确认</button>
+    </div>
+</div>
+
+<!-- 弹出窗口:prompt 输入框-->
+<div id="prompt_info" class="window_info_clz">
+    <div style="width: 100%;height: 20px;margin: 0;padding: 0;background-color: #c7c7c7;">
+        <span>操作提示：</span>
+        <img class="closeImg" src="${pageContext.request.contextPath}/img/unchecked.png" onclick="promptCancal()">
+    </div>
+    <div style="width: 100%;margin: 0;padding: 0;margin-top: 10%">
+        <div id="prompt_message_div">请输入：</div>
+        <input type="text" id="prompt_message" value="" style="width: 100%;height: 24px;">
+    </div>
+    <div class="confirm_info_button_div">
+        <button onclick="promptYes()">确认</button>
+        <button onclick="promptCancal()" style="margin-left: 35px">取消</button>
     </div>
 </div>
 

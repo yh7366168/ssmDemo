@@ -33,7 +33,7 @@
 <div class="crudDiv">
     <div>
         <button onclick="confrimUtil('是否确认审核通过？')">用户审核</button>
-        <button onclick="alertUtil('确认删除？')">删除</button>
+        <button onclick="promptUtil('请输入拒绝原因：')">删除</button>
     </div>
 </div>
 <!-- 查询框 -->
@@ -41,6 +41,7 @@
     <div>
         <span>用户名</span>
         <input type="text" id="username_select" value="${userDto.username}">
+        <span>状态</span>
         <button id="select_button">查询</button>
         <button id="reset_button">重置</button>
     </div>
@@ -53,7 +54,7 @@
         <td>用户名</td>
         <td>性别</td>
         <td>最后一次登录时间</td>
-        <td>是否生效</td>
+        <td>状态</td>
     </tr>
     <%--遍历表格--%>
     <c:forEach var="user" items="${requestScope.userList}" varStatus="vs">
@@ -95,6 +96,7 @@
 </html>
 <script src="${pageContext.request.contextPath}/lib/jquery-3.4.1.min.js"></script>
 <script type="text/javascript">
+
     /*查询按钮*/
     $("#select_button").on("click", function () {
         $.ajax({
