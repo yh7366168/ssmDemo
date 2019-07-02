@@ -115,4 +115,11 @@ public class UserController {
         return model;
     }
 
+
+    @RequestMapping("/testHttpGet")
+    @ResponseBody
+    public String testHttpGet(){
+        log.info("testHttpGet--测试");
+        return "123";
+    }
 }
