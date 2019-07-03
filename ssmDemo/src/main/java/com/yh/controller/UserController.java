@@ -57,7 +57,7 @@ public class UserController {
     /**
      * 用户登录
      * */
-    @RequestMapping(value = "/loginCheckUser",produces={"text/html;charset=UTF-8;","application/json;"},method = RequestMethod.GET)
+    @RequestMapping(value = "/loginCheckUser",produces={"text/html;charset=UTF-8;","application/json;"})
     @ResponseBody
     public String loginCheckUser(@RequestParam String username, @RequestParam String password){
         String result = "";
@@ -121,5 +121,11 @@ public class UserController {
     public String testHttpGet(){
         log.info("testHttpGet--测试");
         return "123";
+    }
+
+    @RequestMapping("testHttpPost")
+    @ResponseBody
+    public String testHttpPost(@RequestBody User user){
+        return user.toString();
     }
 }
