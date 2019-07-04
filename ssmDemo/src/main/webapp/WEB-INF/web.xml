@@ -46,8 +46,6 @@
       <param-value>classpath:spring-mvc.xml</param-value>
     </init-param>
     <load-on-startup>1</load-on-startup>
-    <!--
-    <async-supported>true</async-supported>-->
   </servlet>
 
   <servlet-mapping>
@@ -60,7 +58,6 @@
     <welcome-file>/jsp/login/login.jsp</welcome-file>
   </welcome-file-list>
 
-  <!-- session配置 -->
   <session-config>
   <session-timeout>15</session-timeout>
   </session-config>

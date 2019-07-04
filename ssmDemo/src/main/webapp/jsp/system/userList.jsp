@@ -7,6 +7,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@include file="/jsp/common/page_util.jsp"%>
 <html>
 <head>
     <title>用户列表页面</title>
@@ -25,22 +26,14 @@
             background-image: url(${pageContext.request.contextPath}/img/tree_01.png);
             background-size: cover;
         }
-
-        #user_info_div{
-            position: absolute;
-            width: 500px;
-            left: 28%;
-            top:30%;
-        }
-
     </style>
 </head>
 <body id="user_body">
 <!-- 操作框 -->
 <div class="crudDiv">
     <div>
-        <button>用户审核</button>
-        <button>删除</button>
+        <button onclick="confrimUtil('是否确认审核通过？')">用户审核</button>
+        <button onclick="promptUtil('请输入拒绝原因：')">删除</button>
     </div>
 </div>
 <!-- 查询框 -->
@@ -48,6 +41,7 @@
     <div>
         <span>用户名</span>
         <input type="text" id="username_select" value="${userDto.username}">
+        <span>状态</span>
         <button id="select_button">查询</button>
         <button id="reset_button">重置</button>
     </div>
@@ -60,14 +54,14 @@
         <td>用户名</td>
         <td>性别</td>
         <td>最后一次登录时间</td>
-        <td>是否生效</td>
+        <td>状态</td>
     </tr>
     <%--遍历表格--%>
     <c:forEach var="user" items="${requestScope.userList}" varStatus="vs">
         <tr class="info_tr">
             <td class="countIndex"><input type="checkbox" class="table_checkbox"></td>
             <td>
-                <a href="#" style="text-decoration: none;color: blue;">${user.username}</a>
+                <a href="#" style="text-decoration: none;color: blue;" onclick="queryUserDateil('${user.username}')">${user.username}</a>
             </td>
             <td>
                 <c:if test="${user.sex==0}">男</c:if>
@@ -100,36 +94,15 @@
 </div>
 </body>
 </html>
-
-<!-- 弹出窗口 -->
-<div id="user_info_div" style="border-style: double">
-    <div>
-        <p>是否删除？</p>
-        <button id="user_info_div_confirm">确认</button>
-        <button id="user_info_div_cancal">取消</button>
-    </div>
-</div>
-
 <script src="${pageContext.request.contextPath}/lib/jquery-3.4.1.min.js"></script>
 <script type="text/javascript">
 
-    $(function () {
-        $("#user_info_div").hide();
-    });
-    $(".info_tr a").on("click", function () {
-        var username = $(this).html();
-        console.log("username = " + username);
-        $("#user_body div").hide();
-        $("#user_info_div").show();
-    });
-    $("#user_info_div_confirm").on("click", function () {
-        $("#user_info_div").hide();
-        $("#user_body div").show();
-    });
-    $("#user_info_div_cancal").on("click", function () {
-        $("#user_info_div").hide();
-        $("#user_body div").show();
-    });
+    /**
+     * 点击用户名显示弹出详细信息
+     * */
+    function queryUserDateil(username){
+        console.log("username=" + username)
+    }
 
     /*查询按钮*/
     $("#select_button").on("click", function () {
