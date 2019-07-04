@@ -17,7 +17,6 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
 
 import java.io.Closeable;
-import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
@@ -215,7 +214,6 @@ public class HttpClientUtil {
             throw new YhSystemException("释放资源失败！");
         }
     }
-
 
     public static void main(String[] args) {
         String url = "http://localhost:8080/ssmDemo/user/testHttpPost";

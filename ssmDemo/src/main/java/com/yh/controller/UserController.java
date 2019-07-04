@@ -1,7 +1,6 @@
 package com.yh.controller;
 
 import com.alibaba.fastjson.JSON;
-import com.sun.javafx.collections.MappingChange;
 import com.yh.pojo.PageBean;
 import com.yh.pojo.User;
 import com.yh.service.UserService;
@@ -115,17 +114,4 @@ public class UserController {
         return model;
     }
 
-
-    @RequestMapping("/testHttpGet")
-    @ResponseBody
-    public String testHttpGet(){
-        log.info("testHttpGet--测试");
-        return "123";
-    }
-
-    @RequestMapping("testHttpPost")
-    @ResponseBody
-    public String testHttpPost(@RequestBody User user){
-        return user.toString();
-    }
 }

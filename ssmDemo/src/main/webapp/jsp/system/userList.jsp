@@ -61,7 +61,7 @@
         <tr class="info_tr">
             <td class="countIndex"><input type="checkbox" class="table_checkbox"></td>
             <td>
-                <a href="#" style="text-decoration: none;color: blue;">${user.username}</a>
+                <a href="#" style="text-decoration: none;color: blue;" onclick="queryUserDateil('${user.username}')">${user.username}</a>
             </td>
             <td>
                 <c:if test="${user.sex==0}">男</c:if>
@@ -96,6 +96,13 @@
 </html>
 <script src="${pageContext.request.contextPath}/lib/jquery-3.4.1.min.js"></script>
 <script type="text/javascript">
+
+    /**
+     * 点击用户名显示弹出详细信息
+     * */
+    function queryUserDateil(username){
+        console.log("username=" + username)
+    }
 
     /*查询按钮*/
     $("#select_button").on("click", function () {
