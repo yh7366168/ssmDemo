@@ -8,13 +8,14 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@include file="/jsp/common/page_util.jsp"%>
+<%@include file="userDetail.jsp"%>
 <html>
 <head>
     <title>用户列表页面</title>
     <link rel="shortcut icon" href="#"/>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/yh_common.css">
     <style type="text/css">
-        td {
+        .common_table td {
             width: 200px;
         }
         .countIndex {
@@ -53,6 +54,7 @@
         <td class="countIndex"><input type="checkbox" id="check_box_head"></td>
         <td>用户名</td>
         <td>性别</td>
+        <td>密码</td>
         <td>最后一次登录时间</td>
         <td>状态</td>
     </tr>
@@ -61,12 +63,13 @@
         <tr class="info_tr">
             <td class="countIndex"><input type="checkbox" class="table_checkbox"></td>
             <td>
-                <a href="#" style="text-decoration: none;color: blue;" onclick="queryUserDateil('${user.username}')">${user.username}</a>
+                <a href="#" style="text-decoration: none;color: blue;" onclick="queryUserDetail('${user.username}')">${user.username}</a>
             </td>
             <td>
                 <c:if test="${user.sex==0}">男</c:if>
                 <c:if test="${user.sex==1}">女</c:if>
             </td>
+            <td>${user.password}</td>
             <td>${user.lastLoginTime}</td>
             <td>
                 <c:if test="${user.userStatus==true}">未生效</c:if>
@@ -94,16 +97,9 @@
 </div>
 </body>
 </html>
+
 <script src="${pageContext.request.contextPath}/lib/jquery-3.4.1.min.js"></script>
 <script type="text/javascript">
-
-    /**
-     * 点击用户名显示弹出详细信息
-     * */
-    function queryUserDateil(username){
-        console.log("username=" + username)
-    }
-
     /*查询按钮*/
     $("#select_button").on("click", function () {
         $.ajax({

@@ -66,7 +66,6 @@
         }
     </style>
     
-    <script src="${pageContext.request.contextPath}/lib/jquery-3.4.1.min.js"></script>
     <script type="text/javascript">
         var confrim_yes_url;
         /*重写confrim方法，点击确认触发的方法可以在具体页面重写*/
