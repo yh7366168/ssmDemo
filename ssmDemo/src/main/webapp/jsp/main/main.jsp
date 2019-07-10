@@ -14,6 +14,7 @@
 
         body {
             position: relative;
+            background-image: none;
         }
 
         .top {
@@ -90,9 +91,9 @@
         .main > a {
             /*消除链接下面的下划线*/
             text-decoration: none;
-            background-color: #bbb9b9;
+            background-color: #291d1d85;
             font-size: 18px;
-            color: black;
+            color: white;
             display: block;
             width: 100%;
             /*上下间隔*/
@@ -125,7 +126,12 @@
 <body>
 <!-- 顶部导航 -->
 <div>
-    <div class="top"></div>
+    <div class="top">
+        <div style="padding-top: 10px;text-align: right">
+            <span style="margin-right: 20px;">当前用户：</span>
+            <button style="width: 60px;height: 30px;margin-right: 20px">退出</button>
+        </div>
+    </div>
     <div class="top-line"></div>
 </div>
 

@@ -23,7 +23,6 @@
         }
         /*表头颜色*/
         .head_tr {
-            /*background-color: #b2dd5c;*/
             background-image: url(${pageContext.request.contextPath}/img/tree_01.png);
             background-size: cover;
         }
@@ -161,24 +160,17 @@
             $("#check_box_head").prop("checked",true);
         }
     });
+
     /*分页*/
     $(function () {
         var curPage = $("#page_input_value").val();
-        //第一页，“上一页”按钮变成灰色
+        //第一页，“上一页”按钮变成灰色, 当前页不是第一页，点击“上一页”
         if(curPage == 1){
             $("#previous_page").attr("href","javascript:;")
                 .css("pointer-events","none")
                 .css("color","#2b2b2bf0");
-        }
-        //最后一页，“下一页”按钮变成灰色
-        if(curPage == ${pageBean.totalPage}){
-            $("#next_page").attr("href","javascript:;")
-                .css("pointer-events","none")
-                .css("color","#2b2b2bf0");
-        }
-        //当前页不是最后一页，点击“下一页”
-        if(curPage != ${pageBean.totalPage}){
-            var nextPage = parseInt(curPage)  + 1;
+        }else{
+            var previousPage = parseInt(curPage) - 1;
             $("#next_page").on("click",function () {
                 $.ajax({
                     type:"GET",
@@ -193,9 +185,13 @@
                 });
             });
         }
-        //当前页不是第一页，点击“上一页”
-        if(curPage != 1){
-            var previousPage = parseInt(curPage) - 1;
+        //最后一页，“下一页”按钮变成灰色;当前页不是最后一页，点击“下一页”
+        if(curPage == ${pageBean.totalPage}){
+            $("#next_page").attr("href","javascript:;")
+                .css("pointer-events","none")
+                .css("color","#2b2b2bf0");
+        }else{
+            var nextPage = parseInt(curPage)  + 1;
             $("#next_page").on("click",function () {
                 $.ajax({
                     type:"GET",
@@ -215,7 +211,7 @@
             var toPage = $("#page_input_value").val();
             console.log("toPage = " + toPage)
             if(toPage<1 || toPage>${pageBean.totalPage}){
-                alert("请输入正确页码！");
+                alertUtil("请输入正确页码！");
                 return;
             }
             $.ajax({

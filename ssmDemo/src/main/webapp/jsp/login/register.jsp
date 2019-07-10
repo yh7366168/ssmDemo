@@ -144,7 +144,7 @@
                 data:data,
                 success:function (result) {
                     if(result == "success"){
-                        alert("注册成功！返回等于页面！");
+                        alert("注册成功！返回登录页面！");
                         window.location.href = "${pageContext.request.contextPath}/jsp/login/login.jsp";
                     }else{
                         alert("注册失败！");

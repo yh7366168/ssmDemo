@@ -23,4 +23,6 @@ public interface UserService {
      * 新增用户
      * */
     int insertUser(User user);
+
+    int updateUserById(User user);
 }

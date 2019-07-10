@@ -59,10 +59,9 @@ public class UserController {
     @RequestMapping(value = "/loginCheckUser",produces={"text/html;charset=UTF-8;","application/json;"})
     @ResponseBody
     public String loginCheckUser(@RequestParam String username, @RequestParam String password){
-        String result = "";
-        log.info("loginCheckUser--入参,username:{}, password:{}", username, password);
+        String result = null;
         User user = userService.queryByName(username);
-        log.info("loginCheckUser--返回结果{}", JSON.toJSONString(user));
+        log.info("loginCheckUser--入参,username:{}, password:{},返回结果{}", username, password, JSON.toJSONString(user));
         if(user==null){
             result = "用户名不存在！";
         }else if(!password.equals(user.getPassword())){

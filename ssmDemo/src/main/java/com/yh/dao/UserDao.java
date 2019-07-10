@@ -28,4 +28,11 @@ public interface UserDao {
      * @return list
      */
     List<User> queryPageList(Map<String, Object> params);
+
+    /**
+     *更新用户信息
+     * @param user
+     * @return int
+     * */
+    int updateUserById(User user);
 }

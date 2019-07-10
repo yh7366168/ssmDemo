@@ -66,4 +66,11 @@
         limit #{beginNum}, #{pageSize}
     </select>
 
+    <update id="updateUserById" parameterType="com.yh.pojo.User">
+        UPDATE user
+        <set>
+            <
+        </set>
+    </update>
+
 </mapper>

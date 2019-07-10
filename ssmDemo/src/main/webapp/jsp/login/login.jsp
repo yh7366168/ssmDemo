@@ -109,7 +109,7 @@
                     result = decodeURI(result)
                     if(result=="success"){
                         //登录成功跳转系统主页
-                        window.location.href="../main/main.jsp";
+                        window.location.href="${pageContext.request.contextPath}/main/loginCheckMain/"+"?username="+name;
                     }else{
                         //后台校验失败，显示结果！
                         alert(result);
