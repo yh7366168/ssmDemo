@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.yh.pojo.PageBean;
 import com.yh.pojo.User;
 import com.yh.service.UserService;
+import com.yh.util.DateUtil;
 import com.yh.util.PageUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,19 +55,24 @@ public class UserController {
     }
 
     /**
-     * 用户登录
+     * 用户登录loginCheckUser
      * */
     @RequestMapping(value = "/loginCheckUser",produces={"text/html;charset=UTF-8;","application/json;"})
     @ResponseBody
     public String loginCheckUser(@RequestParam String username, @RequestParam String password){
         String result = null;
+        log.info("loginCheckUser-用户登录，用户名：{}，密码：{}", username, password);
         User user = userService.queryByName(username);
-        log.info("loginCheckUser--入参,username:{}, password:{},返回结果{}", username, password, JSON.toJSONString(user));
         if(user==null){
             result = "用户名不存在！";
         }else if(!password.equals(user.getPassword())){
             result = "用户密码不正确！";
         }else{
+            user.setLastLoginTime(DateUtil.getNow());
+            int upNum = userService.updateByPrimaryKeySelective(user);
+            if(upNum == 1){
+                log.info("loginCheckUser-登录成功！入参,username:{}, 返回结果{}", username,  JSON.toJSONString(user));
+            }
             result = "success";
         }
         return result;

@@ -19,7 +19,7 @@
 
         .top {
             width: 100%;
-            height: 8.6%;
+            height: 7.2%;
             background-color: #c6c7c5;
         }
         .top-line{
@@ -37,7 +37,7 @@
             bottom: 0;
             left: 0;
             width: 240px;
-            height: 91%;
+            height: 92.5%;
             background-color: #f1f1f5;
         }
 
@@ -127,9 +127,9 @@
 <!-- 顶部导航 -->
 <div>
     <div class="top">
-        <div style="padding-top: 10px;text-align: right">
-            <span style="margin-right: 20px;">当前用户：</span>
-            <button style="width: 60px;height: 30px;margin-right: 20px">退出</button>
+        <div style="padding-top: 20px;text-align: right">
+            <span style="margin-right: 20px;">当前用户：${username}</span>
+            <button style="width: 60px;height: 30px;margin-right: 50px" onclick="returnSystem()">退出</button>
         </div>
     </div>
     <div class="top-line"></div>
@@ -180,7 +180,6 @@
         /*点击菜单跳转对应的页面*/
         $(".menu li").click(function () {
             var menuUrl = $(this).attr("value");
-            console.log(menuUrl)
             if(menuUrl==null || menuUrl=="" || menuUrl==undefined){
                 alert("error！");
                 return;
@@ -195,6 +194,10 @@
                 }
             });
         });
+        
+        function returnSystem() {
+            window.location.href = "${pageContext.request.contextPath}/jsp/login/login.jsp";
+        }
     });
 
     var startPageX = 0;

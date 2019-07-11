@@ -24,5 +24,5 @@ public interface UserService {
      * */
     int insertUser(User user);
 
-    int updateUserById(User user);
+    int updateByPrimaryKeySelective(User user);
 }

@@ -39,7 +39,7 @@ public class PageUtil<T> {
      * @return pageBean
      */
     public PageBean<T> queryPageList(Class<T> clzss, Integer curPage, Map<String, Object> params) {
-        log.info("PageUtil--分页查询开始，入参curPage:{}，params:{}", String.valueOf(curPage), JSON.toJSONString(params));
+        log.info("PageUtil--queryPageList，入参curPage:{}, params:{}", curPage, JSON.toJSONString(params));
         Integer totalCount;
         Integer beginNum;
         List<T> pageList;
@@ -65,10 +65,9 @@ public class PageUtil<T> {
         Class objectDaoClz = objectDao.getClass();
         try {
             Method methodOne = objectDaoClz.getMethod("queryPageCount", Map.class);
-            log.info("PageUtil--queryCount查询，入参{}", JSON.toJSONString(params));
             totalCount = (Integer) methodOne.invoke(objectDao, params);
             pageBean.setTotalCount(totalCount);
-            log.info("PageUtil--queryCount查询到{}条结果", JSON.toJSONString(totalCount));
+            log.info("PageUtil--queryCount，入参:{}，查询到{}条结果",JSON.toJSONString(params), JSON.toJSONString(totalCount));
             if (totalCount % pageSize <= 0) {
                 totalPage = totalCount / pageSize;
             } else {
@@ -76,16 +75,15 @@ public class PageUtil<T> {
             }
             pageBean.setTotalPage(totalPage);
         } catch (Exception e) {
-            log.info("PageUtil--queryCount执行失败！");
+            log.info("PageUtil--queryCount执行失败！异常信息：{}" , e);
             throw new YhSystemException(SystemExceptionMessage.CommonMessage.SYSTEM_MESSAGE);
         }
         try {
             Method queryListMethod = objectDaoClz.getMethod("queryPageList", Map.class);
             params.put("beginNum", beginNum);
             params.put("pageSize", pageSize);
-            log.info("PageUtil--queryPageList查询，入参{}", JSON.toJSONString(params));
             pageList = (List<T>) queryListMethod.invoke(objectDao, params);
-            log.info("PageUtil--queryPageList查询结果：{}", JSON.toJSONString(pageList));
+            log.info("PageUtil--queryPageList,入参：{}, 查询结果：{}", JSON.toJSONString(params), JSON.toJSONString(pageList));
             pageBean.setPageList(pageList);
             Integer curPageCount = 0;
             if(!CollectionUtils.isEmpty(pageList)){
@@ -93,10 +91,10 @@ public class PageUtil<T> {
             }
             pageBean.setCurPageCount(curPageCount);
         } catch (Exception e) {
-            log.info("PageUtil--queryPageList执行失败！异常信息{}", e);
+            log.info("PageUtil--queryPageList执行失败！异常信息：{}", e);
             throw new YhSystemException(SystemExceptionMessage.CommonMessage.SYSTEM_MESSAGE);
         }
-        log.info("PageUtil--分页查询结束，结果：{}", JSON.toJSONString(pageBean));
+        log.info("PageUtil--queryPageList-分页查询结果：{}", JSON.toJSONString(pageBean));
         return pageBean;
     }
 

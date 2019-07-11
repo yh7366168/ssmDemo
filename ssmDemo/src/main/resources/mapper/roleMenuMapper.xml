@@ -5,13 +5,91 @@
     <resultMap id="BaseResultMap" type="com.yh.pojo.RoleMenu">
         <id column="role_id" property="roleId" jdbcType="INTEGER"/>
         <id column="menu_id" property="menuId" jdbcType="INTEGER"/>
-        <result column="create_user" property="createUser" jdbcType="VARCHAR"/>
-        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
-        <result column="update_user" property="updateUser" jdbcType="VARCHAR"/>
-        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="is_select" property="isSelect" jdbcType="BIT"/>
+        <result column="is_add" property="isAdd" jdbcType="BIT"/>
+        <result column="is_update" property="isUpdate" jdbcType="BIT"/>
+        <result column="is_delete" property="isDelete" jdbcType="BIT"/>
     </resultMap>
 
-    <sql id="Base_Common_List">
-      role_id, menu_id, create_user, create_time, update_user, update_time
+    <sql id="Base_Column_List">
+        role_id, menu_id, is_select, is_add, is_update, is_delete
     </sql>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="com.yh.pojo.RoleMenu">
+        select
+        <include refid="Base_Column_List"/>
+        from yh_role_menu
+        where role_id = #{roleId,jdbcType=INTEGER}
+        and menu_id = #{menuId,jdbcType=INTEGER}
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="com.yh.pojo.RoleMenu">
+      delete from yh_role_menu
+      where role_id = #{roleId,jdbcType=INTEGER}
+      and menu_id = #{menuId,jdbcType=INTEGER}
+   </delete>
+
+    <insert id="insertSelective" parameterType="com.yh.pojo.RoleMenu">
+        insert into yh_role_menu
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="roleId != null">
+                role_id,
+            </if>
+            <if test="menuId != null">
+                menu_id,
+            </if>
+            <if test="isSelect != null">
+                is_select,
+            </if>
+            <if test="isAdd != null">
+                is_add,
+            </if>
+            <if test="isUpdate != null">
+                is_update,
+            </if>
+            <if test="isDelete != null">
+                is_delete,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="roleId != null">
+                #{roleId,jdbcType=INTEGER},
+            </if>
+            <if test="menuId != null">
+                #{menuId,jdbcType=INTEGER},
+            </if>
+            <if test="isSelect != null">
+                #{isSelect,jdbcType=BIT},
+            </if>
+            <if test="isAdd != null">
+                #{isAdd,jdbcType=BIT},
+            </if>
+            <if test="isUpdate != null">
+                #{isUpdate,jdbcType=BIT},
+            </if>
+            <if test="isDelete != null">
+                #{isDelete,jdbcType=BIT},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.yh.pojo.RoleMenu">
+        update yh_role_menu
+        <set>
+            <if test="isSelect != null">
+                is_select = #{isSelect,jdbcType=BIT},
+            </if>
+            <if test="isAdd != null">
+                is_add = #{isAdd,jdbcType=BIT},
+            </if>
+            <if test="isUpdate != null">
+                is_update = #{isUpdate,jdbcType=BIT},
+            </if>
+            <if test="isDelete != null">
+                is_delete = #{isDelete,jdbcType=BIT},
+            </if>
+        </set>
+        where role_id = #{roleId,jdbcType=INTEGER}
+        and menu_id = #{menuId,jdbcType=INTEGER}
+    </update>
 </mapper>

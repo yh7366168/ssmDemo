@@ -1,6 +1,7 @@
 package com.yh.util;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Date;
 
 /**
@@ -11,6 +12,9 @@ public class DateUtil {
 
     private static final String FORMAT_ONE = "yyyy-MM-dd HH:mm:ss";
 
+    /**
+     * 默认返回 yyyy-MM-dd HH:mm:ss
+     * */
     public static String getNow(){
         return new SimpleDateFormat(FORMAT_ONE).format(new Date());
     }

@@ -73,6 +73,7 @@ public class MainController {
                 resultMapList.put(parentMenu.getMenuName(), list);
             }
             model.addObject("resultMapList", resultMapList);
+            model.addObject("username", username);
             model.setViewName("main/main");
 
         }catch (Exception e){

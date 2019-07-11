@@ -8,16 +8,15 @@ import lombok.Data;
  * */
 @Data
 public class RoleMenu {
-
     private Integer roleId;
 
     private Integer menuId;
 
-    private String createUser;
+    private boolean isSelect;
 
-    private String createTime;
+    private boolean isAdd;
 
-    private String updateUser;
+    private boolean isUpdate;
 
-    private String updateTime;
+    private boolean isDelete;
 }

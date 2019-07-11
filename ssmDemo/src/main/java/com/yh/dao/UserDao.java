@@ -34,5 +34,5 @@ public interface UserDao {
      * @param user
      * @return int
      * */
-    int updateUserById(User user);
+    int updateByPrimaryKeySelective(User user);
 }

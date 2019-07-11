@@ -105,15 +105,16 @@
                 data:{"username":name, "password":password},
                 contentType: 'text/json,charset=utf-8',
                 dataType:"text",
-                success:function (result) {
-                    result = decodeURI(result)
-                    if(result=="success"){
-                        //登录成功跳转系统主页
+                success:function (data) {
+                    data = decodeURI(data)
+                    if(data=="success"){
                         window.location.href="${pageContext.request.contextPath}/main/loginCheckMain/"+"?username="+name;
                     }else{
-                        //后台校验失败，显示结果！
-                        alert(result);
+                        alert(data);
                     }
+                },
+                error:function (data) {
+                    alert("error!");
                 }
             });
             return false;

@@ -66,11 +66,50 @@
         limit #{beginNum}, #{pageSize}
     </select>
 
-    <update id="updateUserById" parameterType="com.yh.pojo.User">
-        UPDATE user
-        <set>
-            <
+    <update id="updateByPrimaryKeySelective" parameterType="com.yh.pojo.User" >
+        update user
+        <set >
+            <if test="username != null" >
+                username = #{username,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null" >
+                password = #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="sex != null" >
+                sex = #{sex,jdbcType=BIT},
+            </if>
+            <if test="age != null" >
+                age = #{age,jdbcType=INTEGER},
+            </if>
+            <if test="phone != null" >
+                phone = #{phone,jdbcType=CHAR},
+            </if>
+            <if test="email != null" >
+                email = #{email,jdbcType=VARCHAR},
+            </if>
+            <if test="address != null" >
+                address = #{address,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null" >
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null" >
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="lastLoginTime != null" >
+                last_login_time = #{lastLoginTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="loginNum != null" >
+                login_num = #{loginNum,jdbcType=INTEGER},
+            </if>
+            <if test="isLock != null" >
+                is_lock = #{isLock,jdbcType=BIT},
+            </if>
+            <if test="userStatus != null" >
+                user_status = #{userStatus,jdbcType=BIT},
+            </if>
         </set>
+        where user_id = #{userId,jdbcType=CHAR}
     </update>
 
 </mapper>
