@@ -12,11 +12,5 @@ public class RoleMenu {
 
     private Integer menuId;
 
-    private boolean isSelect;
-
-    private boolean isAdd;
-
-    private boolean isUpdate;
-
-    private boolean isDelete;
+    private Integer buttonId;
 }

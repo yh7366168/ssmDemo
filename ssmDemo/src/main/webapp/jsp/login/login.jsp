@@ -76,8 +76,8 @@
             <input id="login_button" type="submit" value="登录">
         </div>
         <div class="form_div">
-            <a href="${pageContext.request.contextPath}/main/loginMain">忘记密码?</a>
-            <%--<a href="${pageContext.request.contextPath}/jsp/test/zhemu.jsp">遮幕测试?</a>--%>
+            <%--<a href="${pageContext.request.contextPath}/main/loginMain">忘记密码?</a>--%>
+            <a href="${pageContext.request.contextPath}/roleMenu/queryRoleMenuDetail">遮幕测试?</a>
             <a href="${pageContext.request.contextPath}/jsp/login/register.jsp" style="margin-left: 120px">用户注册</a>
         </div>
     </form>

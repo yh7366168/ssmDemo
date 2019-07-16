@@ -10,9 +10,7 @@ import org.springframework.stereotype.Repository;
 public interface RoleMenuDao {
     int deleteByPrimaryKey(RoleMenu roleMenu);
 
+    int insert(RoleMenu roleMenu);
+
     int insertSelective(RoleMenu roleMenu);
-
-    RoleMenu selectByPrimaryKey(RoleMenu roleMenu);
-
-    int updateByPrimaryKeySelective(RoleMenu roleMenu);
 }
