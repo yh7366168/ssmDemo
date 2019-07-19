@@ -23,27 +23,37 @@
 
         .role_detail_checkbox_tr td {
             text-indent: 40px;
-            width: 200px;
+            width: 250px;
+        }
+
+        tr {
+            height: 30px;
         }
 
     </style>
 </head>
 <body>
-<div style="margin-left: 20px;margin-top: 20px;">
-    <div>
+<div style="margin-left: 45px;margin-top: 30px;">
+    <div style="margin-bottom: 20px">
         <button style="width: 60px;height: 30px;">生效</button>
-        <button style="width: 60px;height: 30px; margin-left: 20px;">维护</button>
+        <button id="roleDetail_update_button" style="width: 60px;height: 30px; margin-left: 20px;"
+                onclick="updateRoleFun()">维护
+        </button>
+        <button id="roleDetail_save_button" style="width: 60px;height: 30px; margin-left: 20px; display: none"
+                onclick="saveRoleFun()">保存
+        </button>
     </div>
 
     <div style="margin-top: 10px;margin-bottom: 10px;">
-        <span>角色名</span> <input type="text" value="" style="margin-right: 60px;">
+        <span>角色名</span> <input type="text" style="margin-right: 60px;">
         <span>状态</span> <input type="text" value="">
     </div>
 
-    <div style="text-align: center; width: 100%; height: 30px;margin-bottom: 10px;">角色菜单配置</div>
+    <div style="text-align: center; width: 100%; height: 20px;">角色菜单配置</div>
 
     <div>
         <table>
+            <!-- 模块一 系统管理-->
             <tr class="one_menu_tr">
                 <td>系统管理</td>
             </tr>
@@ -60,21 +70,21 @@
                 <td>菜单管理</td>
             </tr>
             <tr class="role_detail_checkbox_tr">
-                <td><input type="checkbox">查询</td>
-                <td><input type="checkbox">新增</td>
-                <td><input type="checkbox">修改</td>
-                <td><input type="checkbox">删除</td>
+                <td><input type="checkbox" id="menuIsSelect">查询</td>
+                <td><input type="checkbox" id="menuIsAdd">新增</td>
+                <td><input type="checkbox" id="menuIsUpdate">修改</td>
+                <td><input type="checkbox" id="menuIsDelete">删除</td>
             </tr>
             <tr class="two_menu_tr">
                 <td>角色管理</td>
             </tr>
             <tr class="role_detail_checkbox_tr">
-                <td><input type="checkbox">查询</td>
-                <td><input type="checkbox">新增</td>
-                <td><input type="checkbox">修改</td>
-                <td><input type="checkbox">删除</td>
+                <td><input type="checkbox" id="roleIsSelect">查询</td>
+                <td><input type="checkbox" id="roleIsAdd">新增</td>
+                <td><input type="checkbox" id="roleIsUpdate">修改</td>
+                <td><input type="checkbox" id="roleIsDelete">删除</td>
             </tr>
-
+            <!-- 模块二 功能管理-->
             <tr class="one_menu_tr">
                 <td>功能管理</td>
             </tr>
@@ -82,19 +92,19 @@
                 <td>黑名单管理</td>
             </tr>
             <tr class="role_detail_checkbox_tr">
-                <td><input type="checkbox" value="">查询</td>
-                <td><input type="checkbox" value="">新增</td>
-                <td><input type="checkbox" value="">修改</td>
-                <td><input type="checkbox" value="">删除</td>
+                <td><input type="checkbox" id="whiteListIsSelect">查询</td>
+                <td><input type="checkbox" id="whiteListIsAdd">新增</td>
+                <td><input type="checkbox" id="whiteListIsUpdate">修改</td>
+                <td><input type="checkbox" id="whiteListIsDelete">删除</td>
             </tr>
             <tr class="two_menu_tr">
                 <td>白名单管理</td>
             </tr>
             <tr class="role_detail_checkbox_tr">
-                <td><input type="checkbox" value="">查询</td>
-                <td><input type="checkbox" value="">新增</td>
-                <td><input type="checkbox" value="">修改</td>
-                <td><input type="checkbox" value="">删除</td>
+                <td><input type="checkbox" id="blackListIsSelect">查询</td>
+                <td><input type="checkbox" id="blackListIsAdd">新增</td>
+                <td><input type="checkbox" id="blackListIsUpdate">修改</td>
+                <td><input type="checkbox" id="blackListIsDelete">删除</td>
             </tr>
         </table>
 
@@ -110,6 +120,24 @@
         isPropChecked(${roleDetailVO.userIsAdd}, $("#userIsAdd"));
         isPropChecked(${roleDetailVO.userIsUpdate}, $("#userIsUpdate"));
         isPropChecked(${roleDetailVO.userIsDelete}, $("#userIsDelete"));
+        isPropChecked(${roleDetailVO.menuIsSelect}, $("#menuIsSelect"));
+        isPropChecked(${roleDetailVO.menuIsAdd}, $("#menuIsAdd"));
+        isPropChecked(${roleDetailVO.menuIsUpdate}, $("#menuIsUpdate"));
+        isPropChecked(${roleDetailVO.menuIsDelete}, $("#menuIsDelete"));
+        isPropChecked(${roleDetailVO.roleIsSelect}, $("#roleIsSelect"));
+        isPropChecked(${roleDetailVO.roleIsAdd}, $("#roleIsAdd"));
+        isPropChecked(${roleDetailVO.roleIsUpdate}, $("#roleIsUpdate"));
+        isPropChecked(${roleDetailVO.roleIsDelete}, $("#roleIsDelete"));
+        isPropChecked(${roleDetailVO.whiteListIsSelect}, $("#whiteListIsSelect"));
+        isPropChecked(${roleDetailVO.whiteListIsAdd}, $("#whiteListIsAdd"));
+        isPropChecked(${roleDetailVO.whiteListIsUpdate}, $("#whiteListIsUpdate"));
+        isPropChecked(${roleDetailVO.whiteListIsDelete}, $("#whiteListIsDelete"));
+        isPropChecked(${roleDetailVO.blackListIsSelect}, $("#blackListIsSelect"));
+        isPropChecked(${roleDetailVO.blackListIsAdd}, $("#blackListIsAdd"));
+        isPropChecked(${roleDetailVO.blackListIsUpdate}, $("#blackListIsUpdate"));
+        isPropChecked(${roleDetailVO.blackListIsDelete}, $("#blackListIsDelete"));
+        //复选框默认不可用
+        $("input[type=checkbox]").attr("disabled", true);
     });
 
     function isPropChecked(var1, var2) {
@@ -121,5 +149,51 @@
             }
         }
     }
+
+    /*点击维护之后，保存按钮出现，复选框可选*/
+    function updateRoleFun() {
+        $("#roleDetail_update_button").css("display", "none");
+        $("#roleDetail_save_button").css("display", "inline");
+        $("input[type=checkbox]").attr("disabled", false);
+    }
+
+    /*点击保存，维护数据库，刷新页面*/
+    function saveRoleFun() {
+        $.ajax({
+            type: "POST",
+            url: "${pageContext.request.contextPath}/roleMenu/saveRoleMenu",
+            async: false,
+            data: {
+                "userIsSelect": $("#userIsSelect").is(":checked"),
+                "userIsAdd": $("#userIsAdd").is(":checked"),
+                "userIsUpdate": $("#userIsUpdate").is(":checked"),
+                "userIsDelete": $("#userIsDelete").is(":checked"),
+                "menuIsSelect": $("#menuIsSelect").is(":checked"),
+                "menuIsAdd": $("#menuIsAdd").is(":checked"),
+                "menuIsUpdate": $("#menuIsUpdate").is(":checked"),
+                "menuIsDelete": $("#menuIsDelete").is(":checked"),
+                "roleIsSelect": $("#roleIsSelect").is(":checked"),
+                "roleIsAdd": $("#roleIsAdd").is(":checked"),
+                "roleIsUpdate": $("#roleIsUpdate").is(":checked"),
+                "roleIsDelete": $("#roleIsDelete").is(":checked"),
+                "whiteListIsSelect": $("#whiteListIsSelect").is(":checked"),
+                "whiteListIsAdd": $("#whiteListIsAdd").is(":checked"),
+                "whiteListIsUpdate": $("#whiteListIsUpdate").is(":checked"),
+                "whiteListIsDelete": $("#whiteListIsDelete").is(":checked"),
+                "blackListIsSelect": $("#blackListIsSelect").is(":checked"),
+                "blackListIsAdd": $("#blackListIsAdd").is(":checked"),
+                "blackListIsUpdate": $("#blackListIsUpdate").is(":checked"),
+                "blackListIsDelete": $("#blackListIsDelete").is(":checked")
+            },
+            success: function (data) {
+                $("#right").html(data);
+            },
+            error: function (data) {
+                alertUtil("error!")
+            }
+        });
+
+    }
+
 
 </script>

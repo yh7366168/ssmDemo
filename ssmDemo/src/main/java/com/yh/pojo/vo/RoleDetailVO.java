@@ -7,7 +7,28 @@ import lombok.Data;
 @Data
 public class RoleDetailVO {
 
-    public static String[] menuNameArr = {};
+    public RoleDetailVO(){
+        userIsSelect = false;
+        userIsAdd = false;
+        userIsUpdate = false;
+        userIsDelete = false;
+        menuIsSelect = false;
+        menuIsAdd = false;
+        menuIsUpdate = false;
+        menuIsDelete = false;
+        roleIsSelect = false;
+        roleIsAdd = false;
+        roleIsUpdate = false;
+        roleIsDelete = false;
+        whiteListIsSelect = false;
+        whiteListIsAdd = false;
+        whiteListIsUpdate = false;
+        whiteListIsDelete = false;
+        blackListIsSelect = false;
+        blackListIsAdd = false;
+        blackListIsUpdate = false;
+        blackListIsDelete = false;
+    }
 
     //----------------------系统管理----------------------
     //用户管理

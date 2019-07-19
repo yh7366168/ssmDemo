@@ -59,8 +59,12 @@
             </td>
             <td>
                 <div style="display: inline-block;height: 28px;line-height: 28px;">
-                    <span><a href="#" onclick="queryRoleFun('${role.roleId}')">查询</a></span><span style="margin-left: 10px;margin-right: 5px">|</span>
-                    <span>维护</span><span style="margin-left: 10px;margin-right: 5px">|</span>
+                    <span>
+                        <a href="#" onclick="selectDetailFun()">查询</a>
+                    </span>
+                    <span style="margin-left: 10px;margin-right: 5px">|</span>
+                    <span>维护</span>
+                    <span style="margin-left: 10px;margin-right: 5px">|</span>
                     <span>删除</span>
                 </div>
             </td>
@@ -90,8 +94,15 @@
 <script src="${pageContext.request.contextPath}/lib/jquery-3.4.1.min.js"></script>
 <script type="text/javascript">
 
-    function queryRoleFun(roleId){
-        console.log("roleId = " + roleId);
+    function selectDetailFun(){
+        $.ajax({
+            type:"POST",
+            url:"${pageContext.request.contextPath}/roleMenu/queryRoleMenuDetail",
+            async:false,
+            success:function (data) {
+                $("#right").html(data);
+            }
+        });
     }
 
     /*查询按钮*/
