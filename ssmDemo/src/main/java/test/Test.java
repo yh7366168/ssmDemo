@@ -12,8 +12,10 @@ import java.util.concurrent.*;
 public class Test {
 
     public static void main(String[] args) {
-        String dateTime = LocalDateTime.now().toString();
-        System.out.println( dateTime);
+        byte a = 127;
+        byte b = (byte)(a+1);
+        System.out.println(b);
+
     }
 
     public static List<Map> test(){

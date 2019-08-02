@@ -32,16 +32,15 @@ public class RoleMenuController {
     private RoleMenuDao roleMenuDao;
 
     @RequestMapping("/queryRoleMenuDetail")
-    public ModelAndView queryRoleMenuDetail(){
+    public ModelAndView queryRoleMenuDetail(Integer roleId){
         ModelAndView model = new ModelAndView();
-        Integer roleId = 101;
         RoleDetailVO vo = spellRoleDetailVO(roleId);
-        log.info("queryRoleMenuDetail-RoleDetailVO:{}", JSON.toJSONString(vo));
+        vo.setRoleId(roleId);
+        log.info("queryRoleMenuDetail-roleId:{}， RoleDetailVO:{}", roleId, JSON.toJSONString(vo));
         model.addObject("roleDetailVO", vo);
         model.setViewName("system/roleDetail");
         return model;
     }
-
     /**
      * 拼装页面显示对象
      * */
@@ -49,7 +48,6 @@ public class RoleMenuController {
         RoleDetailVO roleVO = new RoleDetailVO();
         Integer menuId = null;
         List<RoleMenu> roleMenuList = null;
-
         //用户管理
         menuId = 10001;
         roleMenuList= roleMenuDao.selectByRoleIdAndMeneId(roleId, menuId);
@@ -153,12 +151,10 @@ public class RoleMenuController {
         list = addRoleMenuList(list, Boolean.valueOf(request.getParameter("blackListIsUpdate")), roleId,20002, 3);
         list = addRoleMenuList(list, Boolean.valueOf(request.getParameter("blackListIsDelete")), roleId,20002, 4);
         //先删除角色所有的记录
-        RoleMenu roleMenu = new RoleMenu();
-        roleMenu.setMenuId(roleId);
-        int delNum = roleMenuDao.deleteByPrimaryKey(roleMenu);
-        log.info("saveRoleMenu-删除{}条历史记录！", delNum);
+        int delNum = roleMenuDao.deleteByRoleId(roleId);
+        log.info("saveRoleMenu-删除{}条权限历史记录！", delNum);
         int batchNum = roleMenuDao.batchInsertRoleMenu(list);
-        log.info("saveRoleMenu-增加{}条历史记录！", batchNum);
+        log.info("saveRoleMenu-新增{}条权限记录！", batchNum);
         RoleDetailVO vo = spellRoleDetailVO(roleId);
         model.addObject("roleDetailVO", vo);
         model.setViewName("system/roleDetail");
@@ -174,67 +170,5 @@ public class RoleMenuController {
             list.add(roleMenu);
         }
         return list;
-    }
-
-
-    public List<Map> spellList(){
-        List<Map> oneList = new ArrayList<>();
-        Map<String, Object> oneMap = new HashMap<>();
-
-        List<Map> twoList = new ArrayList<>();
-        List<Map> twoList2 = new ArrayList<>();
-        Map<String, Object> twoMap = new HashMap<>();
-        Map<String, Object> twoMap2 = new HashMap<>();
-
-        List<Map> threeList = new ArrayList<>();
-        List<Map> threeList2 = new ArrayList<>();
-        List<Map> threeList3 = new ArrayList<>();
-        Map<String, Object> threeMap = new HashMap<>();
-        Map<String, Object> threeMap2 = new HashMap<>();
-        Map<String, Object> threeMap3 = new HashMap<>();
-        threeMap.put("查询", true);
-        threeMap.put("新增", true);
-        threeMap.put("修改", false);
-        threeMap.put("删除", true);
-        threeList.add(threeMap2);
-        threeMap2.put("查询", true);
-        threeMap2.put("新增", false);
-        threeMap2.put("修改", false);
-        threeMap2.put("删除", false);
-        threeList2.add(threeMap2);
-        threeMap3.put("查询", true);
-        threeMap3.put("新增", false);
-        threeMap3.put("修改", false);
-        threeMap3.put("审核", true);
-        threeList3.add(threeMap3);
-
-        List<Map> threeList10 = new ArrayList<>();
-        List<Map> threeList11 = new ArrayList<>();
-        Map<String, Object> threeMap10 = new HashMap<>();
-        Map<String, Object> threeMap11 = new HashMap<>();
-        threeMap10.put("查询", true);
-        threeMap10.put("新增", false);
-        threeMap10.put("修改", false);
-        threeMap10.put("删除", true);
-        threeList10.add(threeMap10);
-        threeMap11.put("查询", true);
-        threeMap11.put("新增", false);
-        threeMap11.put("修改", false);
-        threeMap11.put("删除", false);
-        threeList11.add(threeMap11);
-
-        twoMap.put("用户管理", threeList);
-        twoMap.put("菜单管理", threeList2);
-        twoMap.put("角色管理", threeList3);
-        twoList.add(twoMap);
-
-        twoMap2.put("黑名单管理", threeList10);
-        twoMap2.put("白名单管理", threeList10);
-        twoList2.add(twoMap2);
-
-        oneMap.put("系统管理", twoList);
-        oneMap.put("功能管理", twoList2);
-        oneList.add(oneMap);
-        return oneList;
     }
 }

@@ -9,7 +9,7 @@ import lombok.Data;
 @Data
 public class UserRole {
 
-    private Integer userId;
+    private String userId;
 
     private Integer roleId;
 

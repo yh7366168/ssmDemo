@@ -30,6 +30,7 @@ public class RoleDetailVO {
         blackListIsDelete = false;
     }
 
+    private Integer roleId;
     //----------------------系统管理----------------------
     //用户管理
     private Boolean userIsSelect;

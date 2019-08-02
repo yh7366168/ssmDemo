@@ -1,8 +1,10 @@
 package com.yh.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.yh.dao.UserRoleDao;
 import com.yh.pojo.Menu;
 import com.yh.pojo.User;
+import com.yh.pojo.UserRole;
 import com.yh.service.MenuService;
 import com.yh.service.UserService;
 import com.yh.util.DateUtil;
@@ -30,6 +32,8 @@ public class MainController {
     private MenuService menuService;
     @Autowired
     private UserService userService;
+    @Autowired
+    private UserRoleDao userRoleDao;
 
     @RequestMapping("/loginMain")
     public ModelAndView loginMain(ModelAndView model) {
@@ -72,10 +76,15 @@ public class MainController {
                 Menu parentMenu = menuService.queryMuneById(parentId);
                 resultMapList.put(parentMenu.getMenuName(), list);
             }
+            //查询角色
+            UserRole userRole = new UserRole();
+            userRole.setUserId(user.getUserId());
+            userRole = userRoleDao.selectBySelective(userRole);
+            Integer roleId = userRole.getRoleId();
             model.addObject("resultMapList", resultMapList);
             model.addObject("username", username);
+            model.addObject("roleId", roleId);
             model.setViewName("main/main");
-
         }catch (Exception e){
             log.info("loginCheckMain-异常信息：{}", e);
             model.addObject("expMsg", e.getMessage());

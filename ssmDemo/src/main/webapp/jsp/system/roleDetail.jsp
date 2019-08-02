@@ -14,22 +14,18 @@
 
     <style type="text/css">
         .one_menu_tr td {
-            font-size: 16px;
-        }
-
+             font-size: 16px;
+         }
         .two_menu_tr td {
             text-indent: 40px;
         }
-
         .role_detail_checkbox_tr td {
             text-indent: 40px;
             width: 250px;
         }
-
         tr {
             height: 30px;
         }
-
     </style>
 </head>
 <body>
@@ -40,17 +36,14 @@
                 onclick="updateRoleFun()">维护
         </button>
         <button id="roleDetail_save_button" style="width: 60px;height: 30px; margin-left: 20px; display: none"
-                onclick="saveRoleFun()">保存
+                onclick="saveRoleFun('${roleDetailVO.roleId}')">保存
         </button>
     </div>
-
     <div style="margin-top: 10px;margin-bottom: 10px;">
         <span>角色名</span> <input type="text" style="margin-right: 60px;">
         <span>状态</span> <input type="text" value="">
     </div>
-
     <div style="text-align: center; width: 100%; height: 20px;">角色菜单配置</div>
-
     <div>
         <table>
             <!-- 模块一 系统管理-->
@@ -107,7 +100,6 @@
                 <td><input type="checkbox" id="blackListIsDelete">删除</td>
             </tr>
         </table>
-
     </div>
 </div>
 </body>
@@ -158,12 +150,13 @@
     }
 
     /*点击保存，维护数据库，刷新页面*/
-    function saveRoleFun() {
+    function saveRoleFun(roleId) {
         $.ajax({
             type: "POST",
             url: "${pageContext.request.contextPath}/roleMenu/saveRoleMenu",
             async: false,
             data: {
+                "roleId":roleId,
                 "userIsSelect": $("#userIsSelect").is(":checked"),
                 "userIsAdd": $("#userIsAdd").is(":checked"),
                 "userIsUpdate": $("#userIsUpdate").is(":checked"),

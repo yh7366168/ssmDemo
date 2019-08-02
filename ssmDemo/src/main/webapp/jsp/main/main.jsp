@@ -128,7 +128,8 @@
 <div>
     <div class="top">
         <div style="padding-top: 20px;text-align: right">
-            <span style="margin-right: 20px;">当前用户：${username}</span>
+            <span style="margin-right: 20px;">用户：${username}</span>
+            <span style="margin-right: 20px">用户角色:${roleId}</span>
             <button style="width: 60px;height: 30px;margin-right: 50px" onclick="returnSystem()">退出</button>
         </div>
     </div>
@@ -194,11 +195,11 @@
                 }
             });
         });
-        
-        function returnSystem() {
-            window.location.href = "${pageContext.request.contextPath}/jsp/login/login.jsp";
-        }
     });
+
+    function returnSystem() {
+        window.location.href = "${pageContext.request.contextPath}/jsp/login/login.jsp";
+    }
 
     var startPageX = 0;
     var endPageX = 0;
