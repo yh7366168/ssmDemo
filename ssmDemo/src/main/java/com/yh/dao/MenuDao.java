@@ -44,4 +44,10 @@ public interface MenuDao {
     List<Menu> queryPageList(Map<String, Object> params);
 
 
+    /**
+     * 权限设计，角色可以查看的菜单
+     * @param params
+     * @return list
+     * */
+    List<Menu> queryRoleMenuListByParams(Map<String, Object> params);
 }

@@ -128,8 +128,8 @@
 <div>
     <div class="top">
         <div style="padding-top: 20px;text-align: right">
-            <span style="margin-right: 20px;">用户：${username}</span>
-            <span style="margin-right: 20px">用户角色:${roleId}</span>
+            <span style="margin-right: 20px;">用户：${userRoleVO.userName}</span>
+            <span style="margin-right: 20px">用户角色:${userRoleVO.roleName}</span>
             <button style="width: 60px;height: 30px;margin-right: 50px" onclick="returnSystem()">退出</button>
         </div>
     </div>

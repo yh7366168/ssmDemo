@@ -5,19 +5,22 @@ import com.yh.dao.UserRoleDao;
 import com.yh.pojo.Menu;
 import com.yh.pojo.User;
 import com.yh.pojo.UserRole;
+import com.yh.pojo.vo.UserRoleVO;
 import com.yh.service.MenuService;
 import com.yh.service.UserService;
 import com.yh.util.DateUtil;
-import com.yh.util.exception.YhSimpleException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.context.ServletContextAware;
+import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,6 +31,8 @@ import java.util.stream.Collectors;
 @RequestMapping("/main")
 public class MainController {
 
+    @Autowired
+    private HttpSession session;
     @Autowired
     private MenuService menuService;
     @Autowired
@@ -56,17 +61,18 @@ public class MainController {
     }
 
     /**
-     * 登录验证用户名，密码
+     * 登录
      */
     @RequestMapping("/loginCheckMain")
-    public ModelAndView loginCheckMain(ModelAndView model, @RequestParam("username") String username) {
+    public ModelAndView loginCheckMain(HttpServletRequest request, ModelAndView model, @RequestParam("username") String username) {
         try{
             User user = userService.queryByName(username);
             user.setUpdateTime(DateUtil.getNow());
             Map<String, Object> params = new HashMap<String, Object>();
             params.put("secondMenuLevel", "2");
-            //查询所有的二级菜单
-            List<Menu> menuAllList = menuService.queryListByParams(params);
+            params.put("username", username);
+            //查询该角色下的所有菜单
+            List<Menu> menuAllList = menuService.queryRoleMenuListByParams(params);
             //通过parent_id分组
             Map<Integer, List<Menu>> menuMapList = menuAllList.stream().collect(Collectors.groupingBy(Menu::getParentId));
             Map<String, List<Menu>> resultMapList = new HashMap<String, List<Menu>>();
@@ -76,15 +82,14 @@ public class MainController {
                 Menu parentMenu = menuService.queryMuneById(parentId);
                 resultMapList.put(parentMenu.getMenuName(), list);
             }
-            //查询角色
-            UserRole userRole = new UserRole();
-            userRole.setUserId(user.getUserId());
-            userRole = userRoleDao.selectBySelective(userRole);
-            Integer roleId = userRole.getRoleId();
             model.addObject("resultMapList", resultMapList);
-            model.addObject("username", username);
-            model.addObject("roleId", roleId);
+            //查询当前用户信息
+            UserRoleVO userRoleVO = userRoleDao.queryCurrentUserRole(username);
+            log.info("当前用户信息：{}", JSON.toJSONString(userRoleVO));
+            model.addObject("userRoleVO", userRoleVO);
             model.setViewName("main/main");
+            //把用户信息存放在session里面
+            session.setAttribute("userRoleVO", userRoleVO);
         }catch (Exception e){
             log.info("loginCheckMain-异常信息：{}", e);
             model.addObject("expMsg", e.getMessage());

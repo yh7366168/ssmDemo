@@ -31,17 +31,16 @@
 <body>
 <div style="margin-left: 45px;margin-top: 30px;">
     <div style="margin-bottom: 20px">
-        <button style="width: 60px;height: 30px;">生效</button>
-        <button id="roleDetail_update_button" style="width: 60px;height: 30px; margin-left: 20px;"
+        <button id="roleDetail_update_button" style="width: 60px;height: 30px; margin-right: 20px;"
                 onclick="updateRoleFun()">维护
         </button>
         <button id="roleDetail_save_button" style="width: 60px;height: 30px; margin-left: 20px; display: none"
                 onclick="saveRoleFun('${roleDetailVO.roleId}')">保存
         </button>
+        <button id="roleDetail_return_button" style="width: 60px;height: 30px;" onclick="">返回</button>
     </div>
     <div style="margin-top: 10px;margin-bottom: 10px;">
-        <span>角色名</span> <input type="text" style="margin-right: 60px;">
-        <span>状态</span> <input type="text" value="">
+        <span>角色名</span> <input type="text" value="${roleDetailVO.roleName}" style="margin-right: 16px;" disabled="disabled">
     </div>
     <div style="text-align: center; width: 100%; height: 20px;">角色菜单配置</div>
     <div>
@@ -130,6 +129,7 @@
         isPropChecked(${roleDetailVO.blackListIsDelete}, $("#blackListIsDelete"));
         //复选框默认不可用
         $("input[type=checkbox]").attr("disabled", true);
+
     });
 
     function isPropChecked(var1, var2) {
@@ -185,7 +185,6 @@
                 alertUtil("error!")
             }
         });
-
     }
 
 

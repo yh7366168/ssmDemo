@@ -6,7 +6,7 @@ import lombok.Data;
  * @author yh create on 2019/7/12
  */
 @Data
-public class MenuButton {
+public class ButtonPO {
     private Integer buttonId;
 
     private String buttonName;

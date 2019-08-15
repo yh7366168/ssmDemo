@@ -29,7 +29,7 @@
     <select id="selectByRoleIdAndMeneId" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"></include>
-        from yh_role_menu
+        from sys_role_menu
         <where>
         <if test="roleId != null">
             role_id = #{roleId,jdbcType=INTEGER}
@@ -41,17 +41,17 @@
     </select>
 
     <delete id="deleteByRoleId" parameterType="java.lang.Integer">
-      delete from yh_role_menu where role_id = #{roleId,jdbcType=INTEGER}
+      delete from sys_role_menu where role_id = #{roleId,jdbcType=INTEGER}
     </delete>
 
     <insert id="insert" parameterType="com.yh.pojo.RoleMenu">
-      insert into yh_role_menu (role_id, menu_id, button_id)
+      insert into sys_role_menu (role_id, menu_id, button_id)
       values
       (#{roleId,jdbcType=INTEGER}, #{menuId,jdbcType=INTEGER}, #{buttonId,jdbcType=INTEGER})
     </insert>
 
     <insert id="batchInsertRoleMenu" parameterType="java.util.List">
-      insert into yh_role_menu (role_id, menu_id, button_id)
+      insert into sys_role_menu (role_id, menu_id, button_id)
       values
       <foreach collection="list" item="item" open="(" separator="),(" close=")">
         #{item.roleId}, #{item.menuId}, #{item.buttonId}
@@ -59,7 +59,7 @@
     </insert>
 
     <insert id="insertSelective" parameterType="com.yh.pojo.RoleMenu">
-        insert into yh_role_menu
+        insert into sys_role_menu
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="roleId != null">
                 role_id,

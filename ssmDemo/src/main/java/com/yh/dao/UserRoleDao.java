@@ -1,6 +1,8 @@
 package com.yh.dao;
 
 import com.yh.pojo.UserRole;
+import com.yh.pojo.vo.UserRoleVO;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -22,4 +24,6 @@ public interface UserRoleDao {
     int updateByPrimaryKey(UserRole record);
 
     UserRole selectBySelective(UserRole userRole);
+
+    UserRoleVO queryCurrentUserRole(@Param("username") String username);
 }

@@ -7,3 +7,4 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@include file="util/yh_confrim.jsp"%>
+<%@include file="util/sys_user_role_page.jsp"%>

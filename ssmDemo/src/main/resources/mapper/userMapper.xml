@@ -34,40 +34,40 @@
     </sql>
 
     <select id="queryById" resultType="java.lang.String" parameterType="java.lang.String">
-        SELECT username FROM user WHERE user_id = #{userId}
+        SELECT username FROM sys_user WHERE user_id = #{userId}
     </select>
 
     <select id="queryByName" resultMap="BaseResultMap" parameterType="java.lang.String">
         SELECT
         <include refid="Base_Common_List"/>
-        FROM user WHERE username = #{username}
+        FROM sys_user WHERE username = #{username}
     </select>
 
     <insert id="insertUser" parameterType="com.yh.pojo.User">
         <selectKey resultType="String" keyProperty="userId" order="BEFORE">
             SELECT REPLACE(UUID(),'-','')
         </selectKey>
-        INSERT INTO USER
+        INSERT INTO sys_user
         (user_id, username, password, sex, age, phone, email, address, create_time, update_time, last_login_time)
         values
         (#{userId},#{username}, #{password}, #{sex}, #{age}, #{phone}, #{email}, #{address}, NOW(), NOW(), NOW())
     </insert>
 
     <select id="queryPageCount" resultType="java.lang.Integer" parameterType="java.util.Map">
-        SELECT count(1) FROM user
+        SELECT count(1) FROM sys_user
         <include refid="where_params"></include>
     </select>
 
     <select id="queryPageList" resultMap="BaseResultMap" parameterType="java.util.Map">
         SELECT
         <include refid="Base_Common_List"></include>
-        FROM user
+        FROM sys_user
         <include refid="where_params"></include>
         limit #{beginNum}, #{pageSize}
     </select>
 
     <update id="updateByPrimaryKeySelective" parameterType="com.yh.pojo.User" >
-        update user
+        update sys_user
         <set >
             <if test="username != null" >
                 username = #{username,jdbcType=VARCHAR},

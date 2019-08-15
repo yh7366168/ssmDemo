@@ -16,6 +16,9 @@ public interface MenuService {
 
     Menu queryMuneById(Integer id);
 
-    PageBean<Menu> queryPageList(Integer curPage);
+    /**
+     * 查询该角色显示信息
+     * */
+    List<Menu> queryRoleMenuListByParams(Map<String, Object> params);
 }
 

@@ -6,8 +6,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.net.URLEncoder;
-
 /**
  * @author yh create on 2019/7/3
  */
@@ -27,4 +25,6 @@ public class TestController {
     public String testHttpPost(@RequestBody User user){
         return user.toString();
     }
+
+
 }
