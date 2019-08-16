@@ -97,7 +97,7 @@
     function selectDetailFun(roleId){
         $.ajax({
             type:"POST",
-            url:"${pageContext.request.contextPath}/roleMenu/queryRoleMenuDetail",
+            url:"${pageContext.request.contextPath}/roleMenu/queryRoleMenuDetail2",
             async:false,
             data:{
                 "roleId": roleId

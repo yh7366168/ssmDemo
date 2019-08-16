@@ -19,7 +19,7 @@
 <script src="${pageContext.request.contextPath}/lib/jquery-3.4.1.min.js"></script>
 <script type="text/javascript">
 
-    function userRoleFun(curMenuId){
+    function userRoleFun(curMenuId) {
         //把全部按钮都先隐藏，然后显示具有权限的按钮
         $(".add_button_clz").css("display", "none");
         $(".update_button_clz").css("display", "none");
@@ -28,18 +28,18 @@
         <c:forEach  items="${sessionScope.roleMenuListVO}" var="roleMenuVar">
         var buttonId = ${roleMenuVar.buttonId};
         var menuId = ${roleMenuVar.menuId};
-        if(menuId == curMenuId){
-            if(buttonId == 1){
+        if (menuId == curMenuId) {
+            if (buttonId == 1) {
                 //能看到对应的页面就表面有对应的查询权限
-            }else if(buttonId == 2){
-                $(".add_button_clz").css("display","inline");
-            }else if(buttonId == 3){
-                $(".update_button_clz").css("display","inline");
-            }else if(buttonId == 4){
-                $(".delete_button_clz").css("display","inline");
-            }else if(buttonId == 5){
-                $(".check_button_clz").css("display","inline");
-            }else{
+            } else if (buttonId == 2) {
+                $(".add_button_clz").css("display", "inline");
+            } else if (buttonId == 3) {
+                $(".update_button_clz").css("display", "inline");
+            } else if (buttonId == 4) {
+                $(".delete_button_clz").css("display", "inline");
+            } else if (buttonId == 5) {
+                $(".check_button_clz").css("display", "inline");
+            } else {
                 //其他按钮不扩展
             }
         }

@@ -4,7 +4,9 @@ import com.alibaba.fastjson.JSON;
 import com.sun.org.apache.xpath.internal.operations.Bool;
 import com.yh.dao.RoleDao;
 import com.yh.dao.RoleMenuDao;
+import com.yh.pojo.Button;
 import com.yh.pojo.Role;
+import com.yh.pojo.RoleDetail;
 import com.yh.pojo.RoleMenu;
 import com.yh.pojo.vo.RoleDetailVO;
 import com.yh.util.exception.YhSimpleException;
@@ -218,5 +220,228 @@ public class RoleMenuController {
             list.add(roleMenu);
         }
         return list;
+    }
+
+    @RequestMapping("queryRoleMenuDetail2")
+    public ModelAndView testRoleDetail(Integer roleId){
+        ModelAndView model = new ModelAndView();
+        List<RoleDetail> roleDetailList = spellListTest2();
+        log.info("testRoleDetail-roleDetailList:{}", JSON.toJSONString(roleDetailList));
+        model.addObject("roleDetailListVO", roleDetailList);
+        model.setViewName("system/roleDetail2");
+        return model;
+    }
+
+    private List<RoleDetail> spellListTest2(){
+        List<RoleDetail> list = new ArrayList<>();
+
+        RoleDetail roleDetail = new RoleDetail();
+        Button button = new Button();
+        //系统管理-用户管理
+        roleDetail.setFirstMenuName("系统管理");
+        roleDetail.setSecondMenuName("用户管理");
+        List<Button> buttonList = new ArrayList<>();
+        button.setButtonName("查询");
+        button.setButtonAlias("userIsSelect");
+        buttonList.add(button);
+        button = new Button();
+        button.setButtonName("新增");
+        button.setButtonAlias("userIsAdd");
+        buttonList.add(button);
+        button = new Button();
+        button.setButtonName("修改");
+        button.setButtonAlias("userIsUpdate");
+        buttonList.add(button);
+        button = new Button();
+        button.setButtonName("删除");
+        button.setButtonAlias("userIsDelete");
+        buttonList.add(button);
+        roleDetail.setButtonList(buttonList);
+        list.add(roleDetail);
+
+        //系统管理-菜单管理
+        roleDetail = new RoleDetail();
+        roleDetail.setFirstMenuName("系统管理");
+        roleDetail.setSecondMenuName("菜单管理");
+        buttonList = new ArrayList<>();
+        button = new Button();
+        button.setButtonName("查询");
+        button.setButtonAlias("menuIsSelect");
+        buttonList.add(button);
+        button = new Button();
+        button.setButtonName("新增");
+        button.setButtonAlias("menuIsAdd");
+        buttonList.add(button);
+        button = new Button();
+        button.setButtonName("修改");
+        button.setButtonAlias("menuIsUpdate");
+        buttonList.add(button);
+        button = new Button();
+        button.setButtonName("删除");
+        button.setButtonAlias("menuIsDelete");
+        buttonList.add(button);
+        roleDetail.setButtonList(buttonList);
+        list.add(roleDetail);
+
+        //系统管理-角色管理
+        roleDetail = new RoleDetail();
+        roleDetail.setFirstMenuName("系统管理");
+        roleDetail.setSecondMenuName("角色管理");
+        buttonList = new ArrayList<>();
+        button = new Button();
+        button.setButtonName("查询");
+        button.setButtonAlias("roleIsSelect");
+        buttonList.add(button);
+        button = new Button();
+        button.setButtonName("新增");
+        button.setButtonAlias("roleIsAdd");
+        buttonList.add(button);
+        button = new Button();
+        button.setButtonName("修改");
+        button.setButtonAlias("roleIsUpdate");
+        buttonList.add(button);
+        button = new Button();
+        button.setButtonName("删除");
+        button.setButtonAlias("roleIsDelete");
+        buttonList.add(button);
+        roleDetail.setButtonList(buttonList);
+        list.add(roleDetail);
+
+        //功能管理
+        roleDetail = new RoleDetail();
+        roleDetail.setFirstMenuName("功能管理");
+        //功能管理-黑名单管理
+        roleDetail.setSecondMenuName("黑名单管理");
+        buttonList = new ArrayList<>();
+        button = new Button();
+        button.setButtonName("查询");
+        button.setButtonAlias("blackListIsSelect");
+        buttonList.add(button);
+        button = new Button();
+        button.setButtonName("新增");
+        button.setButtonAlias("blackListIsAdd");
+        buttonList.add(button);
+        button = new Button();
+        button.setButtonName("修改");
+        button.setButtonAlias("blackListIsUpdate");
+        buttonList.add(button);
+        button = new Button();
+        button.setButtonName("删除");
+        button.setButtonAlias("blackListIsDelete");
+        buttonList.add(button);
+        roleDetail.setButtonList(buttonList);
+        list.add(roleDetail);
+
+        //功能管理-白名单管理
+        roleDetail = new RoleDetail();
+        roleDetail.setFirstMenuName("功能管理");
+        roleDetail.setSecondMenuName("黑名单管理");
+        buttonList = new ArrayList<>();
+        button = new Button();
+        button.setButtonName("查询");
+        button.setButtonAlias("whiteListIsSelect");
+        buttonList.add(button);
+        button = new Button();
+        button.setButtonName("新增");
+        button.setButtonAlias("whiteListIsAdd");
+        buttonList.add(button);
+        button = new Button();
+        button.setButtonName("修改");
+        button.setButtonAlias("whiteListIsUpdate");
+        buttonList.add(button);
+        button = new Button();
+        button.setButtonName("删除");
+        button.setButtonAlias("whiteListIsDelete");
+        buttonList.add(button);
+        roleDetail.setButtonList(buttonList);
+        list.add(roleDetail);
+        return list;
+    }
+
+    private List<RoleDetail> spellListTest(){
+        List<RoleDetail> list = new ArrayList<>();
+//        RoleDetail roleDetail = new RoleDetail();
+//        //系统管理\
+//        roleDetail.setFirstMenuName("系统管理");
+//        //系统管理-用户管理
+//        roleDetail.setSecondMenuName("用户管理");
+//        roleDetail.setButtonName("查询");
+//        roleDetail.setButtonAlias("userIsSelect");
+//        list.add(roleDetail);
+//        roleDetail.setButtonName("新增");
+//        roleDetail.setButtonAlias("userIsAdd");
+//        list.add(roleDetail);
+//        roleDetail.setButtonName("修改");
+//        roleDetail.setButtonAlias("userIsUpdate");
+//        list.add(roleDetail);
+//        roleDetail.setButtonName("删除");
+//        roleDetail.setButtonAlias("userIsDelete");
+//        list.add(roleDetail);
+//        //系统管理-菜单管理
+//        roleDetail.setSecondMenuName("菜单管理");
+//        roleDetail.setButtonName("查询");
+//        roleDetail.setButtonAlias("menuIsSelect");
+//        list.add(roleDetail);
+//        roleDetail.setButtonName("新增");
+//        roleDetail.setButtonAlias("menuIsAdd");
+//        list.add(roleDetail);
+//        roleDetail.setButtonName("修改");
+//        roleDetail.setButtonAlias("menuIsUpdate");
+//        list.add(roleDetail);
+//        roleDetail.setButtonName("删除");
+//        roleDetail.setButtonAlias("menuIsDelete");
+//        list.add(roleDetail);
+//        //系统管理-角色管理
+//        roleDetail.setSecondMenuName("角色管理");
+//        roleDetail.setButtonName("查询");
+//        roleDetail.setButtonAlias("roleIsSelect");
+//        list.add(roleDetail);
+//        roleDetail.setButtonName("新增");
+//        roleDetail.setButtonAlias("roleIsAdd");
+//        list.add(roleDetail);
+//        roleDetail.setButtonName("修改");
+//        roleDetail.setButtonAlias("roleIsUpdate");
+//        list.add(roleDetail);
+//        roleDetail.setButtonName("删除");
+//        roleDetail.setButtonAlias("roleIsDelete");
+//        list.add(roleDetail);
+//
+//        //功能管理
+//        roleDetail.setFirstMenuName("功能管理");
+//        //功能管理-黑名单管理
+//        roleDetail.setSecondMenuName("黑名单管理");
+//        roleDetail.setButtonName("查询");
+//        roleDetail.setButtonAlias("blackListIsSelect");
+//        list.add(roleDetail);
+//        roleDetail.setButtonName("新增");
+//        roleDetail.setButtonAlias("blackListIsAdd");
+//        list.add(roleDetail);
+//        roleDetail.setButtonName("修改");
+//        roleDetail.setButtonAlias("blackListIsUpdate");
+//        list.add(roleDetail);
+//        roleDetail.setButtonName("删除");
+//        roleDetail.setButtonAlias("blackListIsDelete");
+//        list.add(roleDetail);
+//        //功能管理-白名单管理
+//        roleDetail.setSecondMenuName("黑名单管理");
+//        roleDetail.setButtonName("查询");
+//        roleDetail.setButtonAlias("whiteListIsSelect");
+//        list.add(roleDetail);
+//        roleDetail.setButtonName("新增");
+//        roleDetail.setButtonAlias("whiteListIsAdd");
+//        list.add(roleDetail);
+//        roleDetail.setButtonName("修改");
+//        roleDetail.setButtonAlias("whiteListIsUpdate");
+//        list.add(roleDetail);
+//        roleDetail.setButtonName("删除");
+//        roleDetail.setButtonAlias("whiteListIsDelete");
+//        list.add(roleDetail);
+        return list;
+    }
+
+    public static void main(String[] args) {
+        RoleMenuController r = new RoleMenuController();
+        List<?> lsit = r.spellListTest2();
+        log.info("list-{}", JSON.toJSONString(lsit));
     }
 }

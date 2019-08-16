@@ -85,7 +85,6 @@ public class MainController {
             model.addObject("resultMapList", resultMapList);
             //查询当前用户信息
             UserRoleVO userRoleVO = userRoleDao.queryCurrentUserRole(username);
-            log.info("当前用户信息：{}", JSON.toJSONString(userRoleVO));
             model.addObject("userRoleVO", userRoleVO);
             model.setViewName("main/main");
             //把用户信息存放在session里面
