@@ -14,15 +14,18 @@
 
     <style type="text/css">
         .one_menu_tr td {
-             font-size: 16px;
-         }
+            font-size: 16px;
+        }
+
         .two_menu_tr td {
             text-indent: 40px;
         }
+
         .role_detail_checkbox_tr td {
             text-indent: 40px;
             width: 250px;
         }
+
         tr {
             height: 30px;
         }
@@ -31,161 +34,95 @@
 <body>
 <div style="margin-left: 45px;margin-top: 30px;">
     <div style="margin-bottom: 20px">
-        <button id="roleDetail_update_button" style="width: 60px;height: 30px; margin-right: 20px;"
+        <button id="roleDetail_update_button" style="width: 60px;height: 30px; "
                 onclick="updateRoleFun()">维护
         </button>
-        <button id="roleDetail_save_button" style="width: 60px;height: 30px; margin-left: 20px; display: none"
-                onclick="saveRoleFun('${roleDetailVO.roleId}')">保存
+        <button id="roleDetail_save_button" style="width: 60px;height: 30px; display: none"
+                onclick="saveUserRoleFun()">保存
         </button>
-        <button id="roleDetail_return_button" style="width: 60px;height: 30px;" onclick="">返回</button>
+        <button id="roleDetail_return_button" style="width: 60px;height: 30px;margin-right: 20px;"  onclick="">返回</button>
     </div>
     <div style="margin-top: 10px;margin-bottom: 10px;">
-        <span>角色名</span> <input type="text" value="${roleDetailVO.roleName}" style="margin-right: 16px;" disabled="disabled">
+        <span>角色名</span> <input type="text" value="${selectRoleId}" style="margin-right: 16px;" disabled="disabled">
     </div>
     <div style="text-align: center; width: 100%; height: 20px;">角色菜单配置</div>
     <div>
         <table>
-            <!-- 模块一 系统管理-->
-            <tr class="one_menu_tr">
-                <td>系统管理</td>
-            </tr>
-            <tr class="two_menu_tr">
-                <td>用户管理</td>
-            </tr>
-            <tr class="role_detail_checkbox_tr">
-                <td><input type="checkbox" id="userIsSelect">查询</td>
-                <td><input type="checkbox" id="userIsAdd">新增</td>
-                <td><input type="checkbox" id="userIsUpdate">修改</td>
-                <td><input type="checkbox" id="userIsDelete">删除</td>
-            </tr>
-            <tr class="two_menu_tr">
-                <td>菜单管理</td>
-            </tr>
-            <tr class="role_detail_checkbox_tr">
-                <td><input type="checkbox" id="menuIsSelect">查询</td>
-                <td><input type="checkbox" id="menuIsAdd">新增</td>
-                <td><input type="checkbox" id="menuIsUpdate">修改</td>
-                <td><input type="checkbox" id="menuIsDelete">删除</td>
-            </tr>
-            <tr class="two_menu_tr">
-                <td>角色管理</td>
-            </tr>
-            <tr class="role_detail_checkbox_tr">
-                <td><input type="checkbox" id="roleIsSelect">查询</td>
-                <td><input type="checkbox" id="roleIsAdd">新增</td>
-                <td><input type="checkbox" id="roleIsUpdate">修改</td>
-                <td><input type="checkbox" id="roleIsDelete">删除</td>
-            </tr>
-            <!-- 模块二 功能管理-->
-            <tr class="one_menu_tr">
-                <td>功能管理</td>
-            </tr>
-            <tr class="two_menu_tr">
-                <td>黑名单管理</td>
-            </tr>
-            <tr class="role_detail_checkbox_tr">
-                <td><input type="checkbox" id="whiteListIsSelect">查询</td>
-                <td><input type="checkbox" id="whiteListIsAdd">新增</td>
-                <td><input type="checkbox" id="whiteListIsUpdate">修改</td>
-                <td><input type="checkbox" id="whiteListIsDelete">删除</td>
-            </tr>
-            <tr class="two_menu_tr">
-                <td>白名单管理</td>
-            </tr>
-            <tr class="role_detail_checkbox_tr">
-                <td><input type="checkbox" id="blackListIsSelect">查询</td>
-                <td><input type="checkbox" id="blackListIsAdd">新增</td>
-                <td><input type="checkbox" id="blackListIsUpdate">修改</td>
-                <td><input type="checkbox" id="blackListIsDelete">删除</td>
-            </tr>
+            <c:forEach items="${roleDetailListVO}" var="roleDetailVar" varStatus="vs">
+                <tr class="one_menu_tr">
+                    <td>${roleDetailVar.firstMenuName}</td>
+                </tr>
+                <c:forEach items="${roleDetailVar.secondMenuList}" var="secondMenuListVar">
+                    <tr class="two_menu_tr">
+                        <td>${secondMenuListVar.secondMenuName}</td>
+                    </tr>
+                    <tr class="role_detail_checkbox_tr">
+                        <c:forEach items="${secondMenuListVar.buttonList}" var="buttonVar">
+                            <c:if test="${buttonVar.isChecked==true}">
+                                <td><input type="checkbox" value="${buttonVar.buttonAlias}"
+                                           checked="checked">${buttonVar.buttonName}</td>
+                            </c:if>
+                            <c:if test="${buttonVar.isChecked==false}">
+                                <td><input type="checkbox" value="${buttonVar.buttonAlias}">${buttonVar.buttonName}</td>
+                            </c:if>
+                        </c:forEach>
+                    </tr>
+                </c:forEach>
+            </c:forEach>
         </table>
     </div>
 </div>
+
 </body>
 </html>
 
 <script src="${pageContext.request.contextPath}/lib/jquery-3.4.1.min.js"></script>
 <script type="text/javascript">
+    /**
+     * 初始化页面
+     * */
     $(function () {
-        isPropChecked(${roleDetailVO.userIsSelect}, $("#userIsSelect"));
-        isPropChecked(${roleDetailVO.userIsAdd}, $("#userIsAdd"));
-        isPropChecked(${roleDetailVO.userIsUpdate}, $("#userIsUpdate"));
-        isPropChecked(${roleDetailVO.userIsDelete}, $("#userIsDelete"));
-        isPropChecked(${roleDetailVO.menuIsSelect}, $("#menuIsSelect"));
-        isPropChecked(${roleDetailVO.menuIsAdd}, $("#menuIsAdd"));
-        isPropChecked(${roleDetailVO.menuIsUpdate}, $("#menuIsUpdate"));
-        isPropChecked(${roleDetailVO.menuIsDelete}, $("#menuIsDelete"));
-        isPropChecked(${roleDetailVO.roleIsSelect}, $("#roleIsSelect"));
-        isPropChecked(${roleDetailVO.roleIsAdd}, $("#roleIsAdd"));
-        isPropChecked(${roleDetailVO.roleIsUpdate}, $("#roleIsUpdate"));
-        isPropChecked(${roleDetailVO.roleIsDelete}, $("#roleIsDelete"));
-        isPropChecked(${roleDetailVO.whiteListIsSelect}, $("#whiteListIsSelect"));
-        isPropChecked(${roleDetailVO.whiteListIsAdd}, $("#whiteListIsAdd"));
-        isPropChecked(${roleDetailVO.whiteListIsUpdate}, $("#whiteListIsUpdate"));
-        isPropChecked(${roleDetailVO.whiteListIsDelete}, $("#whiteListIsDelete"));
-        isPropChecked(${roleDetailVO.blackListIsSelect}, $("#blackListIsSelect"));
-        isPropChecked(${roleDetailVO.blackListIsAdd}, $("#blackListIsAdd"));
-        isPropChecked(${roleDetailVO.blackListIsUpdate}, $("#blackListIsUpdate"));
-        isPropChecked(${roleDetailVO.blackListIsDelete}, $("#blackListIsDelete"));
-        //复选框默认不可用
+        //页面上所有复选框不可点击
         $("input[type=checkbox]").attr("disabled", true);
-
     });
 
-    function isPropChecked(var1, var2) {
-        if (var1 != null && var1 != undefined && typeof var1 == "boolean") {
-            if (var1) {
-                var2.prop("checked", true);
-            } else {
-                var2.prop("checked", false);
-            }
-        }
-    }
-
-    /*点击维护之后，保存按钮出现，复选框可选*/
+    /**
+     * 点击“维护”按钮，显示“保存”按钮
+     * */
     function updateRoleFun() {
         $("#roleDetail_update_button").css("display", "none");
         $("#roleDetail_save_button").css("display", "inline");
         $("input[type=checkbox]").attr("disabled", false);
     }
 
-    /*点击保存，维护数据库，刷新页面*/
-    function saveRoleFun(roleId) {
+    /**
+     * 点击保存，成功后“保存”按钮消失，“维护”按钮出现
+     * */
+    function saveUserRoleFun() {
+        var checkBoxValueArr = $("input[type=checkbox]");
+        var dataStr = "";
+        for (var i = 0; i < checkBoxValueArr.length; i++) {
+            if (checkBoxValueArr[i].checked) {
+                dataStr = dataStr + checkBoxValueArr[i].value + ";";
+            }
+        }
+        console.log("dataStr: " + dataStr)
         $.ajax({
-            type: "POST",
+            type: "post",
             url: "${pageContext.request.contextPath}/roleMenu/saveRoleMenu",
             async: false,
             data: {
-                "roleId":roleId,
-                "userIsSelect": $("#userIsSelect").is(":checked"),
-                "userIsAdd": $("#userIsAdd").is(":checked"),
-                "userIsUpdate": $("#userIsUpdate").is(":checked"),
-                "userIsDelete": $("#userIsDelete").is(":checked"),
-                "menuIsSelect": $("#menuIsSelect").is(":checked"),
-                "menuIsAdd": $("#menuIsAdd").is(":checked"),
-                "menuIsUpdate": $("#menuIsUpdate").is(":checked"),
-                "menuIsDelete": $("#menuIsDelete").is(":checked"),
-                "roleIsSelect": $("#roleIsSelect").is(":checked"),
-                "roleIsAdd": $("#roleIsAdd").is(":checked"),
-                "roleIsUpdate": $("#roleIsUpdate").is(":checked"),
-                "roleIsDelete": $("#roleIsDelete").is(":checked"),
-                "whiteListIsSelect": $("#whiteListIsSelect").is(":checked"),
-                "whiteListIsAdd": $("#whiteListIsAdd").is(":checked"),
-                "whiteListIsUpdate": $("#whiteListIsUpdate").is(":checked"),
-                "whiteListIsDelete": $("#whiteListIsDelete").is(":checked"),
-                "blackListIsSelect": $("#blackListIsSelect").is(":checked"),
-                "blackListIsAdd": $("#blackListIsAdd").is(":checked"),
-                "blackListIsUpdate": $("#blackListIsUpdate").is(":checked"),
-                "blackListIsDelete": $("#blackListIsDelete").is(":checked")
+                "roleId": ${selectRoleId},
+                "dataStr": dataStr
             },
             success: function (data) {
-                $("#right").html(data);
-            },
-            error: function (data) {
-                alertUtil("error!")
+                $("#roleDetail_save_button").css("display", "none");
+                $("#roleDetail_update_button").css("display", "inline");
             }
         });
     }
 
-
+    /**
+     * 点击复选按钮。如果是查询按钮，取消选中，其他的按钮自动取消；
+     * */
 </script>

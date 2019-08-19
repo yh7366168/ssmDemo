@@ -1,39 +1,26 @@
 package com.yh.pojo;
 
-import java.util.List;
+import lombok.Data;
 
 /**
- * @author yh create on 2019/8/16
+ * @author yh create on 2019/8/19
  */
+@Data
 public class RoleDetail {
+
+    private Integer id;
+
+    private Integer firstMenuId;
 
     private String firstMenuName;
 
-    private String secondMenuName;
+    private Integer sceondMenuId;
 
-    private List<Button> buttonList;
+    private String sceondMenuName;
 
-    public String getFirstMenuName() {
-        return firstMenuName;
-    }
+    private Integer buttonId;
 
-    public void setFirstMenuName(String firstMenuName) {
-        this.firstMenuName = firstMenuName;
-    }
+    private String buttonName;
 
-    public String getSecondMenuName() {
-        return secondMenuName;
-    }
-
-    public void setSecondMenuName(String secondMenuName) {
-        this.secondMenuName = secondMenuName;
-    }
-
-    public List<Button> getButtonList() {
-        return buttonList;
-    }
-
-    public void setButtonList(List<Button> buttonList) {
-        this.buttonList = buttonList;
-    }
+    private String buttonAlias;
 }

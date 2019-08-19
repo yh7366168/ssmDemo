@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yh.dao.RoleDetailDao">
+    <resultMap id="BaseResultMap" type="com.yh.pojo.RoleDetail">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="first_menu_id" property="firstMenuId" jdbcType="INTEGER"/>
+        <result column="first_menu_name" property="firstMenuName" jdbcType="VARCHAR"/>
+        <result column="sceond_menu_id" property="sceondMenuId" jdbcType="INTEGER"/>
+        <result column="sceond_menu_name" property="sceondMenuName" jdbcType="VARCHAR"/>
+        <result column="button_id" property="buttonId" jdbcType="INTEGER"/>
+        <result column="button_name" property="buttonName" jdbcType="VARCHAR"/>
+        <result column="button_alias" property="buttonAlias" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+      id, first_menu_id, first_menu_name, sceond_menu_id, sceond_menu_name, button_id,
+      button_name, button_alias
+   </sql>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_role_detail
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+
+    <select id="selectAll" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"></include>
+        from sys_role_detail
+    </select>
+
+</mapper>
