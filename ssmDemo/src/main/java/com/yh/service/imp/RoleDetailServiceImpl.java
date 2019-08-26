@@ -56,7 +56,6 @@ public class RoleDetailServiceImpl implements RoleDetailService {
                 SecondMenuVO secondMenuVO = new SecondMenuVO();
                 List<ButtonVO> buttonVOList = new ArrayList<>();
                 for (RoleDetail roleDetail : secondMenuMap.get(sceondKey)) {
-                    log.info("roleDetail:{}", JSON.toJSONString(roleDetail));
                     ButtonVO buttonVO = new ButtonVO();
                     buttonVO.setButtonName(roleDetail.getButtonName());
                     buttonVO.setButtonAlias(roleDetail.getButtonAlias());

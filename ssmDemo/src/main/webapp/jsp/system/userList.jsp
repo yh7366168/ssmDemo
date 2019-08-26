@@ -228,6 +228,6 @@
             });
         });
         //按钮权限
-        userRoleFun(10001);
+        userButtonRoleFun(10001);
     });
 </script>

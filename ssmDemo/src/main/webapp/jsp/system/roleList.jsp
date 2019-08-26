@@ -7,7 +7,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@include file="/jsp/common/page_util.jsp"%>
+<%@include file="/jsp/common/page_util.jsp" %>
 <html>
 <head>
     <title>角色列表页面</title>
@@ -25,7 +25,7 @@
 <!-- 操作框 -->
 <div class="crudDiv">
     <div>
-        <button>新增</button>
+        <button class="add_button_clz" onclick="initRoleDetailFun()">新增</button>
     </div>
 </div>
 <!-- 查询框 -->
@@ -63,9 +63,13 @@
                         <a href="#" onclick="selectDetailFun('${role.roleId}')">查询</a>
                     </span>
                     <span style="margin-left: 10px;margin-right: 5px">|</span>
-                    <span>维护</span>
+                    <span>
+                        <a href="#" class="delete_button_clz" onclick="deleteRoleFun('${role.roleId}')">删除</a>
+                    </span>
                     <span style="margin-left: 10px;margin-right: 5px">|</span>
-                    <span>删除</span>
+                    <span>
+                        <a href="#" onclick="test()">test</a>
+                    </span>
                 </div>
             </td>
         </tr>
@@ -94,19 +98,76 @@
 <script src="${pageContext.request.contextPath}/lib/jquery-3.4.1.min.js"></script>
 <script type="text/javascript">
 
-    function selectDetailFun(roleId){
+    /**
+     * 点击“新增”按钮，跳转至新增页面
+     * */
+    function initRoleDetailFun(){
         $.ajax({
             type:"POST",
-            url:"${pageContext.request.contextPath}/roleMenu/queryRoleMenuDetail2",
+            url:"${pageContext.request.contextPath}/roleMenu/initRoleDetail",
             async:false,
-            data:{
-                "roleId": roleId
-            },
+            dataType:"text",
             success:function (result) {
                 $("#right").html(result);
             }
         });
     }
+
+    /**
+     * 查询详细按钮
+     * */
+    function selectDetailFun(roleId) {
+        $.ajax({
+            type: "POST",
+            url: "${pageContext.request.contextPath}/roleMenu/queryRoleMenuDetail",
+            async: false,
+            data: {"roleId": roleId},
+            dataType: "text",
+            success: function (result) {
+                $("#right").html(result);
+            }
+        });
+    }
+
+    /**
+     * 点击“删除”按钮，删除这条数据
+     * */
+    function deleteRoleFun(roleId){
+        if(roleId == 101){
+            alertUtil("无法删除管理员权限！");
+            return;
+        }
+        var msg = "是否删除该角色信息？";
+        var dataArr = {"roleId":roleId};
+        var url = "/role/deleteRoleByRoleId";
+        confrimUtil(msg, dataArr,url);
+        //先当前角色是否管理员
+        <%--$.ajax({--%>
+            <%--type:"post",--%>
+            <%--url:"${pageContext.request.contextPath}/role/deleteRoleByRoleId",--%>
+            <%--data:{"roleId":roleId},--%>
+            <%--dataType:"text",--%>
+            <%--success:function (result) {--%>
+                <%--$("#right").html(result)--%>
+            <%--}--%>
+        <%--});--%>
+    }
+
+
+
+    function say(value){
+        alert(value);
+    }
+
+    function execute(someFunction, value){
+        someFunction(value);
+    }
+
+    function test(){
+        execute(function (value) {
+            alert(value+123);
+        }, "hi uj");
+    };
 
     /*查询按钮*/
     $("#select_button").on("click", function () {
@@ -129,34 +190,54 @@
         /*清空选择框*/
         $("#username_select").val("");
         $.ajax({
-            type:"POST",
-            url:"${pageContext.request.contextPath}/role/queryPageList",
+            type: "POST",
+            url: "${pageContext.request.contextPath}/role/queryPageList",
             async: false,
-            data:{"curPage":"1"},
-            dataType:"text",
-            success:function (data) {
+            data: {"curPage": "1"},
+            dataType: "text",
+            success: function (data) {
                 $("#right").html(data);
             }
         });
     });
-    /*分页*/
+    //点击图片，跳转到对应页码
+    $("#to_page").on("click", function () {
+        var toPage = $("#page_input_value").val();
+        if (toPage < 1 || toPage >${pageBean.totalPage}) {
+            alertUtil("请输入正确页码！");
+            return;
+        }
+        $.ajax({
+            type: "GET",
+            url: "${pageContext.request.contextPath}/role/queryPageList",
+            data: {"curPage": toPage},
+            async: false,
+            dataType: "text",
+            success: function (result) {
+                //重新加载页面
+                $("#right").html(result);
+            }
+        });
+    });
+
+    /*页面初始化*/
     $(function () {
         var curPage = $("#page_input_value").val();
         //第一页，“上一页”按钮变成灰色, 当前页不是第一页，点击“上一页”
-        if(curPage == 1){
-            $("#previous_page").attr("href","javascript:;")
-                .css("pointer-events","none")
-                .css("color","#2b2b2bf0");
-        }else{
+        if (curPage == 1) {
+            $("#previous_page").attr("href", "javascript:;")
+                .css("pointer-events", "none")
+                .css("color", "#2b2b2bf0");
+        } else {
             var previousPage = parseInt(curPage) - 1;
-            $("#next_page").on("click",function () {
+            $("#next_page").on("click", function () {
                 $.ajax({
-                    type:"GET",
-                    url:"${pageContext.request.contextPath}/role/queryPageList",
-                    data:{"curPage" : nextPage},
-                    async:false,
-                    dataType:"text",
-                    success:function (result) {
+                    type: "GET",
+                    url: "${pageContext.request.contextPath}/role/queryPageList",
+                    data: {"curPage": nextPage},
+                    async: false,
+                    dataType: "text",
+                    success: function (result) {
                         //重新加载页面
                         $("#right").html(result);
                     }
@@ -164,45 +245,27 @@
             });
         }
         //最后一页，“下一页”按钮变成灰色;当前页不是最后一页，点击“下一页”
-        if(curPage == ${pageBean.totalPage}){
-            $("#next_page").attr("href","javascript:;")
-                .css("pointer-events","none")
-                .css("color","#2b2b2bf0");
-        }else{
-            var nextPage = parseInt(curPage)  + 1;
-            $("#next_page").on("click",function () {
+        if (curPage == ${pageBean.totalPage}) {
+            $("#next_page").attr("href", "javascript:;")
+                .css("pointer-events", "none")
+                .css("color", "#2b2b2bf0");
+        } else {
+            var nextPage = parseInt(curPage) + 1;
+            $("#next_page").on("click", function () {
                 $.ajax({
-                    type:"GET",
-                    url:"${pageContext.request.contextPath}/role/queryPageList",
-                    data:{"curPage" : nextPage},
-                    async:false,
-                    dataType:"text",
-                    success:function (result) {
+                    type: "GET",
+                    url: "${pageContext.request.contextPath}/role/queryPageList",
+                    data: {"curPage": nextPage},
+                    async: false,
+                    dataType: "text",
+                    success: function (result) {
                         //重新加载页面
                         $("#right").html(result);
                     }
                 });
             });
         }
-        //点击图片，跳转到对应页码
-        $("#to_page").on("click", function () {
-            var toPage = $("#page_input_value").val();
-            console.log("toPage = " + toPage)
-            if(toPage<1 || toPage>${pageBean.totalPage}){
-                alertUtil("请输入正确页码！");
-                return;
-            }
-            $.ajax({
-                type:"GET",
-                url:"${pageContext.request.contextPath}/role/queryPageList",
-                data:{"curPage" : toPage},
-                async:false,
-                dataType:"text",
-                success:function (result) {
-                    //重新加载页面
-                    $("#right").html(result);
-                }
-            });
-        });
+        //设置按钮权限
+        userButtonRoleFun(10003);
     });
 </script>

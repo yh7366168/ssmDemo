@@ -16,16 +16,13 @@
         .one_menu_tr td {
             font-size: 16px;
         }
-
         .two_menu_tr td {
             text-indent: 40px;
         }
-
         .role_detail_checkbox_tr td {
             text-indent: 40px;
             width: 250px;
         }
-
         tr {
             height: 30px;
         }
@@ -34,16 +31,16 @@
 <body>
 <div style="margin-left: 45px;margin-top: 30px;">
     <div style="margin-bottom: 20px">
-        <button id="roleDetail_update_button" style="width: 60px;height: 30px; "
+        <button id="roleDetail_update_button" class="update_button_clz" style="width: 60px;height: 30px; "
                 onclick="updateRoleFun()">维护
         </button>
         <button id="roleDetail_save_button" style="width: 60px;height: 30px; display: none"
                 onclick="saveUserRoleFun()">保存
         </button>
-        <button id="roleDetail_return_button" style="width: 60px;height: 30px;margin-right: 20px;"  onclick="">返回</button>
+        <button id="roleDetail_return_button" style="width: 60px;height: 30px;margin-left: 20px;"  onclick="returnBackListFun('/role/queryPageList')">返回</button>
     </div>
     <div style="margin-top: 10px;margin-bottom: 10px;">
-        <span>角色名</span> <input type="text" value="${selectRoleId}" style="margin-right: 16px;" disabled="disabled">
+        <span>角色名</span> <input type="text" value="${roleVO.roleName}" style="margin-right: 16px;text-indent: 10px;" disabled="disabled">
     </div>
     <div style="text-align: center; width: 100%; height: 20px;">角色菜单配置</div>
     <div>
@@ -83,7 +80,9 @@
      * */
     $(function () {
         //页面上所有复选框不可点击
-        $("input[type=checkbox]").attr("disabled", true);
+        $("input[type=checkbox]").prop("disabled", true);
+        //按钮权限设置
+        userButtonRoleFun(10003);
     });
 
     /**
@@ -92,7 +91,7 @@
     function updateRoleFun() {
         $("#roleDetail_update_button").css("display", "none");
         $("#roleDetail_save_button").css("display", "inline");
-        $("input[type=checkbox]").attr("disabled", false);
+        $("input[type=checkbox]").prop("disabled", false);
     }
 
     /**
@@ -106,13 +105,12 @@
                 dataStr = dataStr + checkBoxValueArr[i].value + ";";
             }
         }
-        console.log("dataStr: " + dataStr)
         $.ajax({
             type: "post",
             url: "${pageContext.request.contextPath}/roleMenu/saveRoleMenu",
             async: false,
             data: {
-                "roleId": ${selectRoleId},
+                "roleId": ${roleVO.roleId},
                 "dataStr": dataStr
             },
             success: function (data) {
@@ -123,6 +121,36 @@
     }
 
     /**
-     * 点击复选按钮。如果是查询按钮，取消选中，其他的按钮自动取消；
+     * 点击复选框。
+     * 选中复选框：查询复选框必须自动处于选中状态；
+     * 取消复选框：如果是查询，取消“选中”状态时同tr的其他复选框自动取消“选中”状态。
      * */
+    $("input[type=checkbox]").on("click", function () {
+        var valStrArr =  $(this).val().split("-");
+        var allCheckBox = $("input[type=checkbox]");
+        if ($(this).is(":checked")) {
+            if(valStrArr[2] != 1){
+                for(var i=0;i<allCheckBox.length; i++){
+                    var otherValStrArr = allCheckBox[i].value.split("-");
+                    //选中其他复选框，查询按钮自动选中
+                    if(valStrArr[1] == otherValStrArr[1] && otherValStrArr[2]==1){
+                        allCheckBox[i].checked = true;
+                    }
+                }
+            }
+        } else {
+            if (valStrArr[2] == 1) {
+                for (var i = 0; i < allCheckBox.length; i++) {
+                    if (allCheckBox[i].checked) {
+                        var otherValStrArr = allCheckBox[i].value.split("-");
+                        //取消查询复选框选中状态，其他复选框自动取消选中状态
+                        if (valStrArr[1] == otherValStrArr[1] && otherValStrArr[2] != 1) {
+                            allCheckBox[i].checked = false;
+                        }
+                    }
+                }
+            }
+        }
+    });
+
 </script>

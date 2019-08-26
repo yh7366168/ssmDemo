@@ -39,10 +39,12 @@ public class RoleInterceptor extends HandlerInterceptorAdapter {
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
         HttpSession session = request.getSession();
         UserRoleVO userRoleVO = (UserRoleVO) session.getAttribute("userRoleVO");
-        String username = userRoleVO.getUserName();
-        Integer roleId = userRoleVO.getRoleId();
-        List<RoleMenu> roleMenuList = roleMenuDao.selectByRoleIdAndMeneId(roleId, null);
-        session.setAttribute("roleMenuListVO", roleMenuList);
+        if(userRoleVO != null){
+            String username = userRoleVO.getUserName();
+            Integer roleId = userRoleVO.getRoleId();
+            List<RoleMenu> roleMenuList = roleMenuDao.selectByRoleIdAndMeneId(roleId, null);
+            session.setAttribute("roleMenuListVO", roleMenuList);
+        }
     }
 
     /**

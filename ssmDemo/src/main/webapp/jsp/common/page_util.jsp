@@ -6,5 +6,6 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@include file="util/yh_confrim.jsp"%>
+<%@include file="util/sys_confrim.jsp"%>
 <%@include file="util/sys_user_role_page.jsp"%>
+<%@include file="util/sys_common_util.jsp"%>

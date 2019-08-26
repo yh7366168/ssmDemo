@@ -45,9 +45,12 @@
 
     <mvc:default-servlet-handler />
 
+    <!-- 自定义拦截器 -->
     <mvc:interceptors>
         <!-- 如果不定义mvc:mapping path 将拦截所有的URL请求 -->
         <bean class="com.yh.util.intercepor.RoleInterceptor"></bean>
     </mvc:interceptors>
 
+    <!-- 统一处理异常
+    <bean id="myHandlerExceptionResolver" class="com.yh.util.exception.MyHandlerExceptionResolver"></bean>-->
 </beans>

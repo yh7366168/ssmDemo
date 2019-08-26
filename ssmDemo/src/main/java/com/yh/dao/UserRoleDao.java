@@ -13,6 +13,8 @@ public interface UserRoleDao {
 
     int deleteByPrimaryKey(UserRole key);
 
+    int deleteByRoleId(Integer roleId);
+
     int insert(UserRole record);
 
     int insertSelective(UserRole record);

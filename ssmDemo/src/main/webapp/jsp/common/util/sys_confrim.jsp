@@ -22,9 +22,7 @@
             height: 100%;
             background-color: black;
             z-index:1001;
-            -moz-opacity: 0.7;
-            opacity:.70;
-            filter: alpha(opacity=70);
+            opacity:0.3;
         }
         /*显示层*/
         .window_info_clz{
@@ -65,21 +63,45 @@
             cursor: pointer;
         }
     </style>
-    
+
+    <script src="${pageContext.request.contextPath}/lib/jquery-3.4.1.min.js"></script>
     <script type="text/javascript">
-        var confrim_yes_url;
-        /*重写confrim方法，点击确认触发的方法可以在具体页面重写*/
-        function confrimUtil(msg) {
+        /**
+         * 重写confirm方法,点击“确认”按钮触发指定方法
+         * msg 页面提示信息；dataArr 参数数组；url cofirmYes触发方法
+         * */
+        function confrimUtil(msg, dataArr, url) {
+            console.log(msg + " " + dataStr + " " + url)
             document.getElementById("bg").style.display = "block";
             document.getElementById("confirm_info").style.display = "block";
             if(msg != null || msg!=undefined){
                 var p_msg = document.getElementById("confirm_message");
                 p_msg.innerText = msg;
+                $("#ajax_data_input").attr("value", dataArr);
+                $("#ajax_url_input").attr("value", url);
             }
         }
+        /**
+         * 点击“确认”按钮，触发方法
+         * */
         function confrimYes() {
             document.getElementById("bg").style.display = "none";
             document.getElementById("confirm_info").style.display = "none";
+            var dataArr = $("#ajax_data_input").val();
+            var url = $("#ajax_url_input").val();
+            $.ajax({
+                type:"POST",
+                url:"${pageContext.request.contextPath}" + url,
+                data:dataArr,
+                async:false,
+                dataType:"text",
+                success:function (result) {
+                    $("#right").html(result);
+                },
+                error:function (result) {
+                    console.log("confrimYes-error");
+                }
+            });
         }
         function confrimCancal() {
             document.getElementById("bg").style.display = "none";
@@ -125,7 +147,7 @@
 </head>
 <body>
 <!-- 遮幕1 -->
-<div id="bg" class="bg_clz"></div>
+<div id="bg" class="bg_clz" style=""></div>
 <!-- 弹出窗口:confrim 确认框-->
 <div id="confirm_info" class="window_info_clz">
     <div style="width: 100%;height: 20px;margin: 0;padding: 0;background-color: #c7c7c7;">
@@ -136,6 +158,12 @@
     <div class="confirm_info_button_div">
         <button onclick="confrimYes()">确认</button>
         <button onclick="confrimCancal()" style="margin-left: 35px">取消</button>
+    </div>
+    <div style="display: none">
+        <!-- ajax传参 -->
+        <input id="ajax_data_input" type="text" value="">
+        <!-- ajax路由 -->
+        <input id="ajax_url_input" type="text" value="">
     </div>
 </div>
 

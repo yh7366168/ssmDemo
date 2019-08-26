@@ -64,7 +64,8 @@
             right: 0;
             bottom: 0;
             left: 240px;
-            height: 91%;
+            height: 92.4%;
+            background-color: #f3f3f3;
         }
 
         /*--------菜单树----------*/
@@ -180,6 +181,8 @@
 
         /*点击菜单跳转对应的页面*/
         $(".menu li").click(function () {
+            //点击后，点击触发
+            $(this).css("background-color", "#dedede");
             var menuUrl = $(this).attr("value");
             if(menuUrl==null || menuUrl=="" || menuUrl==undefined){
                 alert("error！");
