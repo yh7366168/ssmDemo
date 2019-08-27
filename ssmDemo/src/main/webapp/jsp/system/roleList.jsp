@@ -66,10 +66,6 @@
                     <span>
                         <a href="#" class="delete_button_clz" onclick="deleteRoleFun('${role.roleId}')">删除</a>
                     </span>
-                    <span style="margin-left: 10px;margin-right: 5px">|</span>
-                    <span>
-                        <a href="#" onclick="test()">test</a>
-                    </span>
                 </div>
             </td>
         </tr>
@@ -97,17 +93,16 @@
 
 <script src="${pageContext.request.contextPath}/lib/jquery-3.4.1.min.js"></script>
 <script type="text/javascript">
-
     /**
      * 点击“新增”按钮，跳转至新增页面
      * */
-    function initRoleDetailFun(){
+    function initRoleDetailFun() {
         $.ajax({
-            type:"POST",
-            url:"${pageContext.request.contextPath}/roleMenu/initRoleDetail",
-            async:false,
-            dataType:"text",
-            success:function (result) {
+            type: "POST",
+            url: "${pageContext.request.contextPath}/roleMenu/initRoleDetail",
+            async: false,
+            dataType: "text",
+            success: function (result) {
                 $("#right").html(result);
             }
         });
@@ -132,42 +127,16 @@
     /**
      * 点击“删除”按钮，删除这条数据
      * */
-    function deleteRoleFun(roleId){
-        if(roleId == 101){
+    function deleteRoleFun(roleId) {
+        if (roleId == 101) {
             alertUtil("无法删除管理员权限！");
             return;
         }
-        var msg = "是否删除该角色信息？";
-        var dataArr = {"roleId":roleId};
+        var msg = "是否删除该角色信息？如果确认，该角色用户下的所有用户都将失效！";
+        var dataArr = {"roleId": roleId};
         var url = "/role/deleteRoleByRoleId";
-        confrimUtil(msg, dataArr,url);
-        //先当前角色是否管理员
-        <%--$.ajax({--%>
-            <%--type:"post",--%>
-            <%--url:"${pageContext.request.contextPath}/role/deleteRoleByRoleId",--%>
-            <%--data:{"roleId":roleId},--%>
-            <%--dataType:"text",--%>
-            <%--success:function (result) {--%>
-                <%--$("#right").html(result)--%>
-            <%--}--%>
-        <%--});--%>
+        confrimUtil(msg, dataArr, url);
     }
-
-
-
-    function say(value){
-        alert(value);
-    }
-
-    function execute(someFunction, value){
-        someFunction(value);
-    }
-
-    function test(){
-        execute(function (value) {
-            alert(value+123);
-        }, "hi uj");
-    };
 
     /*查询按钮*/
     $("#select_button").on("click", function () {

@@ -7,8 +7,10 @@ import com.yh.pojo.Role;
 import com.yh.pojo.vo.UserRoleVO;
 import com.yh.service.RoleMenuService;
 import com.yh.service.RoleService;
+import com.yh.service.UserRoleService;
 import com.yh.util.PageUtil;
 import com.yh.util.constant.RoleConstant;
+import com.yh.util.exception.YhSimpleException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -38,7 +40,7 @@ public class RoleController {
     @Autowired
     private RoleService roleService;
     @Autowired
-    private RoleMenuService roleMenuService;
+    private UserRoleService userRoleService;
 
     @RequestMapping("queryPageList")
     public ModelAndView queryPageList(@RequestParam(value = "roleName", required = false) String roleName,
@@ -83,17 +85,19 @@ public class RoleController {
 
     @RequestMapping("deleteRoleByRoleId")
     public ModelAndView deleteRoleByRoleId(Integer roleId){
+        log.info("deleteRoleByRoleId-删除角色信息开始，roleId:{}", roleId);
         //删除角色表
         int delNum = roleService.deleteRoleByRoleId(roleId);
+        log.info("deleteRoleByRoleId-删除{}条角色信息", delNum);
         if(delNum != 1){
-            log.info("deleteRoleByRoleId-角色删除失败，roleId:{}, delNum:{}", roleId, delNum);
+            throw new YhSimpleException("角色删除失败");
         }
         //删除角色权限表
         int delRoleMenuNum = roleService.deleteRoleByRoleId(roleId);
-        if(delRoleMenuNum < 1){
-            log.info("deleteRoleByRoleId-角色权限删除失败！");
-        }
+        log.info("deleteRoleByRoleId-删除{}条角色权限信息", delRoleMenuNum);
         //删除该角色时，该角色下面的用户自动解除绑定。
+        int userRoleNum = userRoleService.deleteByRoleId(roleId);
+        log.info("deleteRoleByRoleId-删除{}条用户角色信息", userRoleNum);
         ModelAndView model = queryPageList(null, 1);
         return model;
     }
