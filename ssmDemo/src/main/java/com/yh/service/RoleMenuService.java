@@ -11,4 +11,6 @@ import java.util.List;
 public interface RoleMenuService {
 
     boolean saveRoleMenu(Integer roleId, List<RoleMenu> list);
+
+    int deleteByRoleId(Integer roleId);
 }

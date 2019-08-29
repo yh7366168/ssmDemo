@@ -64,7 +64,7 @@
                     </span>
                     <span style="margin-left: 10px;margin-right: 5px">|</span>
                     <span>
-                        <a href="#" class="delete_button_clz" onclick="deleteRoleFun('${role.roleId}')">删除</a>
+                        <a href="#" class="delete_button_clz" value="${role.roleId}-${role.roleType}">删除</a>
                     </span>
                 </div>
             </td>
@@ -127,16 +127,23 @@
     /**
      * 点击“删除”按钮，删除这条数据
      * */
-    function deleteRoleFun(roleId) {
-        if (roleId == 101) {
-            alertUtil("无法删除管理员权限！");
+    $(".delete_button_clz").on("click", function () {
+        var valStr = $(this).attr("value");
+        var roleId = valStr.split("-")[0];
+        var roleType = valStr.split("-")[1];
+        if(roleId == "101"){
+            alertUtil("无法删除管理员角色！");
+            return;
+        }
+        if(roleType == "0"){
+            alertUtil("无法删除系统角色！");
             return;
         }
         var msg = "是否删除该角色信息？如果确认，该角色用户下的所有用户都将失效！";
         var dataArr = {"roleId": roleId};
         var url = "/role/deleteRoleByRoleId";
         confrimUtil(msg, dataArr, url);
-    }
+    });
 
     /*查询按钮*/
     $("#select_button").on("click", function () {

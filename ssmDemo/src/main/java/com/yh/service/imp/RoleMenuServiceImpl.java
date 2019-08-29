@@ -34,4 +34,9 @@ public class RoleMenuServiceImpl implements RoleMenuService {
         }
         return true;
     }
+
+    @Override
+    public int deleteByRoleId(Integer roleId){
+        return roleMenuDao.deleteByRoleId(roleId);
+    }
 }

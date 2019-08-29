@@ -104,6 +104,7 @@ public class RoleMenuController {
         role.setRoleName(roleName);
         role.setRoleDesc(roleDesc);
         role.setRoleStatus(0);
+        role.setRoleType(1);
         role.setCreateTime(DateUtil.getNow());
         role.setCreateUser(userRoleVO.getUserName());
         role.setUpdateTime(DateUtil.getNow());

@@ -41,6 +41,8 @@ public class RoleController {
     private RoleService roleService;
     @Autowired
     private UserRoleService userRoleService;
+    @Autowired
+    private RoleMenuService roleMenuService;
 
     @RequestMapping("queryPageList")
     public ModelAndView queryPageList(@RequestParam(value = "roleName", required = false) String roleName,
@@ -78,7 +80,7 @@ public class RoleController {
         log.info("checkRoleName-入参：{},结果：{}", roleName, JSON.toJSONString(role));
         if (role != null) {
             return "角色名已存在！";
-        } else {
+        }else {
             return "success";
         }
     }
@@ -93,17 +95,12 @@ public class RoleController {
             throw new YhSimpleException("角色删除失败");
         }
         //删除角色权限表
-        int delRoleMenuNum = roleService.deleteRoleByRoleId(roleId);
+        int delRoleMenuNum = roleMenuService.deleteByRoleId(roleId);
         log.info("deleteRoleByRoleId-删除{}条角色权限信息", delRoleMenuNum);
         //删除该角色时，该角色下面的用户自动解除绑定。
         int userRoleNum = userRoleService.deleteByRoleId(roleId);
         log.info("deleteRoleByRoleId-删除{}条用户角色信息", userRoleNum);
         ModelAndView model = queryPageList(null, 1);
         return model;
-    }
-
-    @RequestMapping("testConfirmYes")
-    public ModelAndView testConfirmYes(String roleName){
-        return queryPageList(roleName, 1);
     }
 }

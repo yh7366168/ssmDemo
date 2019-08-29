@@ -23,6 +23,11 @@ public class Role {
     private String roleDesc;
 
     /**
+     * 角色类型（0-系统角色，1-用户角色）
+     * */
+    private int roleType;
+
+    /**
      * 角色状态
      * */
     private Integer roleStatus;

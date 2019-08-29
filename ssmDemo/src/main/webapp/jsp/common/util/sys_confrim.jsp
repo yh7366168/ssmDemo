@@ -34,18 +34,17 @@
             width: 19%;
             height: 19%;
             padding: 0;
-            border: 8px solid #E8E9F7;
-            background-color: white;
+            background-color: #f7ffed;
             z-index: 1002;
             overflow: auto;
-            border-style: double;
+            border: 3px solid #d3f3d5;
         }
 
         .window_info_clz p {
             margin-top: 30px;
             width: 100%;
             text-align: center;
-            font-size: 19px;
+            font-size: 16px;
         }
 
         .confirm_info_button_div button {
@@ -76,7 +75,6 @@
          * */
         function confrimUtil(msg, dataJson, url) {
             var dataJsonStr = JSON.stringify(dataJson);
-            console.log("dataJsonStr : " + dataJson);
             document.getElementById("bg").style.display = "block";
             document.getElementById("confirm_info").style.display = "block";
             if (msg != null || msg != undefined) {
@@ -95,7 +93,6 @@
             document.getElementById("confirm_info").style.display = "none";
             var dataJsonStr = $("#ajax_data_input").val();
             var url = $("#ajax_url_input").val();
-            console.log("dataJson : " + JSON.parse(dataJsonStr));
             $.ajax({
                 type: "POST",
                 url: "${pageContext.request.contextPath}" + url,

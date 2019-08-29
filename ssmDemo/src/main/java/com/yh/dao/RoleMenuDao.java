@@ -11,6 +11,7 @@ import java.util.List;
  * */
 @Repository
 public interface RoleMenuDao {
+
     int deleteByRoleId(@Param("roleId") Integer roleId);
 
     int insert(RoleMenu roleMenu);

@@ -12,7 +12,6 @@
 <head>
     <title>添加角色</title>
     <link rel="shortcut icon" href="#"/>
-
     <style type="text/css">
         .one_menu_tr td {
             font-size: 16px;
@@ -27,15 +26,22 @@
         tr {
             height: 30px;
         }
+        button {
+            width: 60px;
+            height: 30px;
+            margin-right: 20px;
+        }
     </style>
 </head>
 <body>
 <div style="margin-left: 45px;margin-top: 30px;">
     <div style="margin-bottom: 20px">
-        <button id="roleDetail_save_button" style="width: 60px;height: 30px;margin-right: 20px;"
+        <button id="roleDetail_save_button"
                 onclick="saveUserRoleFun()">保存
         </button>
-        <button id="roleDetail_return_button" style="width: 60px;height: 30px;"  onclick="returnBackListFun('/role/queryPageList')">返回</button>
+        <button id="roleDetail_update_button" style="display: none">维护</button>
+        <button id="roleDetail_save_button_second" style="display: none">保存2</button>
+        <button id="roleDetail_return_button"  onclick="returnBackListFun('/role/queryPageList')">返回</button>
     </div>
     <div style="margin-top: 20px;margin-bottom: 20px;">
         <span>角色名</span> <input type="text" value="" id="role_name_input" style="margin-right: 16px;text-indent: 10px;margin-right: 20px" >
@@ -75,22 +81,13 @@
 <script src="${pageContext.request.contextPath}/lib/jquery-3.4.1.min.js"></script>
 <script type="text/javascript">
     /**
-     * 初始化页面
-     * */
-    $(function () {
-
-    });
-
-    /**
      * 点击保存，保存角色信息
      * */
     function saveUserRoleFun() {
-        var dataArr = {"roleName" : roleName };
-        var url = "/role/testConfirmYes";
         //角色名必填
         var roleName = $("#role_name_input").val();
         if(roleName == undefined || roleName==null || roleName.trim()==""){
-            alertUtil("请输入角色名字！");
+            alertUtil("请输入角色名！");
             return;
         }
         //角色名唯一
@@ -117,6 +114,10 @@
                     dataStr = dataStr + checkBoxValueArr[i].value + ";";
                 }
             }
+            if(dataStr == ""){
+                alertUtil("请选择权限！");
+                return;
+            }
             var roleDesc = $("#role_desc_input").val();
             if(roleDesc == undefined || roleDesc==null || roleDesc.trim()==""){
                 roleDesc = "无";
@@ -132,11 +133,13 @@
                 },
                 success: function (data) {
                     $("#roleDetail_save_button").css("display", "none");
-                    $("#roleDetail_update_button").css("display", "inline");
+                    $("input[type=checkbox]").prop("disabled", true);
+                    $("input[type=text]").prop("disabled", true);
                 }
             });
         }
     }
+
 
     /**
      * 点击复选框。
@@ -170,5 +173,4 @@
             }
         }
     });
-
 </script>

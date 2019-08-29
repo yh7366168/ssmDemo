@@ -26,8 +26,9 @@
         $(".delete_button_clz").prop("disabled", true);
         $(".check_button_clz").prop("disabled", true);
         <c:forEach  items="${sessionScope.roleMenuListVO}" var="roleMenuVar">
-        var buttonId = ${roleMenuVar.buttonId};
+        var  = ${roleMenuVar.buttonId};
         var menuId = ${roleMenuVar.menuId};
+        console.log(menuId + "  " + buttonId);
         if (menuId == curMenuId) {
             if (buttonId == 1) {
                 //能看到对应的页面就表面有对应的查询权限

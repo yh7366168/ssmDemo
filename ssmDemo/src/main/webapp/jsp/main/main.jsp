@@ -20,7 +20,7 @@
         .top {
             width: 100%;
             height: 7.2%;
-            background-color: #c6c7c5;
+            background-color: #f3f3f3;
         }
         .top-line{
             width: 100%;
@@ -39,11 +39,6 @@
             width: 240px;
             height: 92.5%;
             background-color: #f1f1f5;
-        }
-
-        .menuDiv {
-            width: 98%;
-            height: 100%;
         }
 
         #drap-line {
@@ -70,7 +65,7 @@
 
         /*--------菜单树----------*/
         .menuDiv {
-            background-color: #c6c7c5;
+            background-color: #f3f3f3;
             width: 98%;
             height: 100%;
         }
@@ -92,7 +87,7 @@
         .main > a {
             /*消除链接下面的下划线*/
             text-decoration: none;
-            background-color: #291d1d85;
+            background-color: #a8abad;
             font-size: 18px;
             color: white;
             display: block;
@@ -110,16 +105,14 @@
         /*二级菜单*/
         .menu a {
             text-decoration: none;
-            background-color: #c6c7c5;
             font-size: 16px;
             display: block;
-            padding-top: 3px;
             width: 100%;
             text-align: left;
             text-indent: 16%;
             padding-top: 6px;
             padding-bottom: 6px;
-            color:#4d4d4e;
+            color:black;
         }
     </style>
 </head>
@@ -171,18 +164,19 @@
         /*------菜单树动画效果，点击一级菜单显示对应二级菜单----*/
         $(".main > ul").slideUp(0);
         $(".main > a").click(function () {
-            var thisNode = $(this).next("ul");
             //先关闭所有的
             $(".main > ul").slideUp(1);
             //再打开
-            thisNode.slideDown();
+            $(this).next("ul").slideDown();
             return true;
         });
 
         /*点击菜单跳转对应的页面*/
         $(".menu li").click(function () {
-            //点击后，点击触发
-            $(this).css("background-color", "#dedede");
+            //点击时当前菜单背景颜色变深
+            $(this).css("background-color", "#d2d2d2");
+            //除当前菜单之外的其他菜单，背景颜色恢复
+            $(".menu li").not(this).css("background-color", "#f3f3f3");
             var menuUrl = $(this).attr("value");
             if(menuUrl==null || menuUrl=="" || menuUrl==undefined){
                 alert("error！");
