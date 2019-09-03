@@ -81,13 +81,8 @@
     $(function () {
         //页面上所有复选框不可点击
         $("input[type=checkbox]").prop("disabled", true);
-        //管理员角色，不设置按钮的权限
-        var curRoleId = ${sessionScope.userRoleVO.roleId};
-        console.log("curRoleId : " + curRoleId);
-        if(!curRoleId == 101){
-            //按钮权限设置
-            userButtonRoleFun(10003);
-        }
+        //按钮权限
+        userButtonRoleFun(10003);
     });
 
     /**
@@ -121,6 +116,8 @@
             success: function (data) {
                 $("#roleDetail_save_button").css("display", "none");
                 $("#roleDetail_update_button").css("display", "inline");
+                //复选框不可显示
+                $("input[type=checkbox]").prop("disabled", true);
             }
         });
     }
@@ -157,5 +154,4 @@
             }
         }
     });
-
 </script>

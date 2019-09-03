@@ -18,9 +18,11 @@
         .common_table td {
             width: 200px;
         }
+
         .countIndex {
             width: 122px;
         }
+
         /*表头颜色*/
         .head_tr {
             background-image: url(${pageContext.request.contextPath}/img/tree_01.png);
@@ -33,7 +35,7 @@
 <div class="crudDiv">
     <div>
         <button class="add_button_clz" onclick="confrimUtil('是否确认审核通过？')">新增</button>
-        <button onclick="promptUtil('请输入拒绝原因：')">删除</button>
+        <button class="delete_button_clz">删除</button>
     </div>
 </div>
 <!-- 查询框 -->
@@ -100,7 +102,58 @@
 
 <script src="${pageContext.request.contextPath}/lib/jquery-3.4.1.min.js"></script>
 <script type="text/javascript">
-    /*查询按钮*/
+    /*分页*/
+    $(function () {
+        var curPage = $("#page_input_value").val();
+        //第一页，“上一页”按钮变成灰色, 当前页不是第一页，点击“上一页”
+        if (curPage == 1) {
+            $("#previous_page").attr("href", "javascript:;")
+                .css("pointer-events", "none")
+                .css("color", "#2b2b2bf0");
+        } else {
+            var previousPage = parseInt(curPage) - 1;
+            $("#next_page").on("click", function () {
+                $.ajax({
+                    type: "GET",
+                    url: "${pageContext.request.contextPath}/user/queryUserPageList",
+                    data: {"curPage": nextPage},
+                    async: false,
+                    dataType: "text",
+                    success: function (result) {
+                        //重新加载页面
+                        $("#right").html(result);
+                    }
+                });
+            });
+        }
+        //最后一页，“下一页”按钮变成灰色;当前页不是最后一页，点击“下一页”
+        if (curPage == ${pageBean.totalPage}) {
+            $("#next_page").attr("href", "javascript:;")
+                .css("pointer-events", "none")
+                .css("color", "#2b2b2bf0");
+        } else {
+            var nextPage = parseInt(curPage) + 1;
+            $("#next_page").on("click", function () {
+                $.ajax({
+                    type: "GET",
+                    url: "${pageContext.request.contextPath}/user/queryUserPageList",
+                    data: {"curPage": nextPage},
+                    async: false,
+                    dataType: "text",
+                    success: function (result) {
+                        //重新加载页面
+                        $("#right").html(result);
+                    }
+                });
+            });
+        }
+        //按钮权限
+        userButtonRoleFun(10001);
+    });
+
+    /**
+     * 查询按钮
+     * */
     $("#select_button").on("click", function () {
         $.ajax({
             type: "POST",
@@ -161,73 +214,41 @@
             $("#check_box_head").prop("checked", true);
         }
     });
-
-    /*分页*/
-    $(function () {
-        var curPage = $("#page_input_value").val();
-        //第一页，“上一页”按钮变成灰色, 当前页不是第一页，点击“上一页”
-        if (curPage == 1) {
-            $("#previous_page").attr("href", "javascript:;")
-                .css("pointer-events", "none")
-                .css("color", "#2b2b2bf0");
-        } else {
-            var previousPage = parseInt(curPage) - 1;
-            $("#next_page").on("click", function () {
-                $.ajax({
-                    type: "GET",
-                    url: "${pageContext.request.contextPath}/user/queryUserPageList",
-                    data: {"curPage": nextPage},
-                    async: false,
-                    dataType: "text",
-                    success: function (result) {
-                        //重新加载页面
-                        $("#right").html(result);
-                    }
-                });
-            });
+    //点击图片，跳转到对应页码
+    $("#to_page").on("click", function () {
+        var toPage = $("#page_input_value").val();
+        console.log("toPage = " + toPage)
+        if (toPage < 1 || toPage >${pageBean.totalPage}) {
+            alertUtil("请输入正确页码！");
+            return;
         }
-        //最后一页，“下一页”按钮变成灰色;当前页不是最后一页，点击“下一页”
-        if (curPage == ${pageBean.totalPage}) {
-            $("#next_page").attr("href", "javascript:;")
-                .css("pointer-events", "none")
-                .css("color", "#2b2b2bf0");
-        } else {
-            var nextPage = parseInt(curPage) + 1;
-            $("#next_page").on("click", function () {
-                $.ajax({
-                    type: "GET",
-                    url: "${pageContext.request.contextPath}/user/queryUserPageList",
-                    data: {"curPage": nextPage},
-                    async: false,
-                    dataType: "text",
-                    success: function (result) {
-                        //重新加载页面
-                        $("#right").html(result);
-                    }
-                });
-            });
-        }
-        //点击图片，跳转到对应页码
-        $("#to_page").on("click", function () {
-            var toPage = $("#page_input_value").val();
-            console.log("toPage = " + toPage)
-            if (toPage < 1 || toPage >${pageBean.totalPage}) {
-                alertUtil("请输入正确页码！");
-                return;
+        $.ajax({
+            type: "GET",
+            url: "${pageContext.request.contextPath}/user/queryUserPageList",
+            data: {"curPage": toPage},
+            async: false,
+            dataType: "text",
+            success: function (result) {
+                //重新加载页面
+                $("#right").html(result);
             }
-            $.ajax({
-                type: "GET",
-                url: "${pageContext.request.contextPath}/user/queryUserPageList",
-                data: {"curPage": toPage},
-                async: false,
-                dataType: "text",
-                success: function (result) {
-                    //重新加载页面
-                    $("#right").html(result);
-                }
-            });
         });
-        //按钮权限
-        userButtonRoleFun(10001);
     });
+
+    /**
+     * 删除
+     * */
+    $(".delete_button_clz").on("click", function () {
+        var isChcekNum = 0;
+        $("input[type=checkbox]").each(function () {
+            if ($(this).is(":checked")) {
+                isChcekNum++;
+            }
+        });
+        if (isChcekNum <= 0) {
+            alertUtil("请选择待删除的用户信息！");
+            return;
+        }
+    });
+
 </script>

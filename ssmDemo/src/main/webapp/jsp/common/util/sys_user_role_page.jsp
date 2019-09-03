@@ -20,26 +20,49 @@
 <script type="text/javascript">
 
     function userButtonRoleFun(curMenuId) {
-        //把全部按钮都先隐藏，然后显示具有权限的按钮
+        /**
+         * 按钮：先隐藏，然后显示具有权限的按钮
+         * */
         $(".add_button_clz").prop("disabled", true);
+        $(".add_button_clz").css("opacity", "0.6");
+
         $(".update_button_clz").prop("disabled", true);
+        $(".update_button_clz").css("opacity", "0.6");
+
         $(".delete_button_clz").prop("disabled", true);
+        $(".delete_button_clz").css("opacity", "0.6");
+
         $(".check_button_clz").prop("disabled", true);
+        $(".check_button_clz").css("opacity", "0.6");
+        /**
+         * 链接<a>:
+         * */
+        $(".delete_a_clz").prop("disabled", true);
+        $(".delete_a_clz").css("pointer-events", "none");
+        $(".delete_a_clz").css("opacity", "0.6");
+
         <c:forEach  items="${sessionScope.roleMenuListVO}" var="roleMenuVar">
-        var  = ${roleMenuVar.buttonId};
+        var buttonId = ${roleMenuVar.buttonId};
         var menuId = ${roleMenuVar.menuId};
-        console.log(menuId + "  " + buttonId);
         if (menuId == curMenuId) {
             if (buttonId == 1) {
                 //能看到对应的页面就表面有对应的查询权限
             } else if (buttonId == 2) {
                 $(".add_button_clz").prop("disabled", false);
+                $(".add_button_clz").css("opacity", "1");
             } else if (buttonId == 3) {
                 $(".update_button_clz").prop("disabled", false);
+                $(".update_button_clz").css("opacity", "1");
             } else if (buttonId == 4) {
                 $(".delete_button_clz").prop("disabled", false);
+                $(".delete_button_clz").css("opacity", "1");
+
+                $(".delete_a_clz").prop("disabled", false);
+                $(".delete_a_clz").css("pointer-events", "auto");
+                $(".delete_a_clz").css("opacity", "1");
             } else if (buttonId == 5) {
                 $(".check_button_clz").prop("disabled", false);
+                $(".check_button_clz").css("opacity", "1");
             } else {
                 //其他按钮不扩展
             }

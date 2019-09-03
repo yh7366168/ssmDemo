@@ -1,5 +1,6 @@
 package com.yh.service.imp;
 
+import com.alibaba.fastjson.JSON;
 import com.yh.dao.RoleMenuDao;
 import com.yh.pojo.RoleMenu;
 import com.yh.pojo.vo.RoleDetailVO;
@@ -27,7 +28,7 @@ public class RoleMenuServiceImpl implements RoleMenuService {
             int delNum = roleMenuDao.deleteByRoleId(roleId);
             log.info("saveRoleMenu-删除{}条权限历史记录！", delNum);
             int batchNum = roleMenuDao.batchInsertRoleMenu(list);
-            log.info("saveRoleMenu-新增{}条权限记录！", batchNum);
+            log.info("saveRoleMenu-新增{}条权限记录！list:{}", batchNum, JSON.toJSON(list));
         }catch (Exception e){
             log.info("saveRoleMenu-系统异常，"+ e);
             return false;

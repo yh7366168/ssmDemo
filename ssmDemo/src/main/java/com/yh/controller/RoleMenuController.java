@@ -46,7 +46,7 @@ public class RoleMenuController {
         List<RoleMenu> list = new ArrayList<>();
         log.info("saveRoleMenu-roleId:{}, dataStr:{}", roleId, dataStr);
         String[] dataStrArr = dataStr.split(";");
-        for (int i = 0; i < dataStrArr.length - 1; i++) {
+        for (int i = 0; i < dataStrArr.length; i++) {
             String[] strArr = dataStrArr[i].split("-");
             RoleMenu roleMenu = new RoleMenu();
             roleMenu.setRoleId(roleId);

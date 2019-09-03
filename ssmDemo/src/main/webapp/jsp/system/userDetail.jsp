@@ -47,14 +47,14 @@
         .user_detail_table_clz td {
             border: 0;
             width: 200px;
+            padding-left: 10px;
         }
     </style>
 </head>
 <body>
 <div id="user_detail_div" class="user_detail_div_clz">
     <div style="background-color: #c6c7c5; height: 40px">
-        <button>修改</button>
-        <button onclick="reback()">返回</button>
+        <button onclick="returnUserList()">返回</button>
     </div>
     <div style="text-align: center; background-color:#cce0b7;height: 30px">
         <div style="padding-top: 4px;font-size: 18px;letter-spacing: 2px">用户详情信息</div>
@@ -63,7 +63,7 @@
     <table class="user_detail_table_clz">
         <tr>
             <td>用户名</td>
-            <td style="text-align: left"></td>
+            <td id="user_detail_username_val" style="text-align: left"></td>
             <td>性别</td>
             <td id="user_detail_sex_val" style="text-align: left"></td>
         </tr>
@@ -97,7 +97,7 @@
 </html>
 <script src="${pageContext.request.contextPath}/lib/jquery-3.4.1.min.js"></script>
 <script type="text/javascript">
-    function reback() {
+    function returnUserList() {
         document.getElementById("bg").style.display = "none";
         document.getElementById("user_detail_div").style.display = "none";
     }
@@ -106,17 +106,17 @@
      * 点击用户名显示弹出详细信息
      * */
     function queryUserDetail(username) {
-        console.log("username=" + username);
         <c:forEach var="user" items="${requestScope.userList}">
         if (username == "${user.username}") {
-            $("#user_detail_sex_val").text("${user.sex}"==0?"男":"女");
+            $("#user_detail_username_val").text("${user.username}");
+            $("#user_detail_sex_val").text("${user.sex}" == 0 ? "男" : "女");
             $("#user_detail_age_val").text("${user.age}");
             $("#user_detail_phone_val").text("${user.phone}");
             $("#user_detail_email_val").text("${user.email}");
             $("#user_detail_address_val").text("${user.address}");
             $("#user_detail_regiter_val").text("${user.createTime}");
             $("#user_detail_last_val").text("${user.lastLoginTime}");
-            $("#user_detail_status_val").text("${user.userStatus}"==0?"生效":"未生效");
+            $("#user_detail_status_val").text("${user.userStatus}" == 0 ? "生效" : "未生效");
         }
         </c:forEach>
         document.getElementById("bg").style.display = "block";

@@ -64,7 +64,7 @@
                     </span>
                     <span style="margin-left: 10px;margin-right: 5px">|</span>
                     <span>
-                        <a href="#" class="delete_button_clz" value="${role.roleId}-${role.roleType}">删除</a>
+                        <a href="#" class="delete_a_clz" value="${role.roleId}-${role.roleType}">删除</a>
                     </span>
                 </div>
             </td>
